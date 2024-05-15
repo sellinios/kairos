@@ -8,9 +8,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['kairos.gr', 'www.kairos.gr', 'api.kairos.gr']
+ALLOWED_HOSTS = ['kairos.gr', 'www.kairos.gr', 'api.kairos.gr',]
 
 INSTALLED_APPS = [
     'django.contrib.admin',

@@ -1,3 +1,5 @@
+# weather/models.py
+
 from django.db import models
 from django.utils import timezone
 from geography.models import Place
@@ -5,7 +7,9 @@ import datetime
 
 class GFSForecast(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
-    forecast_data = models.JSONField()  # Can store more than one weather variable
+    temperature = models.FloatField(null=True, blank=True)  # Temperature in Kelvin
+    precipitation = models.FloatField(null=True, blank=True)  # Precipitation in mm
+    wind_speed = models.FloatField(null=True, blank=True)  # Wind speed in m/s
     timestamp = models.DateTimeField(auto_now_add=False)
 
     def save(self, *args, **kwargs):

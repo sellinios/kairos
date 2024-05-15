@@ -15,6 +15,8 @@ class Command(BaseCommand):
         base_url = 'https://nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs'
         now = timezone.now()
 
+        self.stdout.write("Starting GFS data fetch...")
+
         # Calculate the GFS run (cycle) closest to current time
         forecast_hours = [0, 6, 12, 18]
         forecast_hour = max([hour for hour in forecast_hours if hour <= now.hour])
@@ -59,29 +61,30 @@ class Command(BaseCommand):
                     self.stdout.write(f'All Coordinates: {list(ds.coords.keys())}')
                     self.stdout.write(f'Attributes: {ds.attrs}')
 
-                    # Example: Extracting temperature at 2 meters above ground
-                    if 't2m' in ds.variables:
-                        temp2m = ds['t2m'].values  # Assuming this is the temperature at 2 meters
-                        times = ds['time'].values
+                    place = Place.objects.first()
+                    if place:
+                        # Prepare forecast data for each time step
+                        for time in ds['time'].values:
+                            time_str = np.datetime_as_string(time, unit='h')
+                            data_point = {'time': time_str}
 
-                        # Convert numpy.datetime64 to string
-                        times_str = [np.datetime_as_string(time, unit='h') for time in times]
+                            # Extract relevant variables dynamically
+                            if 't2m' in ds.variables:
+                                data_point['temperature'] = ds['t2m'].sel(time=time).values.item()
+                            if 'prate' in ds.variables:
+                                data_point['precipitation'] = ds['prate'].sel(time=time).values.item()
+                            if 'wind_speed' in ds.variables:
+                                data_point['wind_speed'] = ds['wind_speed'].sel(time=time).values.item()
 
-                        # Find the nearest Place (for simplicity, this example assumes one Place)
-                        place = Place.objects.first()
-                        if place:
-                            forecast_data = []
-                            for time_str, temp in zip(times_str, temp2m):
-                                forecast_data.append({
-                                    'time': time_str,  # Use the converted string time
-                                    'temp2m': temp.tolist()  # Convert numpy array to list
-                                })
-
+                            # Save the forecast data to the database
                             GFSForecast.objects.create(
                                 place=place,
-                                forecast_data=forecast_data,
-                                timestamp=timezone.now()
+                                temperature=data_point.get('temperature'),
+                                precipitation=data_point.get('precipitation'),
+                                wind_speed=data_point.get('wind_speed'),
+                                timestamp=time
                             )
+                            self.stdout.write(f"Imported data for {place.name} at {time_str}")
 
                     # Save the dataset to a NetCDF file for further use
                     output_file = os.path.join(grib2_dir, f'{file_name}.nc')
@@ -95,3 +98,5 @@ class Command(BaseCommand):
                     self.stderr.write(self.style.ERROR(f"IndexError with filter {filter_keys}: {e}"))
                 except Exception as e:
                     self.stderr.write(self.style.ERROR(f"Unexpected error with filter {filter_keys}: {e}"))
+
+        self.stdout.write(self.style.SUCCESS('Completed importing GFS data.'))

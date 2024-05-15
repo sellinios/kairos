@@ -9,7 +9,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
+.env
 # Node.js
 node_modules/
 npm-debug.log
