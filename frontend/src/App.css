@@ -1,0 +1,31 @@
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
+}
+
+main {
+  flex: 1;
+  padding-top: 3rem !important;
+  margin-top: 3rem !important;
+}
+
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  border-top: 1px solid #dee2e6;
+}
+
+.footer p {
+  margin: 0.5rem 0;
+}

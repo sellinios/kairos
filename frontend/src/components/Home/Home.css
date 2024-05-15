@@ -1,0 +1,23 @@
+.home-container {
+  margin-top: 2rem;
+}
+
+.home-content {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.home-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.home-text {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.home-button {
+  font-size: 1.25rem;
+  padding: 0.75rem 1.5rem;
+}

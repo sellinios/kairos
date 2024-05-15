@@ -1,0 +1,24 @@
+.header {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.header__logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.site-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.site-tagline {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+.header__language-selector {
+  display: flex;
+  align-items: center;
+}
