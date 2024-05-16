@@ -1,9 +1,7 @@
-# weather/urls.py
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Define your URL patterns here
-    path('forecasts/', views.GFSForecastListView.as_view(), name='forecast-list'),
-    # Add more paths as needed
+    path('', views.WeatherListView.as_view(), name='weather-list'),
+    path('current/', views.CurrentWeatherView.as_view(), name='current-weather'),
 ]

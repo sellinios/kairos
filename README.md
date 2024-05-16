@@ -6,9 +6,8 @@ This document serves as a quick reference for setting up and maintaining the Dja
 
 ### Activate Virtual Environment
 To activate the virtual environment and access the project-specific Python packages:
-source venv/bin/activate
 pip freeze > requirements.txt
-
+conda activate venv
 
 ### Collect Static Files
 Collect all static files required by Django:

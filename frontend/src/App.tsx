@@ -13,10 +13,13 @@ import './App.css';
 const App: React.FC = () => {
   const [location, setLocation] = useState<string>('Locating...');
   const [locationData, setLocationData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     const fetchLocationData = async (latitude: number, longitude: number) => {
       try {
+        setIsLoading(true);
         const locationResponse = await axios.get('/api/geography/places/nearest/', {
           params: { latitude, longitude }
         });
@@ -26,8 +29,11 @@ const App: React.FC = () => {
           params: { latitude, longitude }
         });
         setLocationData(weatherResponse.data.forecasts);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching location or weather data:', error);
+        setError('Failed to fetch data');
+        setIsLoading(false);
       }
     };
 
@@ -40,12 +46,24 @@ const App: React.FC = () => {
         (error) => {
           console.error('Geolocation error:', error);
           setLocation('Geolocation not supported');
+          setError('Geolocation not supported');
+          setIsLoading(false);
         }
       );
     } else {
       setLocation('Geolocation not supported');
+      setError('Geolocation not supported');
+      setIsLoading(false);
     }
   }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <Router>

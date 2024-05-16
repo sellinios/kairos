@@ -1,102 +1,121 @@
 import os
+import logging
+import cfgrib
+import pandas as pd
 import requests
-import xarray as xr
+
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-import cfgrib
-import numpy as np
 from weather.models import GFSForecast
 from geography.models import Place
 
-class Command(BaseCommand):
-    help = 'Fetch GFS data and process variables'
+# Setup logging
+logging.basicConfig(level=logging.INFO)
 
-    def handle(self, *args, **kwargs):
-        base_url = 'https://nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs'
+
+def load_grib_file(file_path, filters):
+    """Loads data from a GRIB file with specified filters."""
+    try:
+        ds = cfgrib.open_dataset(
+            file_path, filter_by_keys=filters, backend_kwargs={"indexpath": ""}
+        )
+        logging.info(f"Successfully loaded data with filter {filters} from file {file_path}")
+        return ds
+    except FileNotFoundError as e:
+        logging.warning(
+            f"Skipping file {file_path} with filter {filters}. File not found: {e}"
+        )
+        return None
+    except Exception as e:
+        logging.error(
+            f"Failed to load data from file {file_path} with filter {filters}: {e}"
+        )
+        return None
+
+
+class Command(BaseCommand):
+    help = "Fetch and process GFS data"
+
+    def handle(self, *args, **options):
+        # GFS data configuration
+        base_url = "https://nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs"
         now = timezone.now()
 
-        self.stdout.write("Starting GFS data fetch...")
-
-        # Calculate the GFS run (cycle) closest to current time
+        # Calculate the nearest available GFS cycle
         forecast_hours = [0, 6, 12, 18]
         forecast_hour = max([hour for hour in forecast_hours if hour <= now.hour])
+        date_str = now.strftime("%Y%m%d")
+        cycle = f"{forecast_hour:02d}"
 
-        # Get the closest available cycle
-        date_str = now.strftime('%Y%m%d')
-        cycle = f'{forecast_hour:02d}'
-
-        # Directory to store the downloaded GRIB2 files
-        grib2_dir = './grib2_files'
+        # Local storage for downloaded GRIB2 files
+        grib2_dir = "./grib2_files"
         os.makedirs(grib2_dir, exist_ok=True)
 
-        for forecast_interval in range(0, 12, 1):  # Download every 1 hour up to 12 hours
-            file_name = f'gfs.t{cycle}z.pgrb2.0p25.f{forecast_interval:03d}'
-            file_url = f'{base_url}.{date_str}/{cycle}/atmos/{file_name}'
+        # Download the GRIB2 files if they don't exist
+        for forecast_interval in range(0, 6, 1):
+            file_name = f"gfs.t{cycle}z.pgrb2.0p25.f{forecast_interval:03d}"
+            file_url = f"{base_url}.{date_str}/{cycle}/atmos/{file_name}"
             local_file_path = os.path.join(grib2_dir, file_name)
 
             if not os.path.exists(local_file_path):
-                self.stdout.write(f'Downloading {file_name}...')
+                self.stdout.write(f"Downloading {file_name}...")
                 response = requests.get(file_url)
                 if response.status_code == 200:
-                    with open(local_file_path, 'wb') as f:
+                    with open(local_file_path, "wb") as f:
                         f.write(response.content)
                 else:
-                    self.stderr.write(f'Failed to download {file_url}')
-                    continue
+                    self.stderr.write(f"Failed to download {file_url}")
             else:
-                self.stdout.write(f'{file_name} already downloaded.')
+                self.stdout.write(f"{file_name} already downloaded.")
 
-            filters = [
-                {'typeOfLevel': 'meanSea'},
-                {'typeOfLevel': 'surface'},
-                {'typeOfLevel': 'heightAboveGround', 'level': 2},  # Example for 2 meters above ground
-                {'typeOfLevel': 'isobaricInhPa', 'level': 500},  # Example for 500 hPa level
-            ]
+        # Filters to extract specific data types from the GRIB2 files
+        filters_list = [
+            {"typeOfLevel": "meanSea"},
+            {"typeOfLevel": "surface", "stepType": "instant"},
+            {"typeOfLevel": "heightAboveGround", "level": 2},
+            {"typeOfLevel": "isobaricInhPa", "level": 500},
+        ]
 
-            for filter_keys in filters:
-                try:
-                    self.stdout.write(f'\nUsing filter: {filter_keys}')
-                    ds = xr.open_dataset(local_file_path, engine='cfgrib', filter_by_keys=filter_keys)
-                    self.stdout.write(f'All Variables: {list(ds.variables.keys())}')
-                    self.stdout.write(f'All Coordinates: {list(ds.coords.keys())}')
-                    self.stdout.write(f'Attributes: {ds.attrs}')
+        # Process each downloaded file with different filters
+        for file_path in os.listdir(grib2_dir):
+            if file_path.endswith(".grib2"):
+                for filters in filters_list:
+                    ds = load_grib_file(os.path.join(grib2_dir, file_path), filters)
+                    if ds:
+                        self.process_dataset(ds, filters)
 
-                    place = Place.objects.first()
-                    if place:
-                        # Prepare forecast data for each time step
-                        for time in ds['time'].values:
-                            time_str = np.datetime_as_string(time, unit='h')
-                            data_point = {'time': time_str}
+    def process_dataset(self, ds, filters):
+        """Processes a dataset, extracting and saving weather data."""
+        # Check for 'time' coordinate
+        if "time" not in ds.coords:
+            logging.error(f"No 'time' coordinate with filters {filters}")
+            return
 
-                            # Extract relevant variables dynamically
-                            if 't2m' in ds.variables:
-                                data_point['temperature'] = ds['t2m'].sel(time=time).values.item()
-                            if 'prate' in ds.variables:
-                                data_point['precipitation'] = ds['prate'].sel(time=time).values.item()
-                            if 'wind_speed' in ds.variables:
-                                data_point['wind_speed'] = ds['wind_speed'].sel(time=time).values.item()
+        # Convert and standardize time values
+        times = pd.to_datetime(ds.coords["time"].values)
+        if not isinstance(times, pd.DatetimeIndex):
+            times = pd.DatetimeIndex([times])  # Convert to list if single Timestamp
 
-                            # Save the forecast data to the database
-                            GFSForecast.objects.create(
-                                place=place,
-                                temperature=data_point.get('temperature'),
-                                precipitation=data_point.get('precipitation'),
-                                wind_speed=data_point.get('wind_speed'),
-                                timestamp=time
-                            )
-                            self.stdout.write(f"Imported data for {place.name} at {time_str}")
+        times = times.tz_localize("UTC")  # Set timezone to UTC
 
-                    # Save the dataset to a NetCDF file for further use
-                    output_file = os.path.join(grib2_dir, f'{file_name}.nc')
-                    os.chmod(output_file, 0o755)  # Ensure the file is writable
-                    ds.to_netcdf(output_file)
-                    self.stdout.write(f'Saved dataset to {output_file}')
+        # Iterate over each time point and extract data
+        for time in times:
+            data_points = self.extract_data(ds, time)
+            if data_points:
+                self.save_data(data_points, time)
 
-                except cfgrib.dataset.DatasetBuildError as e:
-                    self.stderr.write(self.style.ERROR(f"Error opening dataset with filter {filter_keys}: {e}"))
-                except IndexError as e:
-                    self.stderr.write(self.style.ERROR(f"IndexError with filter {filter_keys}: {e}"))
-                except Exception as e:
-                    self.stderr.write(self.style.ERROR(f"Unexpected error with filter {filter_keys}: {e}"))
+    def extract_data(self, ds, time):
+        data_point = {}
+        if 't2m' in ds.variables:
+            data_point['temperature'] = ds['t2m'].sel(time=time).item()
+        if 'prate' in ds.variables:
+            data_point['precipitation'] = ds['prate'].sel(time=time).item()
+        if 'wind_speed' in ds.variables:
+            data_point['wind_speed'] = ds['wind_speed'].sel(time=time).item()
+        return data_point
 
-        self.stdout.write(self.style.SUCCESS('Completed importing GFS data.'))
+    def save_data(self, data_points, time):
+        # Insert database save logic here
+        pass
+
+# Further refine saving and handling based on your project's models and database schema
