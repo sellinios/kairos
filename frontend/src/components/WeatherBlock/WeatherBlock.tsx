@@ -1,5 +1,3 @@
-// src/components/WeatherBlock/WeatherBlock.tsx
-
 import React from 'react';
 import './WeatherBlock.css';
 import clearDayIcon from '../../assets/icons/clear-day.svg';
@@ -12,16 +10,16 @@ type WeatherCondition = 'Clear Day' | 'Partly Cloudy' | 'Rain';
 
 // Define getWeatherIcon function
 const getWeatherIcon = (condition: WeatherCondition): string => {
-    switch (condition) {
-        case 'Clear Day':
-            return clearDayIcon;
-        case 'Partly Cloudy':
-            return partlyCloudyIcon;
-        case 'Rain':
-            return rainIcon;
-        default:
-            return clearDayIcon;
-    }
+  switch (condition) {
+    case 'Clear Day':
+      return clearDayIcon;
+    case 'Partly Cloudy':
+      return partlyCloudyIcon;
+    case 'Rain':
+      return rainIcon;
+    default:
+      return clearDayIcon;
+  }
 };
 
 interface Forecast {
@@ -39,10 +37,12 @@ interface WeatherBlockProps {
       windSpeed: number;
     };
     forecast?: Forecast[];
-  };
+  } | null;
 }
 
 const WeatherBlock: React.FC<WeatherBlockProps> = ({ location, locationData }) => {
+  console.log('WeatherBlock locationData:', locationData);
+
   if (!locationData) {
     return <div>Loading...</div>;
   }
@@ -52,7 +52,7 @@ const WeatherBlock: React.FC<WeatherBlockProps> = ({ location, locationData }) =
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">Weather in {location}</h2>
-      {current && (
+      {current ? (
         <div className="card mb-3">
           <div className="card-body">
             <h5 className="card-title">Current Weather</h5>
@@ -66,8 +66,10 @@ const WeatherBlock: React.FC<WeatherBlockProps> = ({ location, locationData }) =
             </p>
           </div>
         </div>
+      ) : (
+        <div>No current weather data available.</div>
       )}
-      {forecast && (
+      {forecast && forecast.length > 0 ? (
         <table className="table table-hover">
           <thead className="thead-dark">
             <tr>
@@ -89,6 +91,8 @@ const WeatherBlock: React.FC<WeatherBlockProps> = ({ location, locationData }) =
             ))}
           </tbody>
         </table>
+      ) : (
+        <div>No forecast data available.</div>
       )}
     </div>
   );

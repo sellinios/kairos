@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
 import Header from './components/Header/Header';
 import LocationDisplay from './components/LocationDisplay/LocationDisplay';
 import Home from './components/Home/Home';
@@ -12,28 +12,18 @@ import './App.css';
 
 const App: React.FC = () => {
   const [location, setLocation] = useState<string>('Locating...');
-  const [locationData, setLocationData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     const fetchLocationData = async (latitude: number, longitude: number) => {
       try {
-        setIsLoading(true);
         const locationResponse = await axios.get('/api/geography/places/nearest/', {
           params: { latitude, longitude }
         });
-        setLocation(locationResponse.data.name);
-
-        const weatherResponse = await axios.get('/api/weather/', {
-          params: { latitude, longitude }
-        });
-        setLocationData(weatherResponse.data.forecasts);
-        setIsLoading(false);
+        console.log('Location response:', locationResponse.data);
+        setLocation(locationResponse.data.name || 'Unknown Location');
       } catch (error) {
-        console.error('Error fetching location or weather data:', error);
-        setError('Failed to fetch data');
-        setIsLoading(false);
+        console.error('Error fetching location data:', error);
+        setLocation('Failed to fetch location');
       }
     };
 
@@ -46,24 +36,12 @@ const App: React.FC = () => {
         (error) => {
           console.error('Geolocation error:', error);
           setLocation('Geolocation not supported');
-          setError('Geolocation not supported');
-          setIsLoading(false);
         }
       );
     } else {
       setLocation('Geolocation not supported');
-      setError('Geolocation not supported');
-      setIsLoading(false);
     }
   }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   return (
     <Router>
@@ -72,7 +50,7 @@ const App: React.FC = () => {
         <Header />
         <main className="pt-5 mt-5">
           <Routes>
-            <Route path="/" element={<Home location={location} locationData={locationData} />} />
+            <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
@@ -82,6 +60,6 @@ const App: React.FC = () => {
       </div>
     </Router>
   );
-}
+};
 
 export default App;
