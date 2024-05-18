@@ -32,13 +32,19 @@
 .search-button {
     padding: 10px 20px;
     border: none;
-    background-color: #3498db;
+    background-color: #0056b3; /* Darker blue for better contrast */
     color: white;
+    font-weight: bold;
     border-radius: 0 25px 25px 0; /* Match the form border radius */
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .search-button:hover {
-    background-color: #2980b9;
+    background-color: #004494; /* Darker shade for hover effect */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.search-button:focus {
+    outline: 2px solid #002d72; /* Focus outline for accessibility */
 }

@@ -1,48 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#000000">
     <title>Kairos</title>
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/logo192.png">
+    <link rel="manifest" href="/manifest.json">
 
-    <!-- Load localization data -->
+    <!-- Inline Critical CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        /* Add other critical CSS rules here */
+    </style>
+
+    <!-- Link to Main CSS -->
+    <link href="/static/css/main.8ecff0e2.css" rel="stylesheet">
+
     <script>
-        const lang = 'en'; // For example, English
-
-        fetch(`locales/${lang}.json`)
-          .then(response => response.json())
-          .then(jsonData => {
-            console.log(jsonData.header.home); // Output: Home
-            // You can do more things with the jsonData here
-          })
-          .catch(error => console.error('Error loading localization file:', error));
+        const lang = "en";
+        fetch("locales/en.json").then((o => o.json())).then((o => {
+            console.log(o.header.home);
+        })).catch((o => console.error("Error loading localization file:", o)))
     </script>
-
-    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3131616609445146" crossorigin="anonymous"></script>
-
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-80GYPERD24"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-80GYPERD24');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        window.dataLayer = window.dataLayer || [],
+        gtag("js", new Date),
+        gtag("config", "G-80GYPERD24")
     </script>
-    <!-- End Google Analytics -->
-
-    <!-- Optional noscript message -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
 </head>
 <body>
     <div id="root"></div>
-
-    <!-- React production build -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <!-- Include the main JavaScript bundle -->
+    <script src="/static/js/main.5b715c96.js"></script>
 </body>
 </html>

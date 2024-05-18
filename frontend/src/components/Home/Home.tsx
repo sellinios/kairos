@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 import WeatherBlock from '../Weather/WeatherBlock/WeatherBlock';
 import MetarBlock from '../Weather/MetarBlock/MetarBlock';
-
 import './Home.css';
 
 interface Forecast {
@@ -101,6 +101,15 @@ const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
 
   return (
     <div className="container home-container">
+      <Helmet>
+        <title>Home - Kairos Weather</title>
+        <meta name="description" content={`Check the latest weather updates and forecasts for ${location}. Stay updated with Kairos Weather.`} />
+        <meta name="keywords" content={`weather, forecast, ${location} weather, Kairos Weather`} />
+        <meta property="og:title" content={`Weather in ${location} - Kairos Weather`} />
+        <meta property="og:description" content={`Get the current weather and forecasts for ${location} on Kairos Weather.`} />
+        <meta property="og:url" content="https://kairos.gr" />
+        <link rel="canonical" href="https://kairos.gr" />
+      </Helmet>
       {weatherError ? <div>Error: {weatherError}</div> : locationData && <WeatherBlock location={location} locationData={locationData} />}
       {metarError ? <div>Error: {metarError}</div> : metarData.length > 0 && <MetarBlock metarData={metarData} />}
       <div className="home-content text-center">

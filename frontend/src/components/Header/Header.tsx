@@ -9,7 +9,7 @@ const Header: React.FC = () => {
             <div className="container d-flex justify-content-between align-items-center">
                 <div className="header__logo">
                     <h1 className="site-logo mb-0">Kairos</h1>
-                    <h4 className="site-tagline mb-0">beta V1.0</h4>
+                    <h2 className="site-tagline mb-0">beta V1.0</h2> {/* Changed from h4 to h2 */}
                 </div>
             </div>
             <div className="container d-flex justify-content-center mt-3">

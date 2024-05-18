@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SearchEngine.css';
 
 const SearchEngine: React.FC = () => {
     const [query, setQuery] = useState('');
+    const navigate = useNavigate();
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Searching for:', query);
-        // Add your search functionality here
+        if (query.trim()) {
+            navigate(`/place/${query.trim()}`);
+        }
     };
 
     return (
