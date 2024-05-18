@@ -106,3 +106,4 @@ CORS_ALLOW_CREDENTIALS = True
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000  # Adjust this number as necessary
 
+# Ensure you have the logging configuration

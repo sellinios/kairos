@@ -2,18 +2,24 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import GFSForecast
 from .serializers import GFSForecastSerializer
-from django.utils import timezone
+from django.db.models import F, Func, Value
+from django.db.models.functions import Cast
+
+class Round(Func):
+    function = 'ROUND'
+    template = '%(function)s(CAST(%(expressions)s as numeric), 1)'
 
 class WeatherListView(APIView):
     def get(self, request, format=None):
-        forecasts = GFSForecast.objects.all()
+        # Annotate the queryset with rounded temperature values
+        forecasts = GFSForecast.objects.annotate(rounded_temperature=Round(F('temperature')))
         serializer = GFSForecastSerializer(forecasts, many=True)
         return Response(serializer.data)
 
 class CurrentWeatherView(APIView):
     def get(self, request, format=None):
-        location = request.query_params.get('location', 'Vyronas')
         current_time = timezone.now()
-        recent_forecast = GFSForecast.objects.filter(place__name=location, timestamp__lte=current_time).order_by('-timestamp').first()
+        # Fetch the most recent forecast without filtering by location
+        recent_forecast = GFSForecast.objects.filter(timestamp__lte=current_time).annotate(rounded_temperature=Round(F('temperature'))).order_by('-timestamp').first()
         serializer = GFSForecastSerializer(recent_forecast)
         return Response(serializer.data)

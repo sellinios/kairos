@@ -1,9 +1,5 @@
 from django.db import models
 from geography.models import Place
-import datetime
-
-from django.db import models
-from geography.models import Place
 
 class GFSForecast(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)

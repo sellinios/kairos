@@ -26,6 +26,7 @@ if [ $? -eq 0 ]; then
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
         echo "Static files collected successfully. Restarting Nginx..."
+        sudo systemctl restart gunicorn
         sudo systemctl restart nginx
         # shellcheck disable=SC2181
         if [ $? -eq 0 ]; then
