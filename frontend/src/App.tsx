@@ -8,6 +8,8 @@ import About from './components/About/About';
 import Contact from './components/Contact/Contact';
 import NotFound from './components/NotFound/NotFound';
 import Footer from './components/Footer/Footer';
+import PlaceDetail from './components/PlaceDetail/PlaceDetail';
+import WeatherDetail from './components/WeatherDetail/WeatherDetail';
 import './App.css';
 
 const App: React.FC = () => {
@@ -66,6 +68,8 @@ const App: React.FC = () => {
             />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/place/:placeName" element={<PlaceDetail />} />
+            <Route path="/weather/:placeName" element={<WeatherDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

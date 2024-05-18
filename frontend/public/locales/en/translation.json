@@ -1,8 +1,4 @@
 {
-  "header": {
-    "home": "Home",
-    "services": "Services",
-    "about": "About Us",
-    "contact": "Contact"
-  }
+  "searchPlaceholder": "Αναζήτηση του μέρους σας...",
+  "searchButton": "Αναζήτηση"
 }

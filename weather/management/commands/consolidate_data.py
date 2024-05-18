@@ -77,8 +77,3 @@ class Command(BaseCommand):
 
         consolidate_grib_data(grib2_folder, output_csv_path)
         logging.info("All tasks completed successfully.")
-
-if __name__ == "__main__":
-    import django
-    django.setup()
-    Command().handle()

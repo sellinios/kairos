@@ -1,24 +1,25 @@
 .header {
-  border-bottom: 1px solid #dee2e6;
+    background-color: #042b45; /* Adjust color as needed */
 }
 
 .header__logo {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    color: white;
+    text-align: left;
 }
 
 .site-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+    font-size: 1.75rem;
+    font-weight: bold;
 }
 
 .site-tagline {
-  font-size: 1rem;
-  color: #6c757d;
+    color: #fdea06;
+    font-size: 1rem;
+    font-weight: normal;
 }
 
-.header__language-selector {
-  display: flex;
-  align-items: center;
+.header__search-engine {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

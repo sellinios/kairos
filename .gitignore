@@ -1,64 +1,62 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual environment
-env/
-.venv/
-
-# Django specific
+# Logs
 *.log
-*.pot
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Python
 *.pyc
 *.pyo
 *.pyd
-*.swp
-*~
-*.bak
-*.tmp
-*.log
+__pycache__/
+*.pdb
+*.egg
+*.egg-info/
+.eggs/
 *.sqlite3
-*.db
 
-# Environment variables
+# Environment
 .env
+.venv/
+env/
+venv/
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
+# Django
+*.sqlite3
+/media
+/staticfiles
+/local_settings.py
+/db.sqlite3
 
-# Node.js / React
+# Frontend
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+npm-debug.log
+yarn-error.log
+/public/locales/en/translation.json
+/public/locales/gr/translation.json
 
-# Build / Dist
-frontend/build/
-frontend/dist/
+# Build files
+build/
+dist/
+*.pot
+*.mo
 
-# VS Code
-.vscode/
+# Docker
+*.swp
+.dockerignore
 
-# JetBrains
-.idea/
+# Nginx
+nginx_kairos.conf
 
-# Miscellaneous
-.DS_Store
-*.tmp
+# Ignore compiled binaries
+*.o
+*.so
+*.a
+*.out
 
-# Ignore downloaded and generated files
-downloaded_files/
-grib2_files/
+# Ignore downloaded GFS files and GRIB2 files
+GFS/
 
-# Ignore CSV data files
-weather_data.csv
-
-# Ignore build artifacts
-frontend/public/static/
-
-# Ignore static and media files
-frontend/build/static/
-frontend/build/media/
+# Ignore socket files
+*.sock
