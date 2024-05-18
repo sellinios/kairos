@@ -1,5 +1,3 @@
-// frontend/src/components/Weather/MetarBlock/MetarBlock.tsx
-
 import React from 'react';
 import './MetarBlock.css';
 

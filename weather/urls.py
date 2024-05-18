@@ -1,8 +1,8 @@
 from django.urls import path
-from . import views
+from .views import CurrentWeatherView, WeatherListView, MetarListView
 
 urlpatterns = [
-    path('', views.WeatherListView.as_view(), name='weather-list'),
-    path('current/', views.CurrentWeatherView.as_view(), name='current-weather'),
-    path('metar/', views.MetarListView.as_view(), name='metar-list'),
+    path('current/', CurrentWeatherView.as_view(), name='current_weather'),
+    path('forecast/', WeatherListView.as_view(), name='weather_forecast'),
+    path('metar/', MetarListView.as_view(), name='metar_info'),
 ]

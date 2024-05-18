@@ -1,5 +1,3 @@
-// frontend/src/components/Home/Home.tsx
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import WeatherBlock from '../Weather/WeatherBlock/WeatherBlock';
@@ -42,14 +40,14 @@ const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
   useEffect(() => {
     const fetchWeatherData = async () => {
       try {
-        const weatherResponse = await axios.get('/api/weather/', {
-          params: { latitude, longitude }
-        });
-        console.log('Weather response:', weatherResponse.data);
+        const currentResponse = await axios.get('https://kairos.gr/api/weather/current/');
+        const forecastResponse = await axios.get('https://kairos.gr/api/weather/forecast/');
 
-        const weatherData = weatherResponse.data;
-        const currentWeather = weatherData[weatherData.length - 1];
-        const forecastWeather = weatherData.slice(0, -1).map((item: any) => ({
+        console.log('Current weather response:', currentResponse.data);
+        console.log('Forecast weather response:', forecastResponse.data);
+
+        const currentWeather = currentResponse.data;
+        const forecastWeather = forecastResponse.data.map((item: Forecast) => ({
           id: item.id,
           temperature: item.temperature,
           precipitation: item.precipitation,
@@ -58,6 +56,9 @@ const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
           place: item.place,
           weatherCondition: 'Clear Day' as 'Clear Day' // Default value, replace with actual logic
         }));
+
+        // Sort the forecastWeather by timestamp
+        forecastWeather.sort((a: Forecast, b: Forecast) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 
         const formattedData = {
           current: {
@@ -79,7 +80,7 @@ const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
 
     const fetchMetarData = async () => {
       try {
-        const metarResponse = await axios.get('/api/weather/metar/', {
+        const metarResponse = await axios.get('https://kairos.gr/api/weather/metar/', {
           params: { latitude, longitude }
         });
         console.log('METAR response:', metarResponse.data);
