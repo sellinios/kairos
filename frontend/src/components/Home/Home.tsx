@@ -1,47 +1,61 @@
+// frontend/src/components/Home/Home.tsx
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import WeatherBlock from '../WeatherBlock/WeatherBlock';
+import WeatherBlock from '../Weather/WeatherBlock/WeatherBlock';
+import MetarBlock from '../Weather/MetarBlock/MetarBlock';
+
 import './Home.css';
 
 interface Forecast {
-  day: string;
+  id: number;
   temperature: number;
-  weatherCondition: 'Clear Day' | 'Partly Cloudy' | 'Rain';
+  precipitation: number | null;
+  wind_speed: number | null;
+  timestamp: string;
+  place: number;
+  weatherCondition?: 'Clear Day' | 'Partly Cloudy' | 'Rain';
 }
 
-const Home: React.FC = () => {
-  const [location, setLocation] = useState<string>('Locating...');
+interface MetarData {
+  station: string;
+  metar_text: string;
+  metar_timestamp: string;
+}
+
+interface HomeProps {
+  latitude: number;
+  longitude: number;
+  location: string;
+}
+
+const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
   const [locationData, setLocationData] = useState<{
     current: { temperature: number; condition: 'Clear Day' | 'Partly Cloudy' | 'Rain'; windSpeed: number };
     forecast: Forecast[];
   } | null>(null);
+  const [metarData, setMetarData] = useState<MetarData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
+  const [weatherError, setWeatherError] = useState<string>('');
+  const [metarError, setMetarError] = useState<string>('');
 
   useEffect(() => {
-    const fetchLocationData = async (latitude: number, longitude: number) => {
+    const fetchWeatherData = async () => {
       try {
-        setIsLoading(true);
-
-        // Fetch location data
-        const locationResponse = await axios.get('/api/geography/places/nearest/', {
-          params: { latitude, longitude }
-        });
-        console.log('Location response:', locationResponse.data);
-        setLocation(locationResponse.data.name || 'Unknown Location');
-
-        // Fetch weather data
         const weatherResponse = await axios.get('/api/weather/', {
           params: { latitude, longitude }
         });
         console.log('Weather response:', weatherResponse.data);
 
-        // Process the weather data to get the current and forecast data
         const weatherData = weatherResponse.data;
         const currentWeather = weatherData[weatherData.length - 1];
         const forecastWeather = weatherData.slice(0, -1).map((item: any) => ({
-          day: new Date(item.timestamp).toLocaleDateString('en-US', { weekday: 'long' }),
+          id: item.id,
           temperature: item.temperature,
+          precipitation: item.precipitation,
+          wind_speed: item.wind_speed,
+          timestamp: item.timestamp,
+          place: item.place,
           weatherCondition: 'Clear Day' as 'Clear Day' // Default value, replace with actual logic
         }));
 
@@ -55,45 +69,39 @@ const Home: React.FC = () => {
         };
 
         setLocationData(formattedData);
-        setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching location or weather data:', error);
-        setError('Failed to fetch data');
+        console.error('Error fetching weather data:', error);
+        setWeatherError('Failed to fetch weather data');
+      } finally {
         setIsLoading(false);
       }
     };
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          fetchLocationData(latitude, longitude);
-        },
-        (error) => {
-          console.error('Geolocation error:', error);
-          setLocation('Geolocation not supported');
-          setError('Geolocation not supported');
-          setIsLoading(false);
-        }
-      );
-    } else {
-      setLocation('Geolocation not supported');
-      setError('Geolocation not supported');
-      setIsLoading(false);
-    }
-  }, []);
+    const fetchMetarData = async () => {
+      try {
+        const metarResponse = await axios.get('/api/weather/metar/', {
+          params: { latitude, longitude }
+        });
+        console.log('METAR response:', metarResponse.data);
+        setMetarData(metarResponse.data);
+      } catch (error) {
+        console.error('Error fetching METAR data:', error);
+        setMetarError('Failed to fetch METAR data');
+      }
+    };
+
+    fetchWeatherData();
+    fetchMetarData();
+  }, [latitude, longitude]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   return (
     <div className="container home-container">
-      <WeatherBlock location={location} locationData={locationData} />
+      {weatherError ? <div>Error: {weatherError}</div> : locationData && <WeatherBlock location={location} locationData={locationData} />}
+      {metarError ? <div>Error: {metarError}</div> : metarData.length > 0 && <MetarBlock metarData={metarData} />}
       <div className="home-content text-center">
         <h1 className="home-title">Welcome to the Home page!</h1>
         <p className="home-text">This is a simple homepage for our React application.</p>

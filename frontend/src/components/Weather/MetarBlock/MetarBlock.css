@@ -1,0 +1,27 @@
+.metar-block {
+  margin-top: 20px;
+}
+
+.metar-block .table {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.metar-block .table th,
+.metar-block .table td {
+  text-align: left;
+  padding: 8px;
+}
+
+.metar-block .table th {
+  background-color: #343a40;
+  color: white;
+}
+
+.metar-block .table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.metar-block .table-hover tbody tr:hover {
+  background-color: #ddd;
+}

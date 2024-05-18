@@ -10,7 +10,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['kairos.gr', 'www.kairos.gr']
+ALLOWED_HOSTS = ['kairos.gr', 'www.kairos.gr', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

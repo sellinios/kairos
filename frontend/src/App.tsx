@@ -12,6 +12,8 @@ import './App.css';
 
 const App: React.FC = () => {
   const [location, setLocation] = useState<string>('Locating...');
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchLocationData = async (latitude: number, longitude: number) => {
@@ -31,6 +33,8 @@ const App: React.FC = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
+          setLatitude(latitude);
+          setLongitude(longitude);
           fetchLocationData(latitude, longitude);
         },
         (error) => {
@@ -50,7 +54,16 @@ const App: React.FC = () => {
         <Header />
         <main className="pt-5 mt-5">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route
+              path="/"
+              element={
+                latitude !== null && longitude !== null ? (
+                  <Home latitude={latitude} longitude={longitude} location={location} />
+                ) : (
+                  <div>Loading location...</div>
+                )
+              }
+            />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />

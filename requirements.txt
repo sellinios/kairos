@@ -1,5 +1,6 @@
 asgiref==3.8.1
 attrs @ file:///home/conda/feedstock_root/build_artifacts/attrs_1704011227531/work
+beautifulsoup4==4.12.3
 certifi==2024.2.2
 cffi @ file:///home/conda/feedstock_root/build_artifacts/cffi_1696001721842/work
 cfgrib @ file:///home/conda/feedstock_root/build_artifacts/cfgrib_1712348374992/work
@@ -25,6 +26,7 @@ pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1706886791323/work
 requests==2.31.0
 setuptools==69.5.1
 six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+soupsieve==2.5
 sqlparse==0.5.0
 tzdata @ file:///home/conda/feedstock_root/build_artifacts/python-tzdata_1707747584337/work
 urllib3==2.2.1

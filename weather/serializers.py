@@ -1,9 +1,12 @@
 from rest_framework import serializers
-from .models import GFSForecast
+from .models import GFSForecast, MetarData
 
 class GFSForecastSerializer(serializers.ModelSerializer):
-    temperature = serializers.FloatField(source='rounded_temperature')
-
     class Meta:
         model = GFSForecast
-        fields = ['id', 'temperature', 'precipitation', 'wind_speed', 'timestamp', 'place']
+        fields = '__all__'
+
+class MetarDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MetarData
+        fields = '__all__'
