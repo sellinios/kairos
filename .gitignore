@@ -1,22 +1,64 @@
-# Python
-*.pyc
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+env/
+.venv/
+
+# Django specific
+*.log
+*.pot
+*.pyc
 *.pyo
 *.pyd
-.Python
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+*.swp
+*~
+*.bak
+*.tmp
+*.log
+*.sqlite3
+*.db
+
+# Environment variables
 .env
-# Node.js
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+
+# Node.js / React
 node_modules/
-npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# macOS
-.DS_Store
+# Build / Dist
+frontend/build/
+frontend/dist/
 
-# Editor files
-.idea/
+# VS Code
 .vscode/
+
+# JetBrains
+.idea/
+
+# Miscellaneous
+.DS_Store
+*.tmp
+
+# Ignore downloaded and generated files
+downloaded_files/
+grib2_files/
+
+# Ignore CSV data files
+weather_data.csv
+
+# Ignore build artifacts
+frontend/public/static/
+
+# Ignore static and media files
+frontend/build/static/
+frontend/build/media/
