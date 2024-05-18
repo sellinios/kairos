@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
@@ -8,13 +8,22 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  </head>
-  <body>
-    <div id="root"></div>
 
-    <!-- React production build -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <!-- Load localization data -->
+    <script>
+        const lang = 'en'; // For example, English
+
+        fetch(`locales/${lang}.json`)
+          .then(response => response.json())
+          .then(jsonData => {
+            console.log(jsonData.header.home); // Output: Home
+            // You can do more things with the jsonData here
+          })
+          .catch(error => console.error('Error loading localization file:', error));
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3131616609445146" crossorigin="anonymous"></script>
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-80GYPERD24"></script>
@@ -28,5 +37,12 @@
 
     <!-- Optional noscript message -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
-  </body>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- React production build -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+</body>
 </html>

@@ -39,4 +39,3 @@ if [ $? -eq 0 ]; then
 else
     echo "Failed to build with npm. Please check the error messages."
 fi
-

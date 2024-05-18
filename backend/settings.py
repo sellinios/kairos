@@ -10,7 +10,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['kairos.gr', 'www.kairos.gr', '127.0.0.1:8000', '127.0.0.1']
+ALLOWED_HOSTS = ['kairos.gr', 'www.kairos.gr']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -103,3 +103,6 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000  # Adjust this number as necessary
+
