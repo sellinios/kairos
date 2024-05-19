@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './LocationDisplay.css';
 import LocationRequestModal from '../LocationRequestModal/LocationRequestModal';
@@ -18,13 +19,13 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
   const [showModal, setShowModal] = useState<boolean>(true);
 
   const handleClose = () => setShowModal(false);
+
   const handleAllow = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
-          console.log(`Geolocation successful: ${lat}, ${lon}`);
           setLatitude(lat);
           setLongitude(lon);
           checkAndFetchEntityData(lat, lon);
@@ -34,7 +35,6 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
           setShowModal(false);
         },
         (error) => {
-          console.error('Geolocation error:', error);
           setEntityName(t('geolocation_not_supported'));
           setFetchError(true);
         }
@@ -44,24 +44,20 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
 
   const fetchEntityData = useCallback(async (latitude: number, longitude: number) => {
     try {
-      console.log(`Fetching entity data for coordinates: ${latitude}, ${longitude}`);
       const response = await axios.get('/api/places/entity-name/', {
         params: { latitude, longitude }
       });
 
       if (response.data.entity_name) {
-        console.log(`Entity found: ${response.data.entity_name}`);
         setEntityName(response.data.entity_name);
         setFetchError(false);
         onLocationUpdate(response.data.entity_name, latitude, longitude);
-        localStorage.setItem('entityName', response.data.entity_name);  // Store entity name
+        localStorage.setItem('entityName', response.data.entity_name);
       } else {
-        console.warn('Entity not found in database');
         setEntityName(t('entity_not_found'));
         onLocationUpdate('Unknown Entity', latitude, longitude);
       }
     } catch (error) {
-      console.error('Error fetching entity data from database:', error);
       setEntityName(t('failed_to_fetch_entity'));
       setFetchError(true);
     }
@@ -79,7 +75,6 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
       Number(storedLatitude) === latitude &&
       Number(storedLongitude) === longitude
     ) {
-      console.log('Using stored entity name:', storedEntityName);
       setEntityName(storedEntityName);
       setFetchError(false);
       onLocationUpdate(storedEntityName, latitude, longitude);
@@ -97,7 +92,6 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
     if (storedConsent && storedLatitude && storedLongitude && storedEntityName) {
       const lat = Number(storedLatitude);
       const lon = Number(storedLongitude);
-      console.log(`Using stored location: ${lat}, ${lon}`);
       setLatitude(lat);
       setLongitude(lon);
       setEntityName(storedEntityName);
@@ -110,14 +104,21 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
 
   return (
     <div className="location-display">
+      <Helmet>
+        <title>{t('appTitle')} - {entityName}</title>
+        <meta name="description" content={`${t('current_location')}: ${entityName}, ${t('coordinates')}: ${latitude}, ${longitude}`} />
+        <meta name="keywords" content="Kairos, Location, Coordinates, Geolocation, React" />
+      </Helmet>
       {showModal && <LocationRequestModal show={showModal} handleClose={handleClose} handleAllow={handleAllow} />}
-      <span className={`dot ${fetchError ? 'dot-red' : 'dot-green'}`}></span>
       <div className="location-info">
-        <span className="font-weight-bold">{t('current_location')}:</span> {entityName}
+        <div className="first-line">
+          <span className={`dot ${fetchError ? 'dot-red' : 'dot-green'}`}></span>
+          <span className="entity-name">{entityName}</span>
+        </div>
         {(latitude !== null && longitude !== null) && (
-          <>
-            <span className="font-weight-bold">, {t('latitude')}:</span> {latitude.toFixed(6)}, <span className="font-weight-bold">{t('longitude')}:</span> {longitude.toFixed(6)}
-          </>
+          <div className="second-line">
+            <span className="coords">{latitude.toFixed(6)}, {longitude.toFixed(6)}</span>
+          </div>
         )}
       </div>
     </div>

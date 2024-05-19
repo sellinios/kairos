@@ -1,17 +1,18 @@
 .header {
     background-color: #042b45; /* Adjust color as needed */
+    color: white;
 }
 
 .header__logo {
-    color: white;
-    text-align: left;
     display: flex;
     align-items: center;
+    text-align: left;
 }
 
-.logo-image {
-    height: 40px;  /* Adjust the height as needed */
-    margin-right: 10px;  /* Space between logo and text */
+.header__title {
+    font-size: 1.5rem; /* Adjust the size as needed */
+    font-weight: bold;
+    color: white; /* Ensure text color contrasts well with the background */
 }
 
 .header__search-engine {

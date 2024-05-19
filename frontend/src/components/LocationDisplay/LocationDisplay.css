@@ -1,7 +1,8 @@
 .location-display {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   margin: 10px;
+  color: #333; /* Default text color */
 }
 
 .dot {
@@ -10,23 +11,37 @@
   border-radius: 50%;
   display: inline-block;
   margin-right: 10px;
-  border: 2px solid #000;
+  border: 2px solid #333; /* Border color matching the text color */
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .dot-green {
-  background-color: green;
+  background-color: #28a745; /* Bootstrap success color */
 }
 
 .dot-red {
-  background-color: red;
+  background-color: #dc3545; /* Bootstrap danger color */
 }
 
 .location-info {
   display: flex;
+  flex-direction: column;
+}
+
+.first-line {
+  display: flex;
   align-items: center;
 }
 
-.font-weight-bold {
+.entity-name {
   font-weight: bold;
+  font-size: 1rem;
+  color: #007bff; /* Bootstrap primary color for emphasis */
+}
+
+.second-line {
+  display: flex;
+  font-size: 0.9rem;
+  color: #6c757d; /* Bootstrap secondary color */
+  padding-left: 24px; /* Adjust if needed to align properly */
 }
