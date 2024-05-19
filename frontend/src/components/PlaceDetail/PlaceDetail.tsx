@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import axios from 'axios';
 
 interface Place {
@@ -45,6 +46,11 @@ const PlaceDetail: React.FC = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>{place.name} - Place Details - Kairos</title>
+        <meta name="description" content={`Details and weather forecast for ${place.name}. Latitude: ${place.latitude}, Longitude: ${place.longitude}.`} />
+        <meta name="keywords" content={`${place.name}, place details, weather forecast, Kairos`} />
+      </Helmet>
       <h1>{place.name}</h1>
       <p>Latitude: {place.latitude}</p>
       <p>Longitude: {place.longitude}</p>

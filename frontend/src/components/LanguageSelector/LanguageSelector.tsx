@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './LanguageSelector.css'; // Make sure this path is correct
+import { Helmet } from 'react-helmet';
+import './LanguageSelector.css'; // Ensure the CSS file is correctly linked
 
 interface LanguageSelectorProps {
     setLocale: (language: string) => void;
@@ -16,7 +17,12 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ setLocale, language
     };
 
     return (
-        <div className="languageSelector">
+        <div className="language-selector">
+            <Helmet>
+                <title>Language Selector - Kairos</title>
+                <meta name="description" content="Select your preferred language for the Kairos application." />
+                <meta name="keywords" content="Kairos, language selector, translation, i18n" />
+            </Helmet>
             <select value={selectedLanguage} onChange={handleLanguageChange} className="custom-select">
                 {languages.map((lang) => (
                     <option key={lang.code} value={lang.code}>
