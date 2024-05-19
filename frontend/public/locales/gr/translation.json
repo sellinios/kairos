@@ -1,4 +1,8 @@
 {
-  "searchPlaceholder": "Search Your Place...",
-  "searchButton": "Search"
+  "current_location": "Τρέχουσα τοποθεσία",
+  "latitude": "Γεωγραφικό πλάτος",
+  "longitude": "Γεωγραφικό μήκος",
+  "locating": "Εντοπισμός...",
+  "geolocation_not_supported": "Η γεωγραφική τοποθεσία δεν υποστηρίζεται",
+  "failed_to_fetch_location": "Αποτυχία λήψης τοποθεσίας"
 }

@@ -11,14 +11,12 @@ const LocationRequestModal: React.FC<LocationRequestModalProps> = ({ show, handl
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Request for Location Access</Modal.Title>
+        <Modal.Title>Location Access</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        We would like to access your location to provide accurate weather updates and forecasts for your area. Your location data will not be stored or shared.
-      </Modal.Body>
+      <Modal.Body>We need to access your location to provide better service.</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Decline
+          Deny
         </Button>
         <Button variant="primary" onClick={handleAllow}>
           Allow
@@ -26,6 +24,6 @@ const LocationRequestModal: React.FC<LocationRequestModalProps> = ({ show, handl
       </Modal.Footer>
     </Modal>
   );
-}
+};
 
 export default LocationRequestModal;

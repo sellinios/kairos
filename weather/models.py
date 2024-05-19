@@ -1,6 +1,5 @@
 import re
 import datetime
-from geography.models import Place
 from django.db import models
 from django.utils import timezone
 from geography.models import Place

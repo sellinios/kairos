@@ -2,30 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#000000">
     <title>Kairos</title>
     <link rel="icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="/logo192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
-
-    <!-- Inline Critical CSS -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        }
-        /* Add other critical CSS rules here */
-    </style>
 
     <!-- Link to Main CSS -->
     <link href="/static/css/main.8ecff0e2.css" rel="stylesheet">
 
     <script>
-        const lang = "en";
-        fetch("locales/en.json").then((o => o.json())).then((o => {
-            console.log(o.header.home);
-        })).catch((o => console.error("Error loading localization file:", o)))
+        const defaultLang = "en"; // Default language
+        const userLang = navigator.language || navigator.userLanguage; // Detect browser language
+        const lang = userLang.split('-')[0]; // Extract language code, e.g., "en-US" -> "en"
+
+        // Function to load localization file
+        function loadLocalization(language) {
+            fetch(`locales/${language}.json`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Localization file for ${language} not found.`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.header.home); // Handle localization data
+                })
+                .catch(error => {
+                    console.error("Error loading localization file:", error);
+                    if (language !== defaultLang) {
+                        // Fallback to default language if the specified language file is not found
+                        loadLocalization(defaultLang);
+                    }
+                });
+        }
+
+        loadLocalization(lang); // Load localization based on detected language
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3131616609445146" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-80GYPERD24"></script>
@@ -33,9 +49,9 @@
         function gtag() {
             dataLayer.push(arguments);
         }
-        window.dataLayer = window.dataLayer || [],
-        gtag("js", new Date),
-        gtag("config", "G-80GYPERD24")
+        window.dataLayer = window.dataLayer || [];
+        gtag("js", new Date());
+        gtag("config", "G-80GYPERD24");
     </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
 </head>

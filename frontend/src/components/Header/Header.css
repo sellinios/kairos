@@ -5,17 +5,13 @@
 .header__logo {
     color: white;
     text-align: left;
+    display: flex;
+    align-items: center;
 }
 
-.site-logo {
-    font-size: 1.75rem;
-    font-weight: bold;
-}
-
-.site-tagline {
-    color: #fdea06;
-    font-size: 1rem;
-    font-weight: normal;
+.logo-image {
+    height: 40px;  /* Adjust the height as needed */
+    margin-right: 10px;  /* Space between logo and text */
 }
 
 .header__search-engine {

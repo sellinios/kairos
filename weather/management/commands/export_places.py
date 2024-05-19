@@ -2,8 +2,6 @@ import logging
 import pandas as pd
 from django.core.management.base import BaseCommand
 from weather.models import GFSForecast
-from geography.models import Place
-from datetime import timedelta
 import pytz
 
 # Setup logging
