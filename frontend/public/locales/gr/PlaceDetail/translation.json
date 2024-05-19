@@ -1,8 +1,11 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "placeDetailsTitle": "{{placeName}} - Λεπτομέρειες Τοποθεσίας - Kairos",
+    "placeDetailsDescription": "Λεπτομέρειες και πρόγνωση καιρού για το {{placeName}}. Γεωγραφικό πλάτος: {{latitude}}, Γεωγραφικό μήκος: {{longitude}}.",
+    "placeDetailsKeywords": "{{placeName}}, λεπτομέρειες τοποθεσίας, πρόγνωση καιρού, Kairos",
+    "placeNotFound": "Η τοποθεσία δεν βρέθηκε",
+    "loading": "Φόρτωση...",
+    "latitude": "Γεωγραφικό πλάτος",
+    "longitude": "Γεωγραφικό μήκος",
+    "checkWeather": "Έλεγχος Καιρού",
+    "weatherForecast": "Πρόγνωση Καιρού"
 }

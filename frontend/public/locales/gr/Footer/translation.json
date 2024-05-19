@@ -1,8 +1,6 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+  "footerTitle": "Kairos - Ποιοτικές Υπηρεσίες και Προϊόντα",
+  "footerDescription": "Η Kairos παρέχει υπηρεσίες και προϊόντα υψηλής ποιότητας. Συνδεθείτε μαζί μας για να μάθετε περισσότερα.",
+  "footerKeywords": "Kairos, Υπηρεσίες, Προϊόντα, Ποιότητα, Εξυπηρέτηση Πελατών",
+  "companyName": "Kairos"
 }

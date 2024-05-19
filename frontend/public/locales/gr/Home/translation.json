@@ -1,8 +1,13 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "homeTitle": "Αρχική - Kairos Καιρός",
+    "homeDescription": "Δείτε τις τελευταίες ενημερώσεις και προγνώσεις καιρού για {{location}}. Μείνετε ενημερωμένοι με τον Kairos Καιρό.",
+    "homeKeywords": "καιρός, πρόγνωση, καιρός {{location}}, Kairos Καιρός",
+    "ogTitle": "Καιρός στο {{location}} - Kairos Καιρός",
+    "ogDescription": "Δείτε τον τρέχοντα καιρό και τις προγνώσεις για το {{location}} στον Kairos Καιρό.",
+    "loading": "Φόρτωση...",
+    "errorFetchingWeather": "Αποτυχία λήψης δεδομένων καιρού",
+    "errorFetchingMetar": "Αποτυχία λήψης δεδομένων METAR",
+    "welcomeMessage": "Καλώς ήρθατε στη σελίδα Αρχική!",
+    "simpleHomepage": "Αυτή είναι μια απλή αρχική σελίδα για την εφαρμογή μας React.",
+    "learnMore": "Μάθετε Περισσότερα"
 }

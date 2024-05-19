@@ -1,18 +1,21 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
 
-const NotFound = () => {
-    return (
-        <div>
-            <Helmet>
-                <title>404 - Page Not Found - Kairos</title>
-                <meta name="description" content="The page you are looking for does not exist. Please check the URL or return to the homepage." />
-                <meta name="keywords" content="404, Page Not Found, Kairos, error" />
-            </Helmet>
-            <h1>404</h1>
-            <p>Page Not Found</p>
-        </div>
-    );
+const NotFound: React.FC = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      <Helmet>
+        <title>404 - {t('pageNotFoundTitle')} - Kairos</title>
+        <meta name="description" content={t('pageNotFoundDescription')} />
+        <meta name="keywords" content={t('pageNotFoundKeywords')} />
+      </Helmet>
+      <h1>404</h1>
+      <p>{t('pageNotFoundMessage')}</p>
+    </div>
+  );
 };
 
 export default NotFound;

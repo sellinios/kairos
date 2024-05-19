@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
 import { Modal, Button } from 'react-bootstrap';
 
 interface LocationRequestModalProps {
@@ -9,24 +10,26 @@ interface LocationRequestModalProps {
 }
 
 const LocationRequestModal: React.FC<LocationRequestModalProps> = ({ show, handleClose, handleAllow }) => {
+  const { t } = useTranslation('LocationRequestModal'); // Specify the namespace
+
   return (
     <>
       <Helmet>
-        <title>Location Access - Kairos</title>
-        <meta name="description" content="We need to access your location to provide better service." />
-        <meta name="keywords" content="Kairos, Location, Access, Service" />
+        <title>{t('locationAccessTitle')} - Kairos</title>
+        <meta name="description" content={t('locationAccessDescription')} />
+        <meta name="keywords" content={t('locationAccessKeywords')} />
       </Helmet>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Location Access</Modal.Title>
+          <Modal.Title>{t('locationAccessTitle')}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>We need to access your location to provide better service.</Modal.Body>
+        <Modal.Body>{t('locationAccessBody')}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Deny
+            {t('deny')}
           </Button>
           <Button variant="primary" onClick={handleAllow}>
-            Allow
+            {t('allow')}
           </Button>
         </Modal.Footer>
       </Modal>

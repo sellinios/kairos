@@ -1,8 +1,9 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "locationAccessTitle": "Location Access - Kairos",
+    "locationAccessDescription": "We need to access your location to provide better service.",
+    "locationAccessKeywords": "Kairos, Location, Access, Service",
+    "locationAccessModalTitle": "Location Access",
+    "locationAccessModalBody": "We need to access your location to provide better service.",
+    "deny": "Deny",
+    "allow": "Allow"
 }

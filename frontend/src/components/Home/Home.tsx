@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
 import WeatherBlock from '../Weather/WeatherBlock/WeatherBlock';
 import MetarBlock from '../Weather/MetarBlock/MetarBlock';
 import './Home.css';
@@ -28,6 +29,7 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
+  const { t } = useTranslation('Home'); // Specify the namespace
   const [locationData, setLocationData] = useState<{
     current: { temperature: number; condition: 'Clear Day' | 'Partly Cloudy' | 'Rain'; windSpeed: number };
     forecast: Forecast[];
@@ -72,7 +74,7 @@ const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
         setLocationData(formattedData);
       } catch (error) {
         console.error('Error fetching weather data:', error);
-        setWeatherError('Failed to fetch weather data');
+        setWeatherError(t('weatherFetchError'));
       } finally {
         setIsLoading(false);
       }
@@ -87,35 +89,35 @@ const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
         setMetarData(metarResponse.data);
       } catch (error) {
         console.error('Error fetching METAR data:', error);
-        setMetarError('Failed to fetch METAR data');
+        setMetarError(t('metarFetchError'));
       }
     };
 
     fetchWeatherData();
     fetchMetarData();
-  }, [latitude, longitude]);
+  }, [latitude, longitude, t]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{t('loading')}</div>;
   }
 
   return (
     <div className="container home-container">
       <Helmet>
-        <title>Home - Kairos Weather</title>
-        <meta name="description" content={`Check the latest weather updates and forecasts for ${location}. Stay updated with Kairos Weather.`} />
+        <title>{t('homeTitle')} - Kairos Weather</title>
+        <meta name="description" content={`${t('weatherDescription')} ${location}. ${t('stayUpdated')}`} />
         <meta name="keywords" content={`weather, forecast, ${location} weather, Kairos Weather`} />
-        <meta property="og:title" content={`Weather in ${location} - Kairos Weather`} />
-        <meta property="og:description" content={`Get the current weather and forecasts for ${location} on Kairos Weather.`} />
+        <meta property="og:title" content={`${t('weatherIn')} ${location} - Kairos Weather`} />
+        <meta property="og:description" content={`${t('currentWeather')} ${location} ${t('kairosWeather')}`} />
         <meta property="og:url" content="https://kairos.gr" />
         <link rel="canonical" href="https://kairos.gr" />
       </Helmet>
-      {weatherError ? <div>Error: {weatherError}</div> : locationData && <WeatherBlock location={location} locationData={locationData} />}
-      {metarError ? <div>Error: {metarError}</div> : metarData.length > 0 && <MetarBlock metarData={metarData} />}
+      {weatherError ? <div>{t('error')}: {weatherError}</div> : locationData && <WeatherBlock location={location} locationData={locationData} />}
+      {metarError ? <div>{t('error')}: {metarError}</div> : metarData.length > 0 && <MetarBlock metarData={metarData} />}
       <div className="home-content text-center">
-        <h1 className="home-title">Welcome to the Home page!</h1>
-        <p className="home-text">This is a simple homepage for our React application.</p>
-        <button className="btn btn-primary home-button">Learn More</button>
+        <h1 className="home-title">{t('homeWelcome')}</h1>
+        <p className="home-text">{t('homeDescription')}</p>
+        <button className="btn btn-primary home-button">{t('learnMore')}</button>
       </div>
     </div>
   );

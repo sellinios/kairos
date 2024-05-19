@@ -1,8 +1,9 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "locationAccessTitle": "Πρόσβαση στην Τοποθεσία - Kairos",
+    "locationAccessDescription": "Χρειαζόμαστε πρόσβαση στην τοποθεσία σας για να παρέχουμε καλύτερη εξυπηρέτηση.",
+    "locationAccessKeywords": "Kairos, Τοποθεσία, Πρόσβαση, Εξυπηρέτηση",
+    "locationAccessModalTitle": "Πρόσβαση στην Τοποθεσία",
+    "locationAccessModalBody": "Χρειαζόμαστε πρόσβαση στην τοποθεσία σας για να παρέχουμε καλύτερη εξυπηρέτηση.",
+    "deny": "Άρνηση",
+    "allow": "Επιτρέψτε"
 }

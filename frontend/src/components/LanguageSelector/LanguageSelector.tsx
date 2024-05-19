@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
 import './LanguageSelector.css'; // Ensure the CSS file is correctly linked
 
 interface LanguageSelectorProps {
@@ -8,6 +9,7 @@ interface LanguageSelectorProps {
 }
 
 const LanguageSelector: React.FC<LanguageSelectorProps> = ({ setLocale, languages }) => {
+    const { t } = useTranslation('LanguageSelector'); // Specify the namespace
     const [selectedLanguage, setSelectedLanguage] = useState<string>(languages[0].code);
 
     const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -19,9 +21,9 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ setLocale, language
     return (
         <div className="language-selector">
             <Helmet>
-                <title>Language Selector - Kairos</title>
-                <meta name="description" content="Select your preferred language for the Kairos application." />
-                <meta name="keywords" content="Kairos, language selector, translation, i18n" />
+                <title>{t('languageSelectorTitle')} - Kairos</title>
+                <meta name="description" content={t('languageSelectorDescription')} />
+                <meta name="keywords" content={t('languageSelectorKeywords')} />
             </Helmet>
             <select value={selectedLanguage} onChange={handleLanguageChange} className="custom-select">
                 {languages.map((lang) => (

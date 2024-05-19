@@ -1,8 +1,7 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "notFoundTitle": "404 - Η σελίδα δεν βρέθηκε - Kairos",
+    "notFoundDescription": "Η σελίδα που αναζητάτε δεν υπάρχει. Ελέγξτε τη διεύθυνση URL ή επιστρέψτε στην αρχική σελίδα.",
+    "notFoundKeywords": "404, Η σελίδα δεν βρέθηκε, Kairos, σφάλμα",
+    "notFoundHeading": "404",
+    "notFoundMessage": "Η σελίδα δεν βρέθηκε"
 }

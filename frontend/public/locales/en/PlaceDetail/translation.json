@@ -1,8 +1,11 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "placeDetailsTitle": "{{placeName}} - Place Details - Kairos",
+    "placeDetailsDescription": "Details and weather forecast for {{placeName}}. Latitude: {{latitude}}, Longitude: {{longitude}}.",
+    "placeDetailsKeywords": "{{placeName}}, place details, weather forecast, Kairos",
+    "placeNotFound": "Place not found",
+    "loading": "Loading...",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "checkWeather": "Check Weather",
+    "weatherForecast": "Weather Forecast"
 }

@@ -1,18 +1,21 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import './About.css'; // Ensure your CSS file is correctly linked
+import { useTranslation } from 'react-i18next';
+import './About.css';
 
 const About: React.FC = () => {
+    const { t } = useTranslation('About'); // Specify the namespace
+
     return (
         <div className="container mt-5">
             <Helmet>
-                <title>About Us - Kairos</title>
-                <meta name="description" content="Learn more about Kairos. We specialize in providing high-quality services and products. Our team is dedicated to ensuring the best experience for our clients." />
-                <meta name="keywords" content="Kairos, About Us, Services, Products, Mission, Vision, Values" />
+                <title>{t('aboutTitle')} - Kairos</title>
+                <meta name="description" content={t('aboutDescription')} />
+                <meta name="keywords" content={t('aboutKeywords')} />
             </Helmet>
-            <h1>About Us</h1>
-            <p>Welcome to our company. We specialize in providing high-quality services and products. Our team is dedicated to ensuring the best experience for our clients.</p>
-            <p>Learn more about our mission, vision, and values on this page.</p>
+            <h1>{t('aboutUs')}</h1>
+            <p>{t('aboutWelcomeMessage')}</p>
+            <p>{t('aboutMoreInfo')}</p>
         </div>
     );
 }

@@ -1,8 +1,8 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "loginTitle": "Σύνδεση - Kairos",
+    "loginDescription": "Συνδεθείτε στο λογαριασμό σας στο Kairos για να αποκτήσετε πρόσβαση σε εξατομικευμένες υπηρεσίες και δυνατότητες.",
+    "loginKeywords": "Kairos, σύνδεση, λογαριασμός, εξατομικευμένες υπηρεσίες",
+    "usernamePlaceholder": "Όνομα χρήστη",
+    "passwordPlaceholder": "Κωδικός πρόσβασης",
+    "loginButton": "Σύνδεση"
 }

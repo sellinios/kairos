@@ -1,8 +1,5 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "appTitle": "Kairos",
+    "home": "Αρχική",
+    "welcomeMessage": "Καλώς ήρθατε στο Kairos. Αναζητήστε τις καλύτερες υπηρεσίες και προϊόντα εδώ."
 }

@@ -1,8 +1,7 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "contactTitle": "Επικοινωνήστε μαζί μας - Kairos",
+    "contactDescription": "Επικοινωνήστε μαζί μας μέσω email ή τηλεφώνου. Ανυπομονούμε να σας ακούσουμε!",
+    "contactKeywords": "Kairos, Επικοινωνία, Email, Τηλέφωνο, Εξυπηρέτηση Πελατών",
+    "contactUs": "Επικοινωνήστε μαζί μας",
+    "contactText": "Παρακαλούμε επικοινωνήστε μαζί μας μέσω email ή τηλεφώνου. Ανυπομονούμε να σας ακούσουμε!"
 }

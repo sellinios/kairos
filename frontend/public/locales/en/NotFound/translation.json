@@ -1,8 +1,7 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "notFoundTitle": "404 - Page Not Found - Kairos",
+    "notFoundDescription": "The page you are looking for does not exist. Please check the URL or return to the homepage.",
+    "notFoundKeywords": "404, Page Not Found, Kairos, error",
+    "notFoundHeading": "404",
+    "notFoundMessage": "Page Not Found"
 }

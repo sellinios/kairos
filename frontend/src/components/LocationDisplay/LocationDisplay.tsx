@@ -11,7 +11,7 @@ interface LocationDisplayProps {
 }
 
 const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('LocationDisplay'); // Specify the namespace
   const [entityName, setEntityName] = useState<string>(t('locating'));
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);

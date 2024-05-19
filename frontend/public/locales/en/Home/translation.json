@@ -1,8 +1,13 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "homeTitle": "Home - Kairos Weather",
+    "homeDescription": "Check the latest weather updates and forecasts for {{location}}. Stay updated with Kairos Weather.",
+    "homeKeywords": "weather, forecast, {{location}} weather, Kairos Weather",
+    "ogTitle": "Weather in {{location}} - Kairos Weather",
+    "ogDescription": "Get the current weather and forecasts for {{location}} on Kairos Weather.",
+    "loading": "Loading...",
+    "errorFetchingWeather": "Failed to fetch weather data",
+    "errorFetchingMetar": "Failed to fetch METAR data",
+    "welcomeMessage": "Welcome to the Home page!",
+    "simpleHomepage": "This is a simple homepage for our React application.",
+    "learnMore": "Learn More"
 }

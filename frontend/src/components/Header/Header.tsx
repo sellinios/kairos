@@ -6,7 +6,7 @@ import './Header.css';
 import SearchEngine from '../Search/SearchEngine';
 
 const Header: React.FC = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('Header'); // Specify the namespace
 
     return (
         <>

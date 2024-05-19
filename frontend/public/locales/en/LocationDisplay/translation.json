@@ -1,8 +1,9 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "appTitle": "Kairos",
+    "locating": "Locating...",
+    "geolocation_not_supported": "Geolocation is not supported by this browser.",
+    "entity_not_found": "Entity not found",
+    "failed_to_fetch_entity": "Failed to fetch entity data",
+    "current_location": "Current Location",
+    "coordinates": "Coordinates"
 }

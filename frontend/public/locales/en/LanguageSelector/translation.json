@@ -1,8 +1,5 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "languageSelectorTitle": "Language Selector - Kairos",
+    "languageSelectorDescription": "Select your preferred language for the Kairos application.",
+    "languageSelectorKeywords": "Kairos, language selector, translation, i18n"
 }

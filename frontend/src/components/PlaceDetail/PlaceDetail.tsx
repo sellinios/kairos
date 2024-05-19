@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
 interface Place {
@@ -11,6 +12,7 @@ interface Place {
 }
 
 const PlaceDetail: React.FC = () => {
+  const { t } = useTranslation();
   const { placeName } = useParams<{ placeName: string }>();
   const [place, setPlace] = useState<Place | null>(null);
   const [forecast, setForecast] = useState<any>(null);
@@ -25,39 +27,39 @@ const PlaceDetail: React.FC = () => {
           const forecastResponse = await axios.get(`/api/geography/places/${placeResponse.data[0].id}/forecast/`);
           setForecast(forecastResponse.data);
         } else {
-          setError('Place not found');
+          setError(t('placeNotFound'));
         }
       } catch (error) {
         console.error('Error fetching place data:', error);
-        setError('Place not found');
+        setError(t('placeNotFound'));
       }
     };
 
     fetchPlaceData();
-  }, [placeName]);
+  }, [placeName, t]);
 
   if (error) {
     return <div>{error}</div>;
   }
 
   if (!place) {
-    return <div>Loading...</div>;
+    return <div>{t('loading')}</div>;
   }
 
   return (
     <div>
       <Helmet>
-        <title>{place.name} - Place Details - Kairos</title>
-        <meta name="description" content={`Details and weather forecast for ${place.name}. Latitude: ${place.latitude}, Longitude: ${place.longitude}.`} />
-        <meta name="keywords" content={`${place.name}, place details, weather forecast, Kairos`} />
+        <title>{place.name} - {t('placeDetailsTitle')} - Kairos</title>
+        <meta name="description" content={`${t('placeDetailsDescription')} ${place.name}. ${t('latitude')}: ${place.latitude}, ${t('longitude')}: ${place.longitude}.`} />
+        <meta name="keywords" content={`${place.name}, ${t('placeDetailsKeywords')}, Kairos`} />
       </Helmet>
       <h1>{place.name}</h1>
-      <p>Latitude: {place.latitude}</p>
-      <p>Longitude: {place.longitude}</p>
-      <Link to={`/weather/${placeName}`}>Check Weather</Link>
+      <p>{t('latitude')}: {place.latitude}</p>
+      <p>{t('longitude')}: {place.longitude}</p>
+      <Link to={`/weather/${placeName}`}>{t('checkWeather')}</Link>
       {forecast && (
         <div>
-          <h2>Weather Forecast</h2>
+          <h2>{t('weatherForecast')}</h2>
           <pre>{JSON.stringify(forecast, null, 2)}</pre>
         </div>
       )}

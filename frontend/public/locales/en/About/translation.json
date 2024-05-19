@@ -1,8 +1,8 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+    "title": "About Us - Kairos",
+    "description": "Learn more about Kairos. We specialize in providing high-quality services and products. Our team is dedicated to ensuring the best experience for our clients.",
+    "keywords": "Kairos, About Us, Services, Products, Mission, Vision, Values",
+    "aboutUs": "About Us",
+    "welcomeMessage": "Welcome to our company. We specialize in providing high-quality services and products. Our team is dedicated to ensuring the best experience for our clients.",
+    "learnMore": "Learn more about our mission, vision, and values on this page."
 }

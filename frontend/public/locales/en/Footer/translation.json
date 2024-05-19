@@ -1,8 +1,6 @@
 {
-  "current_location": "Current Location",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "locating": "Locating...",
-  "geolocation_not_supported": "Geolocation not supported",
-  "failed_to_fetch_location": "Failed to fetch location"
+  "footerTitle": "Kairos - Quality Services and Products",
+  "footerDescription": "Kairos provides high-quality services and products. Connect with us to learn more.",
+  "footerKeywords": "Kairos, Services, Products, Quality, Customer Service",
+  "companyName": "Kairos"
 }

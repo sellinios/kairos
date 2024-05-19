@@ -1,21 +1,26 @@
-// src/config/i18n.js
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import HttpBackend from 'i18next-http-backend'; // import the backend plugin
+import HttpBackend from 'i18next-http-backend';
+import config from './config'; // Ensure this path is correct
 
 i18n
-  .use(HttpBackend) // activate the backend plugin
-  .use(initReactI18next) // pass i18n instance to react-i18next module.
+  .use(HttpBackend)
+  .use(initReactI18next)
   .init({
-    lng: 'en', // initial language to use
-    fallbackLng: 'en', // fallback language when resource is not available
-    debug: true, // enable debugging to see logs in the console
+    lng: config.defaultLanguage,
+    fallbackLng: 'en',
+    debug: config.featureFlag,
     backend: {
-      // path to load the translation files from
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      loadPath: '/locales/{{lng}}/{{ns}}/translation.json', // Adjusted to match your directory structure
     },
+    ns: [
+      'About', 'Contact', 'Footer', 'Header', 'Home', 'LanguageSelector',
+      'LocationDisplay', 'LocationRequestModal', 'Login', 'NotFound',
+      'PlaceDetail', 'Search', 'Weather'
+    ],
+    defaultNS: 'common',
     interpolation: {
-      escapeValue: false, // not needed for React as it escapes by default
+      escapeValue: false,
     },
   });
 

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './SearchEngine.css';
 
 const SearchEngine: React.FC = () => {
+    const { t } = useTranslation('Search'); // Specify the namespace
     const [query, setQuery] = useState('');
     const navigate = useNavigate();
 
@@ -20,11 +22,11 @@ const SearchEngine: React.FC = () => {
                 <input
                     type="text"
                     className="search-input"
-                    placeholder="Search Your Place..."
+                    placeholder={t('searchPlaceholder')}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                 />
-                <button type="submit" className="search-button">Search</button>
+                <button type="submit" className="search-button">{t('searchButton')}</button>
             </form>
         </div>
     );
