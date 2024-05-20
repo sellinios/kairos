@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models.planet import Planet
-from .models.continent import Continent
-from .models.country import Country
-from .models.administrative_division import AdministrativeDivision
-from .models.geographic_entity import GeographicEntity
-from .models.place import Place
+from .models.model_geografic_planet import Planet
+from .models.model_goegrafic_continent import Continent
+from .models.model_geografic_country import Country
+from .models.model_geografic_administrative_division import AdministrativeDivision
+from .models.model_geographic_entity import GeographicEntity
+from .models.model_geografic_place import Place
 
 admin.site.register(Planet)
 admin.site.register(Continent)

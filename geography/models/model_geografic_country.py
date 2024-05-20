@@ -1,5 +1,5 @@
 from django.db import models
-from .continent import Continent
+from .model_goegrafic_continent import Continent
 
 class Country(models.Model):
     name = models.CharField(max_length=100, blank=True)

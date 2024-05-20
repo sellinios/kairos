@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models as gis_models
 from django.db import models
-from .geographic_entity import GeographicEntity
+from .model_geographic_entity import GeographicEntity
 
 class PlaceManager(models.Manager):
     def nearest_place(self, current_latitude, current_longitude):

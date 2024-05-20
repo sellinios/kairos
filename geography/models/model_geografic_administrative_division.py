@@ -1,5 +1,5 @@
 from django.db import models
-from .country import Country
+from .model_geografic_country import Country
 
 class AdministrativeDivision(models.Model):
     ISO_ALPHA2_DETAILS = {
@@ -73,7 +73,9 @@ class AdministrativeDivision(models.Model):
         choices=[(key, f"{key} - {value[0]}") for key, value in ISO_NUMERIC_DETAILS.items()]
     )
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
-    parent_division = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subdivisions')
+    parent_division = models.ForeignKey(
+        'self', on_delete=models.CASCADE, null=True, blank=True, related_name='subdivisions'
+    )
     category = models.CharField(max_length=50, blank=True)
 
     class Meta:
@@ -85,9 +87,15 @@ class AdministrativeDivision(models.Model):
 
     def save(self, *args, **kwargs):
         if self.iso_alpha2:
-            self.category, self.name = self.ISO_ALPHA2_DETAILS.get(self.iso_alpha2, (self.category, self.name))
+            self.category, self.name = self.ISO_ALPHA2_DETAILS.get(
+                self.iso_alpha2, (self.category, self.name)
+            )
         if self.iso_alpha3:
-            self.category, self.name = self.ISO_ALPHA3_DETAILS.get(self.iso_alpha3, (self.category, self.name))
+            self.category, self.name = self.ISO_ALPHA3_DETAILS.get(
+                self.iso_alpha3, (self.category, self.name)
+            )
         if self.iso_numeric:
-            self.category, self.name = self.ISO_NUMERIC_DETAILS.get(self.iso_numeric, (self.category, self.name))
+            self.category, self.name = self.ISO_NUMERIC_DETAILS.get(
+                self.iso_numeric, (self.category, self.name)
+            )
         super().save(*args, **kwargs)
