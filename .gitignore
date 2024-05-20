@@ -23,7 +23,6 @@ env/
 venv/
 
 # Django
-*.sqlite3
 /media
 /staticfiles
 /local_settings.py
