@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './LocationDisplay.css';
-import LocationRequestModal from '../LocationRequestModal/LocationRequestModal'; // Correct path to LocationRequestModal
-import NavigationMenu from '../NavigationMenu/NavigationMenu'; // Import NavigationMenu
+import LocationRequestModal from '../LocationRequestModal/LocationRequestModal';
+import NavigationMenu from '../NavigationMenu/NavigationMenu';
 
 interface LocationDisplayProps {
   onLocationUpdate: (entityName: string, latitude: number, longitude: number) => void;
@@ -131,7 +131,6 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
           )}
         </div>
 
-        {/* Add NavigationMenu here */}
         <NavigationMenu />
       </div>
     </div>
