@@ -1,19 +1,22 @@
+/* src/components/LocationDisplay/LocationDisplay.css */
 .location-display-container {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 10px;
+  background-color: #f8f9fa; /* Light background to differentiate from header */
+  border-bottom: 1px solid #dee2e6; /* Border to separate from header */
 }
 
 .location-content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .location-info {
   flex: 1;
   margin-right: 20px;
-  color: #333; /* Default text color */
+  color: #333;
 }
 
 .dot {
@@ -22,19 +25,19 @@
   border-radius: 50%;
   display: inline-block;
   margin-right: 10px;
-  border: 2px solid #333; /* Border color matching the text color */
+  border: 2px solid #333;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .dot-green {
-  background-color: #28a745; /* Bootstrap success color */
+  background-color: #28a745;
 }
 
 .dot-red {
-  background-color: #dc3545; /* Bootstrap danger color */
+  background-color: #dc3545;
 }
 
-.first-line {
+.single-line {
   display: flex;
   align-items: center;
 }
@@ -42,83 +45,11 @@
 .entity-name {
   font-weight: bold;
   font-size: 1rem;
-  color: #007bff; /* Bootstrap primary color for emphasis */
+  color: #007bff;
 }
 
-.second-line {
+.coords {
   font-size: 0.9rem;
-  color: #6c757d; /* Bootstrap secondary color */
-  padding-left: 24px; /* Adjust if needed to align properly */
-}
-
-/* NavigationMenu styles */
-
-.navigation-menu {
-  flex: 0 0 250px; /* Fixed width for the menu */
-  position: relative; /* Relative positioning within the container */
-  z-index: 1000;
-}
-
-.menu-icon {
-  cursor: pointer;
-  color: #333;
-}
-
-.menu-content {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 250px;
-  height: 100%;
-  background-color: #042b45;
-  color: white;
-  padding: 20px;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  overflow-y: auto;
-}
-
-.menu-header {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.menu-close-icon {
-  cursor: pointer;
-  color: white;
-}
-
-.menu-content ul {
-  padding: 0;
-  margin-top: 30px;
-}
-
-.menu-content ul li {
-  margin: 20px 0;
-}
-
-.menu-content ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 1.2rem;
-}
-
-.menu-content .language-selector {
-  margin-top: 20px;
-}
-
-.menu-content .language-selector button {
-  display: block;
-  margin: 10px 0;
-  background: none;
-  border: 1px solid white;
-  color: white;
-  padding: 10px;
-  width: 100%;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.menu-content .language-selector button:hover {
-  background-color: white;
-  color: #042b45;
+  color: #6c757d;
+  margin-left: 10px;
 }

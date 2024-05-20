@@ -1,3 +1,4 @@
+// src/components/LocationDisplay/LocationDisplay.tsx
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -5,7 +6,6 @@ import { Helmet } from 'react-helmet';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './LocationDisplay.css';
 import LocationRequestModal from '../LocationRequestModal/LocationRequestModal';
-import NavigationMenu from '../NavigationMenu/NavigationMenu';
 
 interface LocationDisplayProps {
   onLocationUpdate: (entityName: string, latitude: number, longitude: number) => void;
@@ -120,18 +120,14 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
 
       <div className="location-content">
         <div className="location-info">
-          <div className="first-line">
+          <div className="single-line">
             <span className={`dot ${fetchError ? 'dot-red' : 'dot-green'}`}></span>
             <span className="entity-name">{entityName}</span>
+            {latitude !== null && longitude !== null && (
+              <span className="coords"> / Lon: {latitude.toFixed(6)}, Lat: {longitude.toFixed(6)}</span>
+            )}
           </div>
-          {(latitude !== null && longitude !== null) && (
-            <div className="second-line">
-              <span className="coords">{latitude.toFixed(6)}, {longitude.toFixed(6)}</span>
-            </div>
-          )}
         </div>
-
-        <NavigationMenu />
       </div>
     </div>
   );

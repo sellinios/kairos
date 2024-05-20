@@ -1,3 +1,24 @@
+/* src/App.css */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa; /* Light background to differentiate from header */
+  border-bottom: 1px solid #dee2e6; /* Border to separate from header */
+}
+
+.location-display-container {
+  flex: 1;
+  color: #333;
+}
+
+.navigation-menu {
+  flex: 0 0 auto;
+  position: relative;
+}
+
+/* Rest of your styles */
 body, html, #root {
   height: 100%;
   margin: 0;
@@ -14,8 +35,8 @@ body, html, #root {
 
 main {
   flex: 1;
-  padding-top: 3rem !important;
-  margin-top: 3rem !important;
+  padding-top: 1rem !important; /* Reduce top padding */
+  margin-top: 1rem !important; /* Reduce top margin */
 }
 
 .footer {

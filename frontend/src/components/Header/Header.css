@@ -1,3 +1,4 @@
+/* src/components/Header/Header.css */
 .header {
     background-color: #042b45;
     color: white;
@@ -6,14 +7,19 @@
 .header__title {
     font-size: 1.5rem;
     font-weight: bold;
+    margin: 0; /* Ensure no extra margin */
 }
 
-/* Ensure the header and its children are responsive */
 .header .container {
     flex-wrap: wrap;
+    padding: 10px 0; /* Adjust padding to reduce height */
 }
 
 .header__logo {
     display: flex;
     align-items: center;
+}
+
+.header .container .mt-2 {
+    margin-top: 0.5rem !important; /* Reduce margin for the search engine container */
 }

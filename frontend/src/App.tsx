@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LocationDisplay from './components/LocationDisplay/LocationDisplay';
 import Home from './components/Home/Home';
 import About from './components/About/About';
 import Contact from './components/Contact/Contact';
@@ -10,6 +9,8 @@ import PlaceDetail from './components/PlaceDetail/PlaceDetail';
 import WeatherDetail from './components/Weather/WeatherDetail/WeatherDetail';
 import AethraGeoEngine from './components/AethraGeoEngine/AethraGeoEngine';
 import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy';
+import Header from './components/Header/Header';
+import UpperHeader from './components/UpperHeader/UpperHeader';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -27,7 +28,8 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
-        <LocationDisplay onLocationUpdate={handleLocationUpdate} />
+        <UpperHeader onLocationUpdate={handleLocationUpdate} />
+        <Header />
         <main className="content">
           <Routes>
             <Route
