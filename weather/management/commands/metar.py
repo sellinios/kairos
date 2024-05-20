@@ -8,7 +8,6 @@ from weather.models import MetarStation, MetarData
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
 class Command(BaseCommand):
     help = 'Fetches and stores METAR data for each MetarStation, including past data.'
 
@@ -61,10 +60,8 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         for station in MetarStation.objects.all():
             logger.info(f"Processing station: {station.name}")
-            metar_data_list = self.fetch_metar_data(station.name)
+            metar_data_list = self.fetch_metar_data(station.code)
             if metar_data_list:
-                for metar_data in metar_data_list:
-                    self.stdout.write(f"METAR Data for {station.name}: {metar_data}")
                 self.save_metar_data(station, metar_data_list)
             else:
                 self.stdout.write(self.style.WARNING(f"No METAR data found for {station.name}"))

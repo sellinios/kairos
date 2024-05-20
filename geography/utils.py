@@ -13,7 +13,7 @@ def get_location_name(latitude, longitude):
             result = data['results'][0]
             formatted_name = result.get('formatted')
             components = result.get('components', {})
-            locality = components.get('locality') or components.get('suburb')
+            locality = components.get('municipality')
             return formatted_name, locality
         else:
             return None, None

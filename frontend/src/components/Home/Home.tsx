@@ -1,3 +1,4 @@
+// src/components/Home/Home.tsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
@@ -82,7 +83,7 @@ const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
 
     const fetchMetarData = async () => {
       try {
-        const metarResponse = await axios.get('https://kairos.gr/api/weather/metar/', {
+        const metarResponse = await axios.get('https://kairos.gr/api/metar-list/', {
           params: { latitude, longitude }
         });
         console.log('METAR response:', metarResponse.data);
@@ -116,6 +117,6 @@ const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
       {metarError ? <div>{t('error')}: {metarError}</div> : metarData.length > 0 && <MetarBlock metarData={metarData} />}
     </div>
   );
-}
+};
 
 export default Home;

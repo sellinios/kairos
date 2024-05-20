@@ -1,5 +1,3 @@
-# api/serializers.py
-
 from rest_framework import serializers
 from geography.models import Country, AdministrativeDivision, GeographicEntity, Place
 from weather.models import GFSForecast, MetarData
@@ -38,6 +36,10 @@ class GFSForecastSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MetarDataSerializer(serializers.ModelSerializer):
+    temperature = serializers.FloatField()
+    wind_speed = serializers.FloatField()
+    conditions = serializers.CharField()
+
     class Meta:
         model = MetarData
-        fields = '__all__'
+        fields = ['station', 'metar_text', 'metar_timestamp', 'temperature', 'wind_speed', 'conditions']

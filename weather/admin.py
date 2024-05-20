@@ -1,25 +1,37 @@
 from django.contrib import admin
-from .models import GFSForecast
+from .models import GFSForecast, MetarStation, MetarData
 from .forms import GFSForecastForm
-from .models import MetarStation, MetarData
-
 
 class GFSForecastAdmin(admin.ModelAdmin):
     form = GFSForecastForm
 
-
 admin.site.register(GFSForecast, GFSForecastAdmin)
-
 
 class MetarDataInline(admin.TabularInline):
     model = MetarData
     extra = 0
     readonly_fields = ('metar_text', 'timestamp', 'metar_timestamp')
 
-
 class MetarStationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'longitude', 'latitude')
+    list_display = ('name', 'code', 'longitude', 'latitude')
     inlines = [MetarDataInline]
+    actions = ['fetch_and_update_location']
 
+    def longitude(self, obj):
+        return obj.location.x if obj.location else None
+
+    def latitude(self, obj):
+        return obj.location.y if obj.location else None
+
+    longitude.short_description = 'Longitude'
+    latitude.short_description = 'Latitude'
+
+    def fetch_and_update_location(self, request, queryset):
+        for station in queryset:
+            if station.update_location():
+                self.message_user(request, f"Updated location for {station.name}")
+            else:
+                self.message_user(request, f"Failed to update location for {station.name}", level='error')
+    fetch_and_update_location.short_description = "Fetch and update GIS location"
 
 admin.site.register(MetarStation, MetarStationAdmin)
