@@ -8,5 +8,5 @@
   "loading": "Loading...",
   "error": "Error",
   "weatherFetchError": "Failed to fetch weather data.",
-  "metarFetchError": "Failed to fetch METAR data.",
+  "metarFetchError": "Failed to fetch METAR data."
 }

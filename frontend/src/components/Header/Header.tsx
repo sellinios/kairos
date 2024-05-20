@@ -18,7 +18,8 @@ const Header: React.FC = () => {
             <header className="header py-2">
                 <div className="container d-flex justify-content-between align-items-center">
                     <div className="header__logo d-flex align-items-center">
-                        <span className="header__title">{t('appTitle')}</span>
+                        <span className="header__title" style={{ fontSize: '3rem' }}>{t('appTitle')}</span>
+                        {/* Adjust the font size value ('2rem' in this example) to make the logo bigger */}
                     </div>
                 </div>
                 <div className="container d-flex justify-content-center mt-2">
