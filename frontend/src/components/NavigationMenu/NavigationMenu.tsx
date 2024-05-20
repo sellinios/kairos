@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './NavigationMenu.css';
 
 const NavigationMenu: React.FC = () => {
-    const { t, i18n } = useTranslation();
+    const { t, i18n } = useTranslation('NavigationMenu'); // Specify the namespace
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -32,6 +32,7 @@ const NavigationMenu: React.FC = () => {
                         </div>
                     </div>
                     <ul className="list-unstyled">
+                        <li><Link to="/" onClick={toggleMenu}>{t('home')}</Link></li>
                         <li><Link to="/about" onClick={toggleMenu}>{t('about')}</Link></li>
                         <li><Link to="/contact" onClick={toggleMenu}>{t('contact')}</Link></li>
                         <li><Link to="/weather" onClick={toggleMenu}>{t('weather')}</Link></li>

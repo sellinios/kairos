@@ -11,16 +11,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
-
-    <!-- Link to Main CSS -->
     <link href="/static/css/main.8ecff0e2.css" rel="stylesheet">
-
     <script>
         const defaultLang = "en"; // Default language
         const userLang = navigator.language || navigator.userLanguage; // Detect browser language
         const lang = userLang.split('-')[0]; // Extract language code, e.g., "en-US" -> "en"
-
-        // Function to load localization file
         function loadLocalization(language) {
             fetch(`locales/${language}.json`)
                 .then(response => {
@@ -35,13 +30,11 @@
                 .catch(error => {
                     console.error("Error loading localization file:", error);
                     if (language !== defaultLang) {
-                        // Fallback to default language if the specified language file is not found
                         loadLocalization(defaultLang);
                     }
                 });
         }
-
-        loadLocalization(lang); // Load localization based on detected language
+        loadLocalization(lang);
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3131616609445146" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-80GYPERD24"></script>
@@ -57,7 +50,6 @@
 </head>
 <body>
     <div id="root"></div>
-    <!-- Include the main JavaScript bundle -->
     <script src="/static/js/main.5b715c96.js"></script>
 </body>
 </html>

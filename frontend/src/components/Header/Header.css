@@ -1,22 +1,19 @@
 .header {
-    background-color: #042b45; /* Adjust color as needed */
+    background-color: #042b45;
     color: white;
+}
+
+.header__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Ensure the header and its children are responsive */
+.header .container {
+    flex-wrap: wrap;
 }
 
 .header__logo {
     display: flex;
     align-items: center;
-    text-align: left;
-}
-
-.header__title {
-    font-size: 1.5rem; /* Adjust the size as needed */
-    font-weight: bold;
-    color: white; /* Ensure text color contrasts well with the background */
-}
-
-.header__search-engine {
-    width: 100%;
-    display: flex;
-    justify-content: center;
 }

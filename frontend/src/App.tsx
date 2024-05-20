@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header/Header';
 import LocationDisplay from './components/LocationDisplay/LocationDisplay';
 import Home from './components/Home/Home';
 import About from './components/About/About';
@@ -29,8 +28,7 @@ const App: React.FC = () => {
     <Router>
       <div className="App">
         <LocationDisplay onLocationUpdate={handleLocationUpdate} />
-        <Header />
-        <main className="pt-5 mt-5">
+        <main className="content">
           <Routes>
             <Route
               path="/"

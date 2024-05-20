@@ -15,7 +15,11 @@
     text-align: left; /* Ensure content is left-aligned */
 }
 
-.privacy-content p, .privacy-content ul, .privacy-content li, .privacy-content h2, .privacy-content h3 {
+.privacy-content p,
+.privacy-content ul,
+.privacy-content li,
+.privacy-content h2,
+.privacy-content h3 {
     font-size: 1rem;
     color: #333;
     line-height: 1.6;
@@ -31,7 +35,8 @@
     margin-bottom: 10px;
 }
 
-.privacy-content h2, .privacy-content h3 {
+.privacy-content h2,
+.privacy-content h3 {
     margin-top: 20px;
     color: #042b45;
     text-align: left; /* Ensure headings are left-aligned */

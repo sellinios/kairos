@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './LocationDisplay.css';
 import LocationRequestModal from '../LocationRequestModal/LocationRequestModal'; // Correct path to LocationRequestModal
+import NavigationMenu from '../NavigationMenu/NavigationMenu'; // Import NavigationMenu
 
 interface LocationDisplayProps {
   onLocationUpdate: (entityName: string, latitude: number, longitude: number) => void;
@@ -109,23 +110,29 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
   }, [checkAndFetchEntityData, t, onLocationUpdate]);
 
   return (
-    <div className="location-display">
+    <div className="location-display-container">
       <Helmet>
         <title>{t('appTitle')} - {entityName}</title>
         <meta name="description" content={`${t('current_location')}: ${entityName}, ${t('coordinates')}: ${latitude}, ${longitude}`} />
         <meta name="keywords" content="Kairos, Location, Coordinates, Geolocation, React" />
       </Helmet>
       {showModal && <LocationRequestModal show={showModal} handleClose={handleClose} handleAllow={handleAllow} />}
-      <div className="location-info">
-        <div className="first-line">
-          <span className={`dot ${fetchError ? 'dot-red' : 'dot-green'}`}></span>
-          <span className="entity-name">{entityName}</span>
-        </div>
-        {(latitude !== null && longitude !== null) && (
-          <div className="second-line">
-            <span className="coords">{latitude.toFixed(6)}, {longitude.toFixed(6)}</span>
+
+      <div className="location-content">
+        <div className="location-info">
+          <div className="first-line">
+            <span className={`dot ${fetchError ? 'dot-red' : 'dot-green'}`}></span>
+            <span className="entity-name">{entityName}</span>
           </div>
-        )}
+          {(latitude !== null && longitude !== null) && (
+            <div className="second-line">
+              <span className="coords">{latitude.toFixed(6)}, {longitude.toFixed(6)}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Add NavigationMenu here */}
+        <NavigationMenu />
       </div>
     </div>
   );

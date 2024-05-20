@@ -1,6 +1,30 @@
+/* General reset and full height for the HTML and body */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure the root element stretches to fill the height */
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/* Main content area should flex to take up available space */
+.content {
+    flex: 1;
+}
+
+/* Footer styles */
 .footer {
     background-color: #042b45; /* Dark background */
     color: white; /* White text color */
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
 }
 
 .footer-nav ul {
