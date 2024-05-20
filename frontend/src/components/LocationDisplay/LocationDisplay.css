@@ -9,13 +9,13 @@
 
 .location-content {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .location-info {
   flex: 1;
-  margin-right: 20px;
   color: #333;
 }
 
@@ -51,5 +51,5 @@
 .coords {
   font-size: 0.9rem;
   color: #6c757d;
-  margin-left: 10px;
+  margin-left: 24px; /* Indent the coordinates to align properly */
 }

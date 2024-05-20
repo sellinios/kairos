@@ -1,4 +1,3 @@
-// src/components/LocationDisplay/LocationDisplay.tsx
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -123,10 +122,12 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
           <div className="single-line">
             <span className={`dot ${fetchError ? 'dot-red' : 'dot-green'}`}></span>
             <span className="entity-name">{entityName}</span>
-            {latitude !== null && longitude !== null && (
-              <span className="coords"> / Lon: {latitude.toFixed(6)}, Lat: {longitude.toFixed(6)}</span>
-            )}
           </div>
+          {latitude !== null && longitude !== null && (
+            <div className="coords">
+              Lon: {longitude.toFixed(6)}, Lat: {latitude.toFixed(6)}
+            </div>
+          )}
         </div>
       </div>
     </div>
