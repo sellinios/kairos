@@ -4,6 +4,7 @@ from geography.models import Country, AdministrativeDivision, GeographicEntity, 
 
 @api_view(['GET'])
 def get_system_stats(request):
+    # The 'request' parameter is required by Django REST framework but not used in this view
     country_count = Country.objects.count()
     administrative_division_count = AdministrativeDivision.objects.count()
     geographic_entity_count = GeographicEntity.objects.count()
