@@ -1,17 +1,26 @@
 .footer {
-    background-color: #003366; /* Darker blue for better contrast */
-    color: #ffffff; /* White text for high contrast */
+    background-color: #042b45; /* Dark background */
+    color: white; /* White text color */
 }
 
-.footer {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    border-top: 1px solid #dee2e6;
+.footer-nav ul {
+    padding: 0;
+    list-style: none;
 }
 
-.footer p {
-    margin: 0.5rem 0;
-    color: #ffffff; /* Ensure text color is white */
+.footer-nav .list-inline-item {
+    margin-right: 15px;
+}
+
+.footer-nav a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-nav a:hover {
+    text-decoration: underline;
+}
+
+.footer-nav .fa-facebook {
+    margin-right: 5px;
 }

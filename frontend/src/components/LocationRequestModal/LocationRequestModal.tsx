@@ -10,7 +10,7 @@ interface LocationRequestModalProps {
 }
 
 const LocationRequestModal: React.FC<LocationRequestModalProps> = ({ show, handleClose, handleAllow }) => {
-  const { t } = useTranslation('LocationRequestModal'); // Specify the namespace
+  const { t } = useTranslation('LocationRequestModal');
 
   return (
     <>

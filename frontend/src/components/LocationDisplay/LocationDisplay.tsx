@@ -4,21 +4,24 @@ import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './LocationDisplay.css';
-import LocationRequestModal from '../LocationRequestModal/LocationRequestModal';
+import LocationRequestModal from '../LocationRequestModal/LocationRequestModal'; // Correct path to LocationRequestModal
 
 interface LocationDisplayProps {
   onLocationUpdate: (entityName: string, latitude: number, longitude: number) => void;
 }
 
 const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) => {
-  const { t } = useTranslation('LocationDisplay'); // Specify the namespace
+  const { t } = useTranslation('LocationDisplay');
   const [entityName, setEntityName] = useState<string>(t('locating'));
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [fetchError, setFetchError] = useState<boolean>(false);
-  const [showModal, setShowModal] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-  const handleClose = () => setShowModal(false);
+  const handleClose = () => {
+    setShowModal(false);
+    localStorage.setItem('locationModalShown', 'true');
+  };
 
   const handleAllow = () => {
     if (navigator.geolocation) {
@@ -98,7 +101,10 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
       setFetchError(false);
       onLocationUpdate(storedEntityName, lat, lon);
     } else {
-      setShowModal(true);
+      const modalShown = localStorage.getItem('locationModalShown');
+      if (!modalShown) {
+        setShowModal(true);
+      }
     }
   }, [checkAndFetchEntityData, t, onLocationUpdate]);
 

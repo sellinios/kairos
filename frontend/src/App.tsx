@@ -9,6 +9,8 @@ import NotFound from './components/NotFound/NotFound';
 import Footer from './components/Footer/Footer';
 import PlaceDetail from './components/PlaceDetail/PlaceDetail';
 import WeatherDetail from './components/Weather/WeatherDetail/WeatherDetail';
+import AethraGeoEngine from './components/AethraGeoEngine/AethraGeoEngine';
+import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -44,6 +46,8 @@ const App: React.FC = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/place/:placeName" element={<PlaceDetail />} />
             <Route path="/weather/:placeName" element={<WeatherDetail />} />
+            <Route path="/aethra-geo-engine" element={<AethraGeoEngine />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

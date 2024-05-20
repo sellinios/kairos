@@ -1,0 +1,13 @@
+{
+  "pageTitle": "Aethra Geo Engine",
+  "pageDescription": "The Aethra Geo Engine is an automated system that gathers location data from users and calculates distances using APIs. It provides comprehensive geographic insights based on real-time data collection.",
+  "pageKeywords": "Aethra, Geo Engine, Mapping, Kairos",
+  "systemStatsTitle": "System Statistics",
+  "countries": "Countries",
+  "administrativeDivisions": "Administrative Divisions",
+  "geographicEntities": "Geographic Entities",
+  "places": "Locations",
+  "fetchError": "Failed to fetch system statistics.",
+  "loading": "Loading...",
+  "error": "Error"
+}

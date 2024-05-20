@@ -1,6 +1,13 @@
 {
-  "footerTitle": "Kairos - Quality Services and Products",
-  "footerDescription": "Kairos provides high-quality services and products. Connect with us to learn more.",
-  "footerKeywords": "Kairos, Services, Products, Quality, Customer Service",
-  "companyName": "Kairos"
+  "footerTitle": "Footer",
+  "footerDescription": "This is the footer of the website.",
+  "footerKeywords": "footer, company, contact",
+  "companyName": "Kairos",
+  "about": "About",
+  "contact": "Contact",
+  "weather": "Weather",
+  "aethraWeatherEngine": "Aethra Weather Engine",
+  "aethraGeoEngine": "Aethra Geo Engine",
+  "facebook": "Facebook",
+  "privacyPolicy": "Privacy Policy"
 }

@@ -1,11 +1,4 @@
 {
-    "placeDetailsTitle": "{{placeName}} - Place Details - Kairos",
-    "placeDetailsDescription": "Details and weather forecast for {{placeName}}. Latitude: {{latitude}}, Longitude: {{longitude}}.",
-    "placeDetailsKeywords": "{{placeName}}, place details, weather forecast, Kairos",
-    "placeNotFound": "Place not found",
-    "loading": "Loading...",
-    "latitude": "Latitude",
-    "longitude": "Longitude",
-    "checkWeather": "Check Weather",
-    "weatherForecast": "Weather Forecast"
+  "privacyPolicyTitle": "Privacy Policy",
+  "privacyPolicyContent": "Add your privacy policy content here."
 }

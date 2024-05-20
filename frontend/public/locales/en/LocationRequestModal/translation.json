@@ -1,9 +1,8 @@
 {
-    "locationAccessTitle": "Location Access - Kairos",
-    "locationAccessDescription": "We need to access your location to provide better service.",
-    "locationAccessKeywords": "Kairos, Location, Access, Service",
-    "locationAccessModalTitle": "Location Access",
-    "locationAccessModalBody": "We need to access your location to provide better service.",
-    "deny": "Deny",
-    "allow": "Allow"
+  "locationAccessTitle": "Location Access",
+  "locationAccessDescription": "This modal requests access to your location.",
+  "locationAccessKeywords": "location, access, permission",
+  "locationAccessBody": "This application needs access to your location to provide a better experience. Please allow location access.",
+  "deny": "Deny",
+  "allow": "Allow"
 }

@@ -1,29 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from geography.models import Country, AdministrativeDivision, GeographicEntity, Place
-from weather.models import GFSForecast, MetarData
-from .serializers import (
-    CountrySerializer,
-    AdministrativeDivisionSerializer,
-    GeographicEntitySerializer,
-    PlaceSerializer,
-    GFSForecastSerializer,
-    MetarDataSerializer
-)
+from geography.models import Place, GeographicEntity
+from ..serializers import PlaceSerializer
 from geography.utils import get_location_name
-
-class CountryViewSet(viewsets.ModelViewSet):
-    queryset = Country.objects.all()
-    serializer_class = CountrySerializer
-
-class AdministrativeDivisionViewSet(viewsets.ModelViewSet):
-    queryset = AdministrativeDivision.objects.all()
-    serializer_class = AdministrativeDivisionSerializer
-
-class GeographicEntityViewSet(viewsets.ModelViewSet):
-    queryset = GeographicEntity.objects.all()
-    serializer_class = GeographicEntitySerializer
 
 class PlaceViewSet(viewsets.ModelViewSet):
     queryset = Place.objects.all()
@@ -86,11 +66,3 @@ class PlaceViewSet(viewsets.ModelViewSet):
             })
         else:
             return Response({"error": "No nearby place found"}, status=404)
-
-class GFSForecastViewSet(viewsets.ModelViewSet):
-    queryset = GFSForecast.objects.all()
-    serializer_class = GFSForecastSerializer
-
-class MetarDataViewSet(viewsets.ModelViewSet):
-    queryset = MetarData.objects.all()
-    serializer_class = MetarDataSerializer

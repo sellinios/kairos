@@ -114,11 +114,6 @@ const Home: React.FC<HomeProps> = ({ latitude, longitude, location }) => {
       </Helmet>
       {weatherError ? <div>{t('error')}: {weatherError}</div> : locationData && <WeatherBlock location={location} locationData={locationData} />}
       {metarError ? <div>{t('error')}: {metarError}</div> : metarData.length > 0 && <MetarBlock metarData={metarData} />}
-      <div className="home-content text-center">
-        <h1 className="home-title">{t('homeWelcome')}</h1>
-        <p className="home-text">{t('homeDescription')}</p>
-        <button className="btn btn-primary home-button">{t('learnMore')}</button>
-      </div>
     </div>
   );
 }

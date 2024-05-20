@@ -1,5 +1,12 @@
 {
-    "appTitle": "Kairos",
-    "home": "Αρχική",
-    "welcomeMessage": "Καλώς ήρθατε στο Kairos. Αναζητήστε τις καλύτερες υπηρεσίες και προϊόντα εδώ."
+  "appTitle": "Kairos",
+  "home": "Αρχική",
+  "about": "Σχετικά",
+  "contact": "Επικοινωνία",
+  "weather": "Καιρός",
+  "aethraWeatherEngine": "Aethra Weather Engine",
+  "aethraGeoEngine": "Aethra Geo Engine",
+  "privacyPolicy": "Πολιτική Απορρήτου",
+  "welcomeMessage": "Καλώς ήρθατε στο Kairos",
+  "loading": "Φόρτωση..."
 }

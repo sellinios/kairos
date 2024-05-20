@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Header.css';
 import SearchEngine from '../Search/SearchEngine';
+import NavigationMenu from '../NavigationMenu/NavigationMenu';
 
 const Header: React.FC = () => {
     const { t } = useTranslation('Header'); // Specify the namespace
@@ -20,6 +21,7 @@ const Header: React.FC = () => {
                     <div className="header__logo d-flex align-items-center">
                         <span className="header__title">{t('appTitle')}</span>
                     </div>
+                    <NavigationMenu />
                 </div>
                 <div className="container d-flex justify-content-center mt-3">
                     <SearchEngine />
