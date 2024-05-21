@@ -1,11 +1,12 @@
 from django.db import models
-from .model_goegrafic_continent import Continent
+from .model_geografic_continent import Continent
 
 class Country(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=True)
-    iso_alpha2 = models.CharField(max_length=2, blank=True)
-    iso_alpha3 = models.CharField(max_length=3, blank=True)
-    iso_numeric = models.IntegerField(blank=True, null=True)
+    iso_alpha2 = models.CharField(max_length=2, blank=True, unique=True)  # ISO codes should be unique
+    iso_alpha3 = models.CharField(max_length=3, blank=True, unique=True)
+    iso_numeric = models.IntegerField(blank=True, null=True, unique=True)
     continent = models.ForeignKey(Continent, on_delete=models.CASCADE, related_name='countries')
     area = models.FloatField(null=True)
     capital = models.CharField(max_length=100, null=True, blank=True)

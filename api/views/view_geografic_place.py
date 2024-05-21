@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from geography.models import Place, GeographicEntity
-from ..serializers import PlaceSerializer
+from geography.models import Place, AdminDivisionInstance, Category, Level
+from api.serializers.serializer_geografic_place import PlaceSerializer
 from geography.utils import get_location_name
 
 class PlaceViewSet(viewsets.ModelViewSet):
@@ -25,16 +25,23 @@ class PlaceViewSet(viewsets.ModelViewSet):
         else:
             formatted_name, locality = get_location_name(float(latitude), float(longitude))
             if locality:
-                geographic_entity, created = GeographicEntity.objects.get_or_create(
+                municipality_level, created = Level.objects.get_or_create(name='Municipality')
+
+                admin_division, created = AdminDivisionInstance.objects.get_or_create(
                     name=locality,
-                    defaults={'entity_type': 'locality'}
+                    defaults={'level': municipality_level}
                 )
+
+                default_category, created = Category.objects.get_or_create(name='default')
+
                 place, place_created = Place.objects.get_or_create(
-                    entity=geographic_entity,
-                    location=f'POINT({longitude} {latitude})'
+                    longitude=float(longitude),
+                    latitude=float(latitude),
+                    defaults={'admin_division': admin_division, 'category': default_category}
                 )
+
                 serializer = self.get_serializer(place)
-                return Response(serializer.data, status=201)
+                return Response(serializer.data, status=201 if place_created else 200)
             else:
                 return Response({"error": "Unable to determine locality"}, status=404)
 
@@ -49,18 +56,24 @@ class PlaceViewSet(viewsets.ModelViewSet):
         formatted_name, locality = get_location_name(float(latitude), float(longitude))
 
         if locality:
-            geographic_entity, created = GeographicEntity.objects.get_or_create(
+            municipality_level, created = Level.objects.get_or_create(name='Municipality')
+
+            admin_division, created = AdminDivisionInstance.objects.get_or_create(
                 name=locality,
-                defaults={'entity_type': 'locality'}
+                defaults={'level': municipality_level}
             )
+
+            default_category, created = Category.objects.get_or_create(name='default')
+
             place, place_created = Place.objects.get_or_create(
-                entity=geographic_entity,
-                location=f'POINT({longitude} {latitude})'
+                longitude=float(longitude),
+                latitude=float(latitude),
+                defaults={'admin_division': admin_division, 'category': default_category}
             )
+
             place_serializer = PlaceSerializer(place)
             return Response({
                 "entity_name": locality,
-                "entity_created": created,
                 "place_created": place_created,
                 "place": place_serializer.data
             })

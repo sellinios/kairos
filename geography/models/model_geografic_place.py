@@ -1,29 +1,35 @@
-from django.contrib.gis.db import models as gis_models
 from django.db import models
-from .model_geographic_entity import GeographicEntity
-
-class PlaceManager(models.Manager):
-    def nearest_place(self, current_latitude, current_longitude):
-        from django.contrib.gis.geos import Point
-        from django.contrib.gis.db.models.functions import Distance
-
-        current_location = Point(current_longitude, current_latitude, srid=4326)
-        queryset = self.get_queryset().annotate(
-            distance=Distance('location', current_location)
-        ).order_by('distance')
-
-        nearest_place = queryset.first()
-        return nearest_place
+from django.core.exceptions import ValidationError
+from django.contrib.gis.db import models as gis_models
+from django.contrib.gis.geos import Point
+from .model_geografic_category import Category
+from .model_geografic_admin_division import AdminDivisionInstance
+from .model_geografic_place_manager import PlaceManager  # Import the PlaceManager
 
 class Place(models.Model):
-    entity = models.ForeignKey(GeographicEntity, on_delete=models.CASCADE, related_name='places')
-    location = gis_models.PointField(geography=True, srid=4326)
-    name = models.CharField(max_length=100, null=True, blank=True)
+    id = models.AutoField(primary_key=True)
+    longitude = models.FloatField()
+    latitude = models.FloatField()
+    height = models.FloatField(null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default=1)
+    admin_division = models.ForeignKey(AdminDivisionInstance, on_delete=models.CASCADE, related_name='places')
+    location = gis_models.PointField(geography=True, null=True, blank=True)
 
-    objects = PlaceManager()
+    objects = PlaceManager()  # Use the custom manager
 
     class Meta:
-        unique_together = ('location',)
+        verbose_name = "Place"
+        verbose_name_plural = "Places"
 
     def __str__(self):
-        return f"Place at ({self.location.y}, {self.location.x}) associated with {self.entity}"
+        return f"{self.category.name} ({self.latitude}, {self.longitude})"
+
+    def clean(self):
+        # Check if the admin_division is at the municipality level
+        if self.admin_division.level.name != 'Municipality':
+            raise ValidationError('Place can only be associated with an AdminDivisionInstance at the Municipality level.')
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        self.location = Point(self.longitude, self.latitude, srid=4326)
+        super().save(*args, **kwargs)

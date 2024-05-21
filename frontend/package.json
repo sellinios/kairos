@@ -1,33 +1,21 @@
 {
-  "name": "kairos",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@fortawesome/free-brands-svg-icons": "^6.5.2",
-    "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/react-fontawesome": "^0.2.1",
-    "axios": "^1.7.0",
-    "bootstrap": "^5.0.2",
-    "i18next-http-backend": "^2.5.2",
-    "react": "^18.3.1",
-    "react-bootstrap": "^2.10.2",
-    "react-dom": "^18.3.1",
-    "react-helmet": "^6.1.0",
-    "react-i18next": "^14.1.1",
-    "react-router-dom": "^6.23.1",
-    "react-scripts": "^5.0.1"
-  },
+  "name": "kairos.gr",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "license": "MIT",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "keywords": [],
+  "author": "",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "latest"
   },
   "browserslist": {
     "production": [
@@ -42,19 +30,15 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-transform-class-properties": "^7.18.6",
-    "@babel/plugin-transform-nullish-coalescing-operator": "^7.18.6",
-    "@babel/plugin-transform-numeric-separator": "^7.18.6",
-    "@babel/plugin-transform-optional-chaining": "^7.21.0",
-    "@babel/plugin-transform-private-methods": "^7.18.6",
-    "@craco/craco": "^7.1.0",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@types/axios": "^0.14.0",
+    "@types/i18next": "^13.0.0",
+    "@types/react": "^18.3.2",
+    "@types/react-bootstrap": "^0.32.36",
     "@types/react-dom": "^18.3.0",
+    "@types/react-fontawesome": "^1.6.8",
     "@types/react-helmet": "^6.1.11",
-    "source-map-loader": "^5.0.0",
-    "typescript": "^4.9.5"
-  },
-  "resolutions": {
-    "svgo": "^2.8.0"
+    "@types/react-i18next": "^8.1.0",
+    "@types/react-router-dom": "^5.3.3"
   }
 }

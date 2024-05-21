@@ -1,14 +1,30 @@
 from django.contrib import admin
 from .models.model_geografic_planet import Planet
-from .models.model_goegrafic_continent import Continent
+from .models.model_geografic_continent import Continent
 from .models.model_geografic_country import Country
-from .models.model_geografic_administrative_division import AdministrativeDivision
-from .models.model_geographic_entity import GeographicEntity
+from .models.model_geografic_level import Level
+from .models.model_geografic_admin_division import AdminDivisionInstance
 from .models.model_geografic_place import Place
+from .models.model_geografic_category import Category
 
 admin.site.register(Planet)
 admin.site.register(Continent)
-admin.site.register(Country)
-admin.site.register(AdministrativeDivision)
-admin.site.register(GeographicEntity)
 admin.site.register(Place)
+admin.site.register(Category)
+
+@admin.register(Country)
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'iso_alpha2', 'iso_alpha3', 'iso_numeric', 'continent', 'capital']
+    search_fields = ['name', 'iso_alpha2', 'iso_alpha3', 'iso_numeric']
+
+@admin.register(Level)
+class LevelAdmin(admin.ModelAdmin):
+    list_display = ['name', 'level_order']
+    list_filter = ['name']
+    search_fields = ['name']
+
+@admin.register(AdminDivisionInstance)
+class AdminDivisionInstanceAdmin(admin.ModelAdmin):
+    list_display = ['name', 'level', 'parent']
+    list_filter = ['level']
+    search_fields = ['name']
