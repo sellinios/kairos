@@ -16,7 +16,7 @@
     <content url="file://$MODULE_DIR$">
       <excludePattern pattern="manage.py" />
     </content>
-    <orderEntry type="jdk" jdkName="env" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.12 (kairos)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

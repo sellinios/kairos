@@ -1,40 +1,14 @@
 asgiref==3.8.1
-attrs @ file:///home/conda/feedstock_root/build_artifacts/attrs_1704011227531/work
-beautifulsoup4==4.12.3
 certifi==2024.2.2
-cffi @ file:///home/conda/feedstock_root/build_artifacts/cffi_1696001721842/work
-cfgrib @ file:///home/conda/feedstock_root/build_artifacts/cfgrib_1712348374992/work
 charset-normalizer==3.3.2
-click @ file:///home/conda/feedstock_root/build_artifacts/click_1692311806742/work
 Django==5.0.6
 django-cors-headers==4.3.1
-django-countries==7.6.1
-django-extensions==3.2.3
-django-geojson==4.1.0
 djangorestframework==3.15.1
-eccodes @ file:///home/conda/feedstock_root/build_artifacts/python-eccodes_1715951233673/work
-findlibs @ file:///home/conda/feedstock_root/build_artifacts/findlibs_1682423883580/work
-geographiclib==2.0
-geopy==2.4.1
 gunicorn==22.0.0
 idna==3.7
-numpy @ file:///home/conda/feedstock_root/build_artifacts/numpy_1707225359967/work/dist/numpy-1.26.4-cp312-cp312-linux_x86_64.whl#sha256=031b7d6b2e5e604d9e21fc21be713ebf28ce133ec872dce6de006742d5e49bab
-packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1710075952259/work
-pandas @ file:///home/conda/feedstock_root/build_artifacts/pandas_1715897630316/work
-pillow==10.3.0
-psycopg2==2.9.9
+packaging==24.0
 psycopg2-binary==2.9.9
-pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1711811537435/work
-python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1709299778482/work
 python-dotenv==1.0.1
-pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1706886791323/work
-requests==2.31.0
-setuptools==69.5.1
-six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
-soupsieve==2.5
+requests==2.32.2
 sqlparse==0.5.0
-typing_extensions==4.11.0
-tzdata @ file:///home/conda/feedstock_root/build_artifacts/python-tzdata_1707747584337/work
 urllib3==2.2.1
-wheel==0.43.0
-xarray @ file:///home/conda/feedstock_root/build_artifacts/xarray_1715608052382/work

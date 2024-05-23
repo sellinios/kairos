@@ -3,19 +3,28 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
   },
   "license": "MIT",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "keywords": [],
   "author": "",
   "dependencies": {
+    "@craco/craco": "^7.1.0",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-brands-svg-icons": "^6.5.2",
+    "@fortawesome/free-regular-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.1",
     "bootstrap": "^5.3.3",
+    "i18next-http-backend": "^2.5.2",
     "react": "^18.3.1",
+    "react-bootstrap": "^2.10.2",
     "react-dom": "^18.3.1",
-    "react-scripts": "latest"
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^6.23.1",
+    "react-scripts": "^5.0.1"
   },
   "browserslist": {
     "production": [
