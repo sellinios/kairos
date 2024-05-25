@@ -9,5 +9,22 @@
   "aethraWeatherEngine": "Aethra Weather Engine",
   "aethraGeoEngine": "Aethra Geo Engine",
   "facebook": "Facebook",
-  "privacyPolicy": "Privacy Policy"
+  "privacyPolicy": "Privacy Policy",
+  "aethraEngines": "Aethra Engines",
+  "continents": "Continents",
+  "regionsOfGreece": "Regions of Greece",
+  "europe": "Europe",
+  "asia": "Asia",
+  "africa": "Africa",
+  "northAmerica": "North America",
+  "southAmerica": "South America",
+  "australia": "Australia",
+  "antarctica": "Antarctica",
+  "attica": "Attica",
+  "macedonia": "Macedonia",
+  "crete": "Crete",
+  "thessaly": "Thessaly",
+  "epirus": "Epirus",
+  "peloponnese": "Peloponnese",
+  "aegean": "Aegean"
 }

@@ -1,5 +1,5 @@
 from django.db import models
-from .model_geografic_country import Country
+from .model_geographic_country import Country
 
 class Level(models.Model):
     name = models.CharField(max_length=100)

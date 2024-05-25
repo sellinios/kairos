@@ -2,9 +2,9 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import Point
-from .model_geografic_category import Category
-from .model_geografic_admin_division import AdminDivisionInstance
-from .model_geografic_place_manager import PlaceManager  # Import the PlaceManager
+from .model_geographic_category import Category
+from .model_geographic_admin_division import AdminDivisionInstance
+from .model_geographic_place_manager import PlaceManager  # Import the PlaceManager
 
 class Place(models.Model):
     id = models.AutoField(primary_key=True)

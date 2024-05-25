@@ -1,6 +1,6 @@
-# geography/models/model_geografic_admin_division.py
+# geography/models/model_geographic_admin_division.py
 from django.db import models
-from .model_geografic_level import Level
+from .model_geographic_level import Level
 
 class AdminDivisionInstance(models.Model):
     id = models.AutoField(primary_key=True)

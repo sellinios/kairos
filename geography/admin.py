@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models.model_geografic_planet import Planet
-from .models.model_geografic_continent import Continent
-from .models.model_geografic_country import Country
-from .models.model_geografic_level import Level
-from .models.model_geografic_admin_division import AdminDivisionInstance
-from .models.model_geografic_place import Place
-from .models.model_geografic_category import Category
+from .models.model_geographic_planet import Planet
+from .models.model_geographic_continent import Continent
+from .models.model_geographic_country import Country
+from .models.model_geographic_level import Level
+from .models.model_geographic_admin_division import AdminDivisionInstance
+from .models.model_geographic_place import Place
+from .models.model_geographic_category import Category
 
 admin.site.register(Planet)
 admin.site.register(Continent)

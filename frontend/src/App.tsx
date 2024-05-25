@@ -1,3 +1,4 @@
+// src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home/Home';
@@ -12,36 +13,40 @@ import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy';
 import Header from './components/Header/Header';
 import UpperHeader from './components/UpperHeader/UpperHeader';
 import ArticleDetail from './components/Blog/ArticleDetail/ArticleDetail';
-import NavigationMenu from './components/NavigationMenu/NavigationMenu'; // Import the NavigationMenu
+import NavigationMenu from './components/NavigationMenu/NavigationMenu';
+import ContinentDetail from './components/ContinentDetail/ContinentDetail';
+import RegionDetail from './components/RegionDetail/RegionDetail';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => {
-  return (
-    <Router>
-      <div className="App">
-        <UpperHeader />
-        <Header />
-        <NavigationMenu /> {/* Add the NavigationMenu here */}
-        <div className="container">
-          <main className="content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/place/:placeName" element={<PlaceDetail />} />
-              <Route path="/weather/:placeName" element={<WeatherDetail />} />
-              <Route path="/aethra-geo-engine" element={<AethraGeoEngine />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/articles/:slug" element={<ArticleDetail />} />  {/* Use slug */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-        </div>
-        <Footer />
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <div className="App">
+                <UpperHeader />
+                <Header />
+                <NavigationMenu />
+                <div className="container">
+                    <main className="content">
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/about" element={<About />} />
+                            <Route path="/contact" element={<Contact />} />
+                            <Route path="/place/:placeName" element={<PlaceDetail />} />
+                            <Route path="/weather/:placeName" element={<WeatherDetail />} />
+                            <Route path="/aethra-geo-engine" element={<AethraGeoEngine />} />
+                            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                            <Route path="/articles/:slug" element={<ArticleDetail />} />
+                            <Route path="/geography/:continent/greece/:region" element={<RegionDetail />} />
+                            <Route path="/geography/:continent" element={<ContinentDetail />} />
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </main>
+                </div>
+                <Footer />
+            </div>
+        </Router>
+    );
 };
 
 export default App;

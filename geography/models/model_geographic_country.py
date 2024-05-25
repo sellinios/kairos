@@ -1,5 +1,5 @@
 from django.db import models
-from .model_geografic_continent import Continent
+from .model_geographic_continent import Continent
 
 class Country(models.Model):
     id = models.AutoField(primary_key=True)
