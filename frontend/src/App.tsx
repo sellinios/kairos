@@ -1,6 +1,7 @@
 // src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import CookieConsent from 'react-cookie-consent';
 import Home from './components/Home/Home';
 import About from './components/About/About';
 import Contact from './components/Contact/Contact';
@@ -44,6 +45,17 @@ const App: React.FC = () => {
                     </main>
                 </div>
                 <Footer />
+                <CookieConsent
+                    location="bottom"
+                    buttonText="I understand"
+                    cookieName="mySiteCookieConsent"
+                    style={{ background: "#2B373B" }}
+                    buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+                    expires={150}
+                >
+                    This website uses cookies to enhance the user experience.{" "}
+                    <a href="/privacy-policy" style={{ color: "#FFD700" }}>Learn more</a>
+                </CookieConsent>
             </div>
         </Router>
     );

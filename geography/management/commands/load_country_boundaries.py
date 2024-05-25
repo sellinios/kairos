@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = 'Load country boundaries and continents into the database'
 
     def handle(self, *args, **options):
-        shp_file_path = '/home/lefteris.broker/kairos/Data/natural_earth_vector/natural-earth-vector-5.1.0/110m_cultural/ne_110m_admin_0_countries.shp'
+        shp_file_path = '/home/lefteris.broker/kairos/Data/natural_earth_vector/natural-earth-vector-5.1.0/10m_cultural/ne_10m_admin_0_countries.shp'
 
         if not os.path.exists(shp_file_path):
             self.stdout.write(self.style.ERROR(f"Shapefile not found: {shp_file_path}"))
@@ -37,33 +37,39 @@ class Command(BaseCommand):
                 print(f"ISO_A2: {iso_alpha2} (length: {len(iso_alpha2)})")
                 print(f"ISO_A3: {iso_alpha3} (length: {len(iso_alpha3)})")
 
-                # Validate iso_alpha2 length
-                if len(iso_alpha2) > 2:
-                    self.stdout.write(self.style.ERROR(f"ISO_A2 value too long: {iso_alpha2}"))
-                    continue
+                # Validate iso_alpha2 and iso_alpha3 length
+                if len(iso_alpha2) > 2 or iso_alpha2 == '-99':
+                    self.stdout.write(self.style.ERROR(f"ISO_A2 value invalid or too long: {iso_alpha2}"))
+                    iso_alpha2 = ''
+
+                if len(iso_alpha3) > 3 or iso_alpha3 == '-99':
+                    self.stdout.write(self.style.ERROR(f"ISO_A3 value invalid or too long: {iso_alpha3}"))
+                    iso_alpha3 = ''
 
                 # Get or create the continent
                 continent, created = Continent.objects.get_or_create(name=continent_name)
 
-                # Get or create the country
-                country, created = Country.objects.get_or_create(
+                # Handle missing fields by checking if they exist in the feature
+                area = feature.get('AREA') if 'AREA' in feature.fields else None
+                capital = feature.get('CAPITAL') if 'CAPITAL' in feature.fields else None
+                official_languages = feature.get('LANGUAGES') if 'LANGUAGES' in feature.fields else None
+                currency = feature.get('CURRENCY') if 'CURRENCY' in feature.fields else None
+                iso_numeric = feature.get('ISO_N3') if 'ISO_N3' in feature.fields else None
+
+                # Update or create the country
+                Country.objects.update_or_create(
                     iso_alpha3=iso_alpha3,
                     defaults={
                         'name': name,
                         'iso_alpha2': iso_alpha2,
-                        'iso_numeric': feature.get('ISO_N3'),
+                        'iso_numeric': iso_numeric,
                         'continent': continent,
-                        'geom': geom
+                        'geom': geom,
+                        'area': area,
+                        'capital': capital,
+                        'official_languages': official_languages,
+                        'currency': currency
                     }
                 )
-
-                if not created:
-                    # Update the existing country with new data if necessary
-                    country.name = name
-                    country.iso_alpha2 = iso_alpha2
-                    country.iso_numeric = feature.get('ISO_N3')
-                    country.continent = continent
-                    country.geom = geom
-                    country.save()
 
         self.stdout.write(self.style.SUCCESS('Successfully loaded country boundaries and continents'))

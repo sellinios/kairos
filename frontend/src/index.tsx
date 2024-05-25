@@ -1,11 +1,11 @@
-// src/index.tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import './config/i18n'; // Ensure this import is correctly handling i18n setup
-import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS import
-import './webVitals'; // Import the Web Vitals script
+import './config/i18n';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './webVitals';
+import ReactGA from 'react-ga4';
 
 declare global {
   interface Window {
@@ -16,6 +16,10 @@ declare global {
 
 // Google Analytics and AdSense initialization
 if (process.env.NODE_ENV === 'production') {
+  // Initialize Google Analytics 4
+  ReactGA.initialize('G-80GYPERD24');
+
+  // Load additional Google Analytics and AdSense scripts
   const loadScript = (src: string, onload?: () => void, crossorigin?: string) => {
     const script = document.createElement('script');
     script.async = true;

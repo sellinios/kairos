@@ -7,16 +7,27 @@ import './ContinentDetail.css';
 const ContinentDetail: React.FC = () => {
   const { continent } = useParams<{ continent: string }>();
   const [continentData, setContinentData] = useState<Continent | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (continent) {
-      getContinent(continent).then(response => {
-        setContinentData(response);
-      }).catch(error => {
-        console.error("There was an error fetching the continent data!", error);
-      });
+      getContinent(continent)
+        .then(response => {
+          // Sort countries alphabetically by name
+          response.countries.sort((a, b) => a.name.localeCompare(b.name));
+          setContinentData(response);
+          setError(null); // Clear any previous error
+        })
+        .catch(error => {
+          console.error("There was an error fetching the continent data!", error);
+          setError("There was an error fetching the continent data. Please try again later.");
+        });
     }
   }, [continent]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   if (!continentData) {
     return <div>Loading...</div>;
