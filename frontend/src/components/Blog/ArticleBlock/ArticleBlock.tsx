@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { fetchLatestArticles } from '../../../services'; // Ensure the correct import path
 import './ArticleBlock.css'; // Import the CSS file for styling
 
@@ -13,13 +14,14 @@ interface Article {
 }
 
 const ArticleBlock: React.FC = () => {
+  const { i18n } = useTranslation();
   const [latestArticles, setLatestArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getLatestArticles = async () => {
       try {
-        const articles = await fetchLatestArticles();
+        const articles = await fetchLatestArticles(i18n.language);
         console.log('Fetched articles:', articles); // Log fetched articles
         setLatestArticles(articles);
       } catch (error) {
@@ -30,7 +32,7 @@ const ArticleBlock: React.FC = () => {
     };
 
     getLatestArticles();
-  }, []);
+  }, [i18n.language]); // Re-fetch articles when language changes
 
   if (loading) {
     return <div>Loading articles...</div>;
@@ -59,4 +61,4 @@ const ArticleBlock: React.FC = () => {
   );
 };
 
-export default ArticleBlock; // Ensure default export
+export default ArticleBlock;

@@ -25,9 +25,9 @@ export const fetchArticle = async (slug: string): Promise<Article> => {
 };
 
 // Fetch the latest articles
-export const fetchLatestArticles = async (): Promise<Article[]> => {
+export const fetchLatestArticles = async (language: string): Promise<Article[]> => {
   try {
-    const response = await axios.get<Article[]>(`${BASE_URL}/api/articles/latest/`);
+    const response = await axios.get<Article[]>(`${BASE_URL}/api/articles/latest/?language=${language}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching the latest articles:', error);

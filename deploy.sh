@@ -4,6 +4,16 @@
 FRONTEND_DIR=~/kairos/frontend
 MAIN_PROJECT_DIR=~/kairos
 
+# Update and upgrade system packages
+echo "Updating and upgrading system packages..."
+sudo apt update && sudo apt upgrade -y
+if [ $? -eq 0 ]; then
+    echo "System packages updated and upgraded successfully."
+else
+    echo "Failed to update and upgrade system packages. Please check the error messages."
+    exit 1
+fi
+
 # Check if frontend directory exists
 if [ ! -d "$FRONTEND_DIR" ]; then
     echo "Frontend directory $FRONTEND_DIR does not exist. Exiting..."
