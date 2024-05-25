@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Django migrations
+**/migrations/*
+!**/migrations/__init__.py
