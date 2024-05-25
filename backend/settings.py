@@ -21,9 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',  # Add GeoDjango
     'rest_framework',
-    'corsheaders',
-    'geography',
-    'weather',
+    'corsheaders', 'articles', 'tinymce', 'geography', 'weather',
     'api',
 ]
 
@@ -129,4 +127,14 @@ LOGGING = {
             'propagate': True,
         },
     },
+}
+
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'silver',
+    'height': 500,
+    'menubar': 'file edit view insert format tools table help',
+    'plugins': 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code '
+               'fullscreen insertdatetime media table paste code help wordcount',
+    'toolbar': 'undo redo |formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | '
+               'bullist numlist outdent indent | removeformat | help',
 }

@@ -1,6 +1,8 @@
+# api/urls.py
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from api.views.view_geografic_place import PlaceViewSet
+from api.views.view_articles import ArticleList, ArticleDetail, latest_article
 
 # Create a router and register the PlaceViewSet
 router = DefaultRouter()
@@ -8,5 +10,7 @@ router.register(r'places', PlaceViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    # Include other URL patterns here if necessary
+    path('articles/', ArticleList.as_view(), name='article-list'),
+    path('articles/latest/', latest_article, name='latest-article'),
+    path('articles/<slug:slug>/', ArticleDetail.as_view(), name='article-detail'),  # Updated to use slug
 ]

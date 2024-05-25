@@ -1,19 +1,34 @@
 #!/bin/bash
+
+# Define directory paths
+FRONTEND_DIR=~/kairos/frontend
+MAIN_PROJECT_DIR=~/kairos
+
+# Check if frontend directory exists
+if [ ! -d "$FRONTEND_DIR" ]; then
+    echo "Frontend directory $FRONTEND_DIR does not exist. Exiting..."
+    exit 1
+fi
+
 # Navigate to the frontend directory
-# shellcheck disable=SC2164
-cd ~/kairos/frontend
+cd "$FRONTEND_DIR" || exit
 
 # Run npm build
 echo "Running npm build..."
 npm run build
 
 # Check if npm build was successful
-# shellcheck disable=SC2181
 if [ $? -eq 0 ]; then
     echo "npm build successful. Preparing to manage Python dependencies..."
 
+    # Check if main project directory exists
+    if [ ! -d "$MAIN_PROJECT_DIR" ]; then
+        echo "Main project directory $MAIN_PROJECT_DIR does not exist. Exiting..."
+        exit 1
+    fi
+
     # Navigate back to the main project directory to run Django commands and handle Python dependencies
-    cd ~/kairos
+    cd "$MAIN_PROJECT_DIR" || exit
 
     # Export current Python package dependencies
     pip freeze > requirements.txt
@@ -23,12 +38,17 @@ if [ $? -eq 0 ]; then
     yes yes | python manage.py collectstatic  # Automatically answer 'yes' to the prompt
 
     # Check if Django collectstatic was successful
-    # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
-        echo "Static files collected successfully. Restarting Nginx..."
+        echo "Static files collected successfully. Restarting Gunicorn and Nginx..."
+
         sudo systemctl restart gunicorn
+        if [ $? -eq 0 ]; then
+            echo "Gunicorn restarted successfully."
+        else
+            echo "Failed to restart Gunicorn. Please check the error messages."
+        fi
+
         sudo systemctl restart nginx
-        # shellcheck disable=SC2181
         if [ $? -eq 0 ]; then
             echo "Nginx restarted successfully."
         else

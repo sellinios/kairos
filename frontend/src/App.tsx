@@ -1,5 +1,5 @@
 // src/App.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home/Home';
 import About from './components/About/About';
@@ -12,46 +12,31 @@ import AethraGeoEngine from './components/AethraGeoEngine/AethraGeoEngine';
 import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy';
 import Header from './components/Header/Header';
 import UpperHeader from './components/UpperHeader/UpperHeader';
+import ArticleDetail from './components/ArticleDetail/ArticleDetail';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => {
-  const [location, setLocation] = useState<string>('Locating...');
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
-
-  const handleLocationUpdate = (location: string, latitude: number, longitude: number) => {
-    setLocation(location);
-    setLatitude(latitude);
-    setLongitude(longitude);
-  };
-
   return (
     <Router>
       <div className="App">
-        <UpperHeader onLocationUpdate={handleLocationUpdate} />
+        <UpperHeader />
         <Header />
-        <main className="content">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                latitude !== null && longitude !== null ? (
-                  <Home latitude={latitude} longitude={longitude} location={location} />
-                ) : (
-                  <div>Loading location...</div>
-                )
-              }
-            />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/place/:placeName" element={<PlaceDetail />} />
-            <Route path="/weather/:placeName" element={<WeatherDetail />} />
-            <Route path="/aethra-geo-engine" element={<AethraGeoEngine />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
+        <div className="container">
+          <main className="content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/place/:placeName" element={<PlaceDetail />} />
+              <Route path="/weather/:placeName" element={<WeatherDetail />} />
+              <Route path="/aethra-geo-engine" element={<AethraGeoEngine />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/articles/:slug" element={<ArticleDetail />} />  {/* Use slug */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+        </div>
         <Footer />
       </div>
     </Router>
