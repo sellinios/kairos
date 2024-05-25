@@ -21,8 +21,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',  # Add GeoDjango
     'rest_framework',
-    'corsheaders', 'articles', 'tinymce', 'geography', 'weather',
+    'corsheaders',
+    'articles',
+    'tinymce',
+    'geography',
+    'weather',
     'api',
+    'modeltranslation',  # Add this line
 ]
 
 MIDDLEWARE = [
@@ -68,22 +73,28 @@ DATABASES = {
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'el'
+
+LANGUAGES = [
+    ('el', 'Greek'),
+    ('en', 'English'),
+    ('es', 'Spanish'),
+    ('fr', 'French'),
+]
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'el'
+MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'el'
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True

@@ -4,11 +4,12 @@ import axios from 'axios';
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 interface Article {
-  id: number;
-  slug: string; // Add slug property
+  id: number;  // Ensure id is always required
+  slug: string;
   title: string;
   content: string;
   author: string;
+  image: string;  // Include image field
 }
 
 interface Place {
