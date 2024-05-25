@@ -1,6 +1,9 @@
 from django.db import models
 from tinymce.models import HTMLField
 from django.utils.text import slugify
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
@@ -10,6 +13,19 @@ class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='articles/images', blank=True, null=True)
+
+    image_thumbnail = ImageSpecField(source='image',
+                                     processors=[ResizeToFill(100, 50)],
+                                     format='JPEG',
+                                     options={'quality': 60})
+    image_medium = ImageSpecField(source='image',
+                                  processors=[ResizeToFill(300, 150)],
+                                  format='JPEG',
+                                  options={'quality': 80})
+    image_large = ImageSpecField(source='image',
+                                 processors=[ResizeToFill(600, 300)],
+                                 format='JPEG',
+                                 options={'quality': 90})
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -25,6 +41,7 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class ArticleTranslation(models.Model):
     article = models.ForeignKey(Article, related_name='translations', on_delete=models.CASCADE)

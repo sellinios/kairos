@@ -8,23 +8,21 @@ interface Article {
   title: string;
   content: string;
   author: string;
-  image: string;
+  image?: string;
   created_at: string;
   updated_at: string;
 }
 
-// Fetch a single article by slug
-export const fetchArticle = async (slug: string): Promise<Article> => {
+export const fetchArticle = async (slug: string, language: string = 'en'): Promise<Article> => {
   try {
-    const response = await axios.get<Article>(`${BASE_URL}/api/articles/${slug}/`);
+    const response = await axios.get<Article>(`${BASE_URL}/api/articles/${slug}/?language=${language}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching article with slug ${slug}:`, error);
+    console.error(`Error fetching article with slug ${slug} in language ${language}:`, error);
     throw error;
   }
 };
 
-// Fetch the latest articles
 export const fetchLatestArticles = async (language: string): Promise<Article[]> => {
   try {
     const response = await axios.get<Article[]>(`${BASE_URL}/api/articles/latest/?language=${language}`);
