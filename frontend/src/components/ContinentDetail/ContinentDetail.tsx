@@ -1,7 +1,8 @@
-// src/components/ContinentDetail/ContinentDetail.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getContinent, Continent } from '../../services/apiServiceGeography';
+import { getContinent, Continent } from '../../services';
+import { Helmet } from 'react-helmet';
+import './ContinentDetail.css';
 
 const ContinentDetail: React.FC = () => {
   const { continent } = useParams<{ continent: string }>();
@@ -23,22 +24,41 @@ const ContinentDetail: React.FC = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>{continentData.name} - Continent Details</title>
+      </Helmet>
       <h1>{continentData.name}</h1>
       <h2>Countries:</h2>
-      <ul>
-        {continentData.countries.map(country => (
-          <li key={country.id}>
-            <h3>{country.name}</h3>
-            {country.iso_alpha2 && <p>ISO Alpha-2: {country.iso_alpha2}</p>}
-            {country.iso_alpha3 && <p>ISO Alpha-3: {country.iso_alpha3}</p>}
-            {country.iso_numeric && <p>ISO Numeric: {country.iso_numeric}</p>}
-            {country.capital && <p>Capital: {country.capital}</p>}
-            {country.official_languages && <p>Languages: {country.official_languages}</p>}
-            {country.currency && <p>Currency: {country.currency}</p>}
-            {country.area && <p>Area: {country.area} sq km</p>}
-          </li>
-        ))}
-      </ul>
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>ISO Alpha-2</th>
+              <th>ISO Alpha-3</th>
+              <th>ISO Numeric</th>
+              <th>Capital</th>
+              <th>Languages</th>
+              <th>Currency</th>
+              <th>Area (sq km)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {continentData.countries.map(country => (
+              <tr key={country.id}>
+                <td>{country.name}</td>
+                <td>{country.iso_alpha2 || '-'}</td>
+                <td>{country.iso_alpha3 || '-'}</td>
+                <td>{country.iso_numeric || '-'}</td>
+                <td>{country.capital || '-'}</td>
+                <td>{country.official_languages || '-'}</td>
+                <td>{country.currency || '-'}</td>
+                <td>{country.area ? `${country.area} sq km` : '-'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

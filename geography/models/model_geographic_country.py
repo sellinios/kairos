@@ -1,3 +1,4 @@
+from django.contrib.gis.db import models as gis_models
 from django.db import models
 from .model_geographic_continent import Continent
 
@@ -12,6 +13,7 @@ class Country(models.Model):
     capital = models.CharField(max_length=100, null=True, blank=True)
     official_languages = models.CharField(max_length=255, null=True, blank=True)
     currency = models.CharField(max_length=50, null=True, blank=True)
+    geom = gis_models.MultiPolygonField(null=True, blank=True)  # Add a geographic field
 
     class Meta:
         verbose_name = "Country"
