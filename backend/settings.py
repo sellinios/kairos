@@ -20,7 +20,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'modeltranslation',
     'rest_framework',
     'corsheaders',
     'articles',
