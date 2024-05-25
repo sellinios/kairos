@@ -1,10 +1,11 @@
+// src/components/Home/Home.tsx
 import React from 'react';
-import ArticleLatest from '../ArticleLatest/ArticleLatest'; // Adjust the import path as necessary
+import ArticleBlock from '../Blog/ArticleBlock/ArticleBlock'; // Ensure correct import
 
 const Home: React.FC = () => {
   return (
     <div>
-      <ArticleLatest />
+      <ArticleBlock />
     </div>
   );
 };

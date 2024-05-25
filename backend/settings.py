@@ -78,7 +78,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-LANGUAGE_CODE = 'el'
+LANGUAGE_CODE = 'en'
 
 LANGUAGES = [
     ('el', 'Greek'),
@@ -86,9 +86,6 @@ LANGUAGES = [
     ('es', 'Spanish'),
     ('fr', 'French'),
 ]
-
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'el'
-MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'el'
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
@@ -145,6 +142,6 @@ TINYMCE_DEFAULT_CONFIG = {
     'menubar': 'file edit view insert format tools table help',
     'plugins': 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code '
                'fullscreen insertdatetime media table paste code help wordcount',
-    'toolbar': 'undo redo |formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | '
+    'toolbar': 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | '
                'bullist numlist outdent indent | removeformat | help',
 }

@@ -1,4 +1,3 @@
-# api/views/view_articles.py
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -17,8 +16,9 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 @api_view(['GET'])
 def latest_article(request):
     try:
-        article = Article.objects.latest('created_at')
-        serializer = ArticleSerializer(article)
+        # Return the 5 most recent articles
+        articles = Article.objects.order_by('-created_at')[:5]
+        serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
     except Article.DoesNotExist:
         return Response({"error": "No articles found"}, status=404)

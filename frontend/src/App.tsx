@@ -12,7 +12,7 @@ import AethraGeoEngine from './components/AethraGeoEngine/AethraGeoEngine';
 import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy';
 import Header from './components/Header/Header';
 import UpperHeader from './components/UpperHeader/UpperHeader';
-import ArticleDetail from './components/ArticleDetail/ArticleDetail';
+import ArticleDetail from './components//Blog/ArticleDetail/ArticleDetail';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

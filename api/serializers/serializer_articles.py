@@ -1,4 +1,3 @@
-# api/serializers/serializer_articles.py
 from rest_framework import serializers
 from articles.models import Article
 

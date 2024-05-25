@@ -1,7 +1,6 @@
-// src/components/ArticleDetail/ArticleDetail.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { fetchArticle } from '../../../services'; // Ensure the correct import path
 import './ArticleDetail.css'; // Import the CSS file for styling
 
 interface Article {
@@ -20,16 +19,18 @@ const ArticleDetail: React.FC = () => {
   const [article, setArticle] = useState<Article | null>(null);
 
   useEffect(() => {
-    const fetchArticle = async () => {
-      try {
-        const response = await axios.get(`/api/articles/${slug}/`);
-        setArticle(response.data);
-      } catch (error) {
-        console.error('Error fetching the article:', error);
-      }
-    };
+    if (slug) { // Ensure slug is not undefined
+      const getArticle = async () => {
+        try {
+          const article = await fetchArticle(slug);
+          setArticle(article);
+        } catch (error) {
+          console.error('Error fetching the article:', error);
+        }
+      };
 
-    fetchArticle();
+      getArticle();
+    }
   }, [slug]);
 
   if (!article) {
