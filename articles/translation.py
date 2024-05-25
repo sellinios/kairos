@@ -4,4 +4,4 @@ from .models import Article
 
 @register(Article)
 class ArticleTranslationOptions(TranslationOptions):
-    fields = ('title', 'content', 'author')  # Include all fields that should be translated
+    fields = ('title', 'content', 'author')
