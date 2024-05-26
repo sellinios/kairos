@@ -1,3 +1,5 @@
+# geography/admin.py
+
 from django.contrib import admin
 from .models.model_geographic_planet import Planet
 from .models.model_geographic_continent import Continent
@@ -13,8 +15,9 @@ admin.site.register(Category)
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'iso_alpha2', 'iso_alpha3', 'iso_numeric', 'continent', 'capital']
+    list_display = ['name', 'iso_alpha2', 'iso_alpha3', 'iso_numeric', 'continent', 'capital', 'fetch_forecasts']
     search_fields = ['name', 'iso_alpha2', 'iso_alpha3', 'iso_numeric']
+    list_filter = ['fetch_forecasts']
 
 @admin.register(Level)
 class LevelAdmin(admin.ModelAdmin):

@@ -18,6 +18,7 @@ class Country(models.Model):
     official_languages = models.CharField(max_length=255, null=True, blank=True)
     currency = models.CharField(max_length=50, null=True, blank=True)
     geom = gis_models.MultiPolygonField(null=True, blank=True)
+    fetch_forecasts = models.BooleanField(default=False)  # New field to enable forecasts
 
     class Meta:
         verbose_name = "Country"
