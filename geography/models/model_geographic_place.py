@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from .model_geographic_category import Category
 from .model_geographic_admin_division import AdminDivisionInstance
 from .model_geographic_place_manager import PlaceManager
-from weather.models.model_gfs_forecast import GFSForecast  # Update to correct path
+from weather.models.model_gfs_forecast import GFSForecast  # Ensure this import is correct
 
 class Place(models.Model):
     id = models.AutoField(primary_key=True)
@@ -27,7 +27,8 @@ class Place(models.Model):
 
     def clean(self):
         if self.admin_division.level.name != 'Municipality':
-            raise ValidationError('Place can only be associated with an AdminDivisionInstance at the Municipality level.')
+            raise ValidationError('Place can only be associated with an AdminDivisionInstance at the Municipality '
+                                  'level.')
 
     def save(self, *args, **kwargs):
         self.clean()

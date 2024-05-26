@@ -2,14 +2,13 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from api.views.view_geographic_place import PlaceViewSet
 from api.views.view_geographic_continent import ContinentViewSet
-from api.views.view_geographic_country import CountryViewSet  # Import the new CountryViewSet
+from api.views.view_geographic_country import CountryViewSet
 from api.views.view_articles import ArticleList, ArticleDetail, latest_articles
 
-# Create a router and register the PlaceViewSet, ContinentViewSet, and CountryViewSet
 router = DefaultRouter()
 router.register(r'places', PlaceViewSet)
 router.register(r'continents', ContinentViewSet)
-router.register(r'countries', CountryViewSet)  # Register the CountryViewSet
+router.register(r'countries', CountryViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

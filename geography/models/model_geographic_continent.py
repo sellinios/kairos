@@ -1,4 +1,4 @@
-# geography/models/model_geografic_continent.py
+# geography/models/model_geographic_continent.py
 from django.db import models
 from django.utils.text import slugify
 

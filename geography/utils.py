@@ -5,6 +5,7 @@ from geography.models.model_geographic_place import Place
 from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
 
+
 def get_location_name(latitude, longitude):
     api_key = settings.OPENCAGE_API_KEY
     url = f'https://api.opencagedata.com/geocode/v1/json?q={latitude}+{longitude}&key={api_key}'
@@ -28,7 +29,9 @@ def get_location_name(latitude, longitude):
 
     return formatted_name, municipality
 
+
 nearest_place_cache = {}
+
 
 def find_nearest_place(latitude, longitude):
     point = Point(longitude, latitude, srid=4326)

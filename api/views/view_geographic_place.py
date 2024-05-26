@@ -1,7 +1,10 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from geography.models import Place, AdminDivisionInstance, Category, Level
+from geography.models.model_geographic_place import Place
+from geography.models.model_geographic_admin_division import AdminDivisionInstance
+from geography.models.model_geographic_category import Category
+from geography.models.model_geographic_level import Level
 from api.serializers.serializer_geografic_place import PlaceSerializer
 from geography.utils import get_location_name, find_nearest_place
 
