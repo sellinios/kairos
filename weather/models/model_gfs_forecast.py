@@ -5,7 +5,8 @@ from django.db import models
 from django.utils import timezone
 
 class GFSForecast(models.Model):
-    place = models.ForeignKey('geography.Place', on_delete=models.CASCADE, related_name='weather_gfsforecasts')
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     forecast_data = models.JSONField()  # Can store more than one weather variable
     timestamp = models.DateTimeField()
 
@@ -23,4 +24,4 @@ class GFSForecast(models.Model):
         super(GFSForecast, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Forecast for {self.place.name} at {self.timestamp}"
+        return f"Forecast at ({self.latitude}, {self.longitude}) on {self.timestamp}"
