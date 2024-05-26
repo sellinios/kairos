@@ -1,11 +1,11 @@
-# geography/models/model_geographic_place.py
-
 from django.contrib.gis.db import models as gis_models
 from django.db import models
 from django.contrib.gis.geos import Point
+from django.core.exceptions import ValidationError
 from .model_geographic_category import Category
 from .model_geographic_admin_division import AdminDivisionInstance
-from .model_geographic_place_manager import PlaceManager  # Import the PlaceManager
+from .model_geographic_place_manager import PlaceManager
+from weather.models.model_gfs_forecast import GFSForecast  # Update to correct path
 
 class Place(models.Model):
     id = models.AutoField(primary_key=True)
@@ -16,7 +16,7 @@ class Place(models.Model):
     admin_division = models.ForeignKey(AdminDivisionInstance, on_delete=models.CASCADE, related_name='places')
     location = gis_models.PointField(geography=True, null=True, blank=True)
 
-    objects = PlaceManager()  # Use the custom manager
+    objects = PlaceManager()
 
     class Meta:
         verbose_name = "Place"
@@ -26,7 +26,6 @@ class Place(models.Model):
         return f"{self.category.name} ({self.latitude}, {self.longitude})"
 
     def clean(self):
-        # Check if the admin_division is at the municipality level
         if self.admin_division.level.name != 'Municipality':
             raise ValidationError('Place can only be associated with an AdminDivisionInstance at the Municipality level.')
 
@@ -37,7 +36,7 @@ class Place(models.Model):
 
     def get_nearest_weather_data(self):
         point = self.location
-        nearest_data = RawGFSData.objects.filter(
+        nearest_data = GFSForecast.objects.filter(
             latitude__gte=self.latitude - 0.25,
             latitude__lte=self.latitude + 0.25,
             longitude__gte=self.longitude - 0.25,
