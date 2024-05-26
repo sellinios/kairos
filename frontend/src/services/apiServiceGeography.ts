@@ -1,4 +1,3 @@
-// src/services/apiServiceGeography.ts
 import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_API_URL;
@@ -13,6 +12,7 @@ export interface Place {
 export interface Country {
   id: number;
   name: string;
+  slug: string;
   iso_alpha2?: string;
   iso_alpha3?: string;
   iso_numeric?: number;
@@ -25,17 +25,15 @@ export interface Country {
 export interface Continent {
   id: number;
   name: string;
-  countries: Country[]; // Add the countries property
+  countries: Country[];
 }
 
 export interface Region {
   id: number;
   name: string;
   description?: string;
-  // Add other fields as necessary
 }
 
-// Fetch the nearest place
 export const fetchNearestPlace = async (latitude: number, longitude: number): Promise<Place> => {
   try {
     const response = await axios.get<Place>(`${BASE_URL}/api/places/nearest/`, {
@@ -48,7 +46,6 @@ export const fetchNearestPlace = async (latitude: number, longitude: number): Pr
   }
 };
 
-// Fetch all continents
 export const getContinents = async (): Promise<Continent[]> => {
   try {
     const response = await axios.get<Continent[]>(`${BASE_URL}/api/continents/`);
@@ -59,7 +56,6 @@ export const getContinents = async (): Promise<Continent[]> => {
   }
 };
 
-// Fetch a specific continent by name
 export const getContinent = async (name: string): Promise<Continent> => {
   try {
     const response = await axios.get<Continent>(`${BASE_URL}/api/continents/${name}/`);
@@ -70,13 +66,23 @@ export const getContinent = async (name: string): Promise<Continent> => {
   }
 };
 
-// Fetch a specific region within a continent
 export const getRegion = async (continent: string, region: string): Promise<Region> => {
   try {
-    const response = await axios.get<Region>(`${BASE_URL}/api/continents/${continent}/greece/${region}/`);
+    const response = await axios.get<Region>(`${BASE_URL}/api/continents/${continent}/regions/${region}/`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching region ${region} in continent ${continent}:`, error);
+    throw error;
+  }
+};
+
+// New function to fetch countries within a continent
+export const getCountriesInContinent = async (continent: string): Promise<Country[]> => {
+  try {
+    const response = await axios.get<Country[]>(`${BASE_URL}/api/continents/${continent}/countries/`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching countries in continent ${continent}:`, error);
     throw error;
   }
 };

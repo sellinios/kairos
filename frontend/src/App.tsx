@@ -1,4 +1,3 @@
-// src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CookieConsent from 'react-cookie-consent';
@@ -16,7 +15,7 @@ import UpperHeader from './components/UpperHeader/UpperHeader';
 import ArticleDetail from './components/Blog/ArticleDetail/ArticleDetail';
 import NavigationMenu from './components/NavigationMenu/NavigationMenu';
 import ContinentDetail from './components/ContinentDetail/ContinentDetail';
-import RegionDetail from './components/RegionDetail/RegionDetail';
+import CountryDetail from './components/CountryDetail/CountryDetail'; // Import the new CountryDetail component
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -38,8 +37,8 @@ const App: React.FC = () => {
                             <Route path="/aethra-geo-engine" element={<AethraGeoEngine />} />
                             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                             <Route path="/articles/:slug" element={<ArticleDetail />} />
-                            <Route path="/geography/:continent/greece/:region" element={<RegionDetail />} />
                             <Route path="/geography/:continent" element={<ContinentDetail />} />
+                            <Route path="/geography/:continent/:country" element={<CountryDetail />} />
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </main>

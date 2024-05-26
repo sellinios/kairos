@@ -38,13 +38,13 @@ class Command(BaseCommand):
                 print(f"ISO_A3: {iso_alpha3} (length: {len(iso_alpha3)})")
 
                 # Validate iso_alpha2 and iso_alpha3 length
-                if len(iso_alpha2) > 2 or iso_alpha2 == '-99':
+                if not iso_alpha2 or len(iso_alpha2) != 2 or iso_alpha2 == '-99':
                     self.stdout.write(self.style.ERROR(f"ISO_A2 value invalid or too long: {iso_alpha2}"))
-                    iso_alpha2 = ''
+                    continue  # Skip this record
 
-                if len(iso_alpha3) > 3 or iso_alpha3 == '-99':
+                if not iso_alpha3 or len(iso_alpha3) != 3 or iso_alpha3 == '-99':
                     self.stdout.write(self.style.ERROR(f"ISO_A3 value invalid or too long: {iso_alpha3}"))
-                    iso_alpha3 = ''
+                    continue  # Skip this record
 
                 # Get or create the continent
                 continent, created = Continent.objects.get_or_create(name=continent_name)

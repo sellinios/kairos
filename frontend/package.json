@@ -5,6 +5,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "postbuild": "node generate-sitemap.js",
     "test": "craco test"
   },
   "license": "MIT",
@@ -28,7 +29,8 @@
     "react-ga4": "^2.1.0",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.23.1",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "sitemap": "^7.1.0"
   },
   "browserslist": {
     "production": [

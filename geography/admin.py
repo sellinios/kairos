@@ -9,7 +9,6 @@ from .models.model_geographic_category import Category
 
 admin.site.register(Planet)
 admin.site.register(Continent)
-admin.site.register(Place)
 admin.site.register(Category)
 
 @admin.register(Country)
@@ -28,3 +27,14 @@ class AdminDivisionInstanceAdmin(admin.ModelAdmin):
     list_display = ['name', 'level', 'parent']
     list_filter = ['level']
     search_fields = ['name']
+
+@admin.register(Place)
+class PlaceAdmin(admin.ModelAdmin):
+    list_display = ['id', 'longitude', 'latitude', 'height', 'category', 'admin_division']
+    search_fields = ['id', 'longitude', 'latitude', 'category__name', 'admin_division__name']
+    list_filter = ['category', 'admin_division']
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['admin_division'].required = False  # Make optional
+        return form

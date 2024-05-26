@@ -1,10 +1,9 @@
 from django.db import models
-from .model_geographic_country import Country
 
 class Level(models.Model):
     name = models.CharField(max_length=100)
     level_order = models.IntegerField()
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='levels')
+    country = models.ForeignKey('geography.Country', on_delete=models.CASCADE, related_name='levels')  # Use string reference to avoid circular import
 
     class Meta:
         unique_together = ('name', 'country')
