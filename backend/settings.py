@@ -116,26 +116,6 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000  # Adjust this number as necessary
 # OpenCage API Key
 OPENCAGE_API_KEY = os.getenv('OPENCAGE_API_KEY')
 
-# Logging Configuration
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'debug.log'),
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
-
 TINYMCE_DEFAULT_CONFIG = {
     'theme': 'silver',
     'height': 500,

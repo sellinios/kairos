@@ -1,21 +1,10 @@
 #!/bin/bash
 
 # List of custom apps and built-in apps
-custom_apps=("api" "articles" "geography" "weather")
+custom_apps=("api" "articles" "geography" "weather" "gfs_management")
 builtin_apps=("admin" "auth" "contenttypes" "sessions")
 
-# Step 1: Backup your database
-echo "Backing up database..."
-# Replace with your actual backup command
-pg_dump mydatabase > backup.sql
-echo "Database backup completed."
-
-# Step 2: Fake apply existing migrations for all apps
-echo "Faking existing migrations for all apps..."
-python manage.py migrate --fake
-echo "Existing migrations faked."
-
-# Step 3: Remove existing migrations for custom apps
+# Step 1: Remove existing migrations for custom apps
 echo "Removing existing migrations for custom apps..."
 for app in "${custom_apps[@]}"
 do
@@ -29,22 +18,34 @@ do
   fi
 done
 
-# Step 4: Create new initial migrations for custom apps
-echo "Creating new initial migrations for custom apps..."
-python manage.py makemigrations "${custom_apps[@]}"
-echo "New initial migrations created."
+# Step 2: Create new initial migrations in the correct order
+echo "Creating new initial migrations for geography..."
+python manage.py makemigrations geography
+if [ $? -ne 0 ]; then
+  echo "Failed to create migrations for geography."
+  exit 1
+fi
 
-# Step 5: Apply new migrations for all apps
-echo "Applying new migrations for all apps..."
+echo "Creating new initial migrations for gfs_management..."
+python manage.py makemigrations gfs_management
+if [ $? -ne 0 ]; then
+  echo "Failed to create migrations for gfs_management."
+  exit 1
+fi
+
+echo "Creating new initial migrations for other apps..."
+python manage.py makemigrations articles weather
+if [ $? -ne 0 ]; then
+  echo "Failed to create migrations for articles and weather."
+  exit 1
+fi
+
+# Step 3: Apply the migrations
+echo "Applying migrations..."
 python manage.py migrate
-echo "New migrations applied."
+if [ $? -ne 0 ]; then
+  echo "Failed to apply migrations."
+  exit 1
+fi
 
-# Ensure built-in apps migrations are correctly applied (if not already)
-echo "Ensuring built-in apps migrations are applied..."
-for app in "${builtin_apps[@]}"
-do
-  python manage.py migrate $app
-  echo "Migrations applied for $app."
-done
-
-echo "Migration cleanup and consolidation complete."
+echo "Migrations applied successfully."
