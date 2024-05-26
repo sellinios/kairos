@@ -27,6 +27,7 @@ venv/
 /staticfiles
 /local_settings.py
 /db.sqlite3
+/data
 
 # Frontend
 node_modules/
@@ -53,9 +54,6 @@ nginx_kairos.conf
 *.so
 *.a
 *.out
-
-# Ignore downloaded GFS files and GRIB2 files
-GFS/
 
 # Ignore socket files
 *.sock

@@ -15,7 +15,7 @@ import UpperHeader from './components/UpperHeader/UpperHeader';
 import ArticleDetail from './components/Blog/ArticleDetail/ArticleDetail';
 import NavigationMenu from './components/NavigationMenu/NavigationMenu';
 import ContinentDetail from './components/ContinentDetail/ContinentDetail';
-import CountryDetail from './components/CountryDetail/CountryDetail'; // Import the new CountryDetail component
+import CountryDetail from './components/CountryDetail/CountryDetail';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

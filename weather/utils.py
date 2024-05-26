@@ -1,11 +1,11 @@
 import os
 import requests
+import pygrib
 import logging
 import numpy as np
 from datetime import timezone
-from shapely.geometry import Point, shape
+from shapely.geometry import Point, shape, mapping
 import geojson
-import pygrib
 from gfs_management.models import GFSParameter
 from weather.models.model_gfs_forecast import GFSForecast
 
