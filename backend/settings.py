@@ -14,7 +14,7 @@ ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth',  'django_celery_beat',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.gis', 'imagekit',
     'rest_framework',
     'corsheaders',
-    'articles',
+    'articles',  'gfs_management',
     'tinymce',
     'geography',
     'weather',
