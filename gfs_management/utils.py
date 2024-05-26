@@ -2,7 +2,7 @@ import os
 import requests
 import logging
 import numpy as np
-from datetime import timezone
+from datetime import datetime, timedelta, timezone
 from shapely.geometry import Point, shape
 import geojson
 import pygrib
@@ -54,7 +54,7 @@ def extract_grib_parameters(directory):
     logger.info(f"Extracted parameters: {parameters}")
     return parameters
 
-def parse_and_import_gfs_data(directory, relevant_parameters, country):
+def parse_and_import_gfs_data(directory, relevant_parameters, country, base_time):
     logger.info("Starting to parse GFS data.")
 
     try:
@@ -73,6 +73,7 @@ def parse_and_import_gfs_data(directory, relevant_parameters, country):
             logger.info(f"Total number of messages in the GRIB file: {total_messages}")
 
             forecast_data = {}
+            forecast_hour = int(filename.split("_")[-1].split(".")[0])  # Extract forecast hour from filename
 
             for i, grib in enumerate(gribs, start=1):
                 param_key = (grib.parameterName, grib.level, grib.typeOfLevel)
@@ -82,7 +83,10 @@ def parse_and_import_gfs_data(directory, relevant_parameters, country):
 
                     data = grib.values
                     lats, lons = grib.latlons()
-                    valid_date = grib.validDate.replace(tzinfo=timezone.utc)
+                    valid_date = (base_time + timedelta(hours=forecast_hour)).replace(minute=0, second=0, microsecond=0)
+                    valid_date = valid_date.replace(tzinfo=timezone.utc)  # Ensure timestamp is in UTC
+
+                    logger.info(f"Valid date for forecast hour {forecast_hour} is {valid_date.isoformat()}")
 
                     for lat, lon, value in zip(lats.flatten(), lons.flatten(), data.flatten()):
                         if isinstance(value, np.ma.core.MaskedConstant):
@@ -98,6 +102,7 @@ def parse_and_import_gfs_data(directory, relevant_parameters, country):
                                 'latitude': lat,
                                 'longitude': lon,
                                 'timestamp': valid_date,
+                                'forecast_hour': forecast_hour,
                                 'data': {}
                             }
 
@@ -113,6 +118,6 @@ def parse_and_import_gfs_data(directory, relevant_parameters, country):
                 )
                 forecast.save()
                 logger.info(
-                    f"Saved GFS forecast for coordinates ({data['latitude']}, {data['longitude']}) at {data['timestamp']}")
+                    f"Saved GFS forecast for coordinates ({data['latitude']}, {data['longitude']}) at {data['timestamp']} with forecast hour {data['forecast_hour']}")
 
     logger.info("Finished parsing GFS data.")
