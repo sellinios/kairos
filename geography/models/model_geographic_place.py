@@ -46,8 +46,8 @@ class Place(models.Model):
         self.clean()
         self.location = Point(self.longitude, self.latitude, srid=4326)
 
-        if not self.height:
-            self.height = 0  # Default height if elevation is not provided
+        if not self.elevation:
+            self.elevation = 0  # Default elevation if elevation is not provided
 
         if not self.name:
             self.name = "To Be Defined"
