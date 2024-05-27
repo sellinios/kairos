@@ -1,37 +1,52 @@
 # geography/geographic_utils.py
 
-from django.contrib.gis.geos import Point
-from django.contrib.gis.db.models.functions import Distance
+import requests
+from django.conf import settings
+from requests.exceptions import RequestException
 
-# Cache to store nearest place lookups
-nearest_place_cache = {}
-
-def find_nearest_place(latitude, longitude, place_queryset):
+def get_elevation(latitude, longitude):
     """
-    Find the nearest place to the given latitude and longitude.
+    Get the elevation of a given latitude and longitude using Google Maps Elevation API.
     """
-    point = Point(longitude, latitude, srid=4326)
-    location_key = (latitude, longitude)
+    api_key = settings.GOOGLE_MAPS_ELEVATION_API_KEY
+    url = f'https://maps.googleapis.com/maps/api/elevation/json?locations={latitude},{longitude}&key={api_key}'
 
-    if location_key in nearest_place_cache:
-        return nearest_place_cache[location_key]
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+    except RequestException as e:
+        print(f"Request failed: {e}")
+        return None
 
-    nearest_place = place_queryset.annotate(distance=Distance('location', point)).order_by('distance').first()
-    nearest_place_cache[location_key] = nearest_place
+    data = response.json()
+    if 'results' in data and len(data['results']) > 0:
+        elevation = data['results'][0].get('elevation')
+        return elevation
 
-    return nearest_place
+    return None
 
-def store_new_place(name, latitude, longitude, height=0):
+def get_location_name(latitude, longitude):
     """
-    Store a new Place instance in the database.
+    Get the location name for a given latitude and longitude using Google Geocoding API.
     """
-    from django.apps import apps
-    Place = apps.get_model('geography', 'Place')
-    place = Place.objects.create(
-        name=name,
-        latitude=latitude,
-        longitude=longitude,
-        height=height,
-        location=Point(longitude, latitude, srid=4326)
-    )
-    return place
+    api_key = settings.GOOGLE_MAPS_GEOCODING_API_KEY
+    url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={api_key}'
+
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+    except RequestException as e:
+        print(f"Request failed: {e}")
+        return "Unknown"
+
+    data = response.json()
+    if 'results' in data and len(data['results']) > 0:
+        address_components = data['results'][0]['address_components']
+        formatted_address = data['results'][0]['formatted_address']
+        for component in address_components:
+            if 'locality' in component['types']:
+                locality = component['long_name']
+                return locality
+        return formatted_address
+    else:
+        return "Unknown"

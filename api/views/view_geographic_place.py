@@ -19,7 +19,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
     """
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
-    DISTANCE_THRESHOLD = 1000  # 1 km threshold
+    DISTANCE_THRESHOLD = 10  # 1 km threshold
 
     @action(detail=False, methods=['get'], url_path='nearest')
     def nearest_place(self, request):

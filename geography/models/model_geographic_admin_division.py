@@ -3,6 +3,7 @@ This module defines models related to geographic administrative divisions.
 """
 
 from django.db import models
+from django.utils.text import slugify
 
 class AdminDivisionInstance(models.Model):
     """
@@ -10,6 +11,7 @@ class AdminDivisionInstance(models.Model):
     """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
     level = models.ForeignKey(
         'geography.Level',
         on_delete=models.CASCADE,
@@ -33,31 +35,16 @@ class AdminDivisionInstance(models.Model):
         """
         return f"{self.name} ({self.level.name})"
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+            similar_slugs = AdminDivisionInstance.objects.filter(slug__startswith=self.slug).exclude(id=self.id).count()
+            if similar_slugs > 0:
+                self.slug = f"{self.slug}-{similar_slugs + 1}"
+        super().save(*args, **kwargs)
+
     def get_full_name(self):
         """
         Return the full name of the AdminDivisionInstance.
-        """
-        return self.name
-
-
-class AdministrativeConfiguration(models.Model):
-    """
-    Represents the configuration of an administrative division.
-    """
-    name = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = "Administrative Configuration"
-        verbose_name_plural = "Administrative Configurations"
-
-    def __str__(self):
-        """
-        Return a string representation of the AdministrativeConfiguration.
-        """
-        return str(self.name)
-
-    def get_configuration_name(self):
-        """
-        Return the name of the administrative configuration.
         """
         return self.name

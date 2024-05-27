@@ -1,12 +1,12 @@
-# geography/models/model_geographic_place.py
-
 from django.contrib.gis.db import models as gis_models
 from django.db import models
 from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
+from django.utils.text import slugify
 from .model_geographic_category import Category
 from .model_geographic_admin_division import AdminDivisionInstance
 from .model_geographic_place_manager import PlaceManager
+from django.apps import apps
 
 class Place(models.Model):
     """
@@ -14,9 +14,11 @@ class Place(models.Model):
     """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True, blank=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
     longitude = models.FloatField()
     latitude = models.FloatField()
-    height = models.FloatField(null=True, blank=True)
+    elevation = models.FloatField(null=True, blank=True)
+    confirmed = models.BooleanField(default=False)
     category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default=1)
     admin_division = models.ForeignKey(AdminDivisionInstance, on_delete=models.CASCADE, related_name='places')
     location = gis_models.PointField(geography=True, null=True, blank=True)
@@ -37,30 +39,40 @@ class Place(models.Model):
         """
         Validate the Place instance before saving.
         """
-        if self.admin_division and self.admin_division.level.name != 'Municipality':
+        if self.admin_division.level.name != 'Municipality':
             raise ValidationError('Place can only be associated with an AdminDivisionInstance at the Municipality level.')
 
     def save(self, *args, **kwargs):
-        """
-        Save the Place instance, setting the location, height, and name if not provided.
-        """
         self.clean()
         self.location = Point(self.longitude, self.latitude, srid=4326)
 
+        if not self.height:
+            self.height = 0  # Default height if elevation is not provided
+
+        if not self.name:
+            self.name = "To Be Defined"
+            similar_names = Place.objects.filter(name__startswith=self.name).count()
+            if similar_names > 0:
+                self.name = f"{self.name} {similar_names + 1}"
+
+        # Generate slug
+        if not self.slug:
+            self.slug = slugify(self.name)
+            similar_slugs = Place.objects.filter(slug__startswith=self.slug).count()
+            if similar_slugs > 0:
+                self.slug = f"{self.slug}-{similar_slugs + 1}"
+
         super().save(*args, **kwargs)
 
-    def get_nearest_weather_data(self):
+    def get_full_url(self):
         """
-        Retrieve the nearest weather data for the Place instance.
+        Generate the full URL for the Place based on its administrative divisions.
         """
-        from django.contrib.gis.db.models.functions import Distance
-        from django.apps import apps  # Import here to avoid circular import
-        point = self.location
-        GFSForecast = apps.get_model('weather', 'GFSForecast')
-        nearest_data = GFSForecast.objects.filter(
-            latitude__gte=self.latitude - 0.25,
-            latitude__lte=self.latitude + 0.25,
-            longitude__gte=self.longitude - 0.25,
-            longitude__lte=self.longitude + 0.25,
-        ).annotate(distance=Distance('location', point)).order_by('distance').first()
-        return nearest_data
+        parts = [self.slug]
+        admin_division = self.admin_division
+
+        while admin_division:
+            parts.append(admin_division.slug)
+            admin_division = admin_division.parent
+
+        return f"https://kairos.gr/geography/{'/'.join(reversed(parts))}"
