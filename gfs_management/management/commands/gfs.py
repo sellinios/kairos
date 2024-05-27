@@ -141,11 +141,15 @@ class Command(BaseCommand):
 
         latest_hour = get_latest_available_hour(base_url, date)
         if latest_hour is None:
-            logger.error("No available GFS data found for the specified date.")
-            return
+            logger.warning("No available GFS data found for the specified date. Trying the previous cycle.")
+            now -= timedelta(hours=6)
+            date = now.strftime("%Y%m%d")
+            latest_hour = get_latest_available_hour(base_url, date)
+            if latest_hour is None:
+                logger.error("No available GFS data found for the previous cycle as well.")
+                return
 
         now = now.replace(hour=int(latest_hour), minute=0, second=0, microsecond=0)
-
         save_directory = "data/gfs_files"
 
         countries = Country.objects.filter(fetch_forecasts=True)
@@ -154,35 +158,39 @@ class Command(BaseCommand):
             return
 
         for country in countries:
-            logger.info(f"Processing country: {country.name}")
+            try:
+                logger.info(f"Processing country: {country.name}")
 
-            gfs_config = GFSConfig.objects.filter(countries=country).first()
-            if not gfs_config:
-                logger.error(f"No GFS configuration found for {country.name}.")
-                continue
+                gfs_config = GFSConfig.objects.filter(countries=country).first()
+                if not gfs_config:
+                    logger.error(f"No GFS configuration found for {country.name}.")
+                    continue
 
-            forecast_hours = gfs_config.get_forecast_hours()
-            if not forecast_hours:
-                logger.error("No forecast hours specified in GFS configuration.")
-                continue
+                forecast_hours = gfs_config.get_forecast_hours()
+                if not forecast_hours:
+                    logger.error("No forecast hours specified in GFS configuration.")
+                    continue
 
-            logger.info(f"Forecast hours: {forecast_hours}")
-            logger.info(f"Downloading GFS data for date: {date}, hour: {latest_hour}, forecast hours: {forecast_hours}")
+                logger.info(f"Forecast hours: {forecast_hours}")
+                logger.info(f"Downloading GFS data for date: {date}, hour: {latest_hour}, forecast hours: {forecast_hours}")
 
-            grib_files = download_gfs_data_sequence(base_url, date, [latest_hour], forecast_hours, save_directory)
+                grib_files = download_gfs_data_sequence(base_url, date, [latest_hour], forecast_hours, save_directory)
 
-            relevant_parameters = {(param.name, param.level, param.type_of_level): param.description for param in GFSParameter.objects.all()}
+                relevant_parameters = {(param.name, param.level, param.type_of_level): param.description for param in GFSParameter.objects.all()}
 
-            for grib_file in grib_files:
-                parse_and_import_gfs_data(grib_file, relevant_parameters, country, now)
+                for grib_file in grib_files:
+                    parse_and_import_gfs_data(grib_file, relevant_parameters, country, now)
 
-            logger.info(f"GFS data import process completed for country: {country.name}")
+                logger.info(f"GFS data import process completed for country: {country.name}")
 
-            logger.info("Cleaning up GFS data files.")
-            for filename in os.listdir(save_directory):
-                file_path = os.path.join(save_directory, filename)
-                if os.path.isfile(file_path) and filename.endswith(".grib2"):
-                    os.remove(file_path)
-                    logger.info(f"Deleted file: {file_path}")
+                logger.info("Cleaning up GFS data files.")
+                for filename in os.listdir(save_directory):
+                    file_path = os.path.join(save_directory, filename)
+                    if os.path.isfile(file_path) and filename.endswith(".grib2"):
+                        os.remove(file_path)
+                        logger.info(f"Deleted file: {file_path}")
+
+            except Exception as e:
+                logger.error(f"Error processing country {country.name}: {e}")
 
         logger.info("All countries processed.")

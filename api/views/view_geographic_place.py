@@ -1,29 +1,36 @@
-from rest_framework import viewsets, status  # Add status here
+"""
+This module defines views for handling geographic places.
+"""
+
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from geography.models.model_geographic_place import Place
-from geography.models.model_geographic_admin_division import AdminDivisionInstance
-from geography.models.model_geographic_category import Category
-from geography.models.model_geographic_level import Level
+from django.conf import settings
+from weather.models.model_gfs_forecast import GFSForecast
+from geography.models import Place, Category, AdminDivisionInstance, Level
 from api.serializers.serializer_geografic_place import PlaceSerializer
-from geography.utils import get_location_name, find_nearest_place
+from geography.geographic_utils import get_location_name, find_nearest_place
 import logging
 
 logger = logging.getLogger(__name__)
 
 class PlaceViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for handling Place model operations.
+    """
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
 
     @action(detail=False, methods=['get'], url_path='nearest')
     def nearest_place(self, request):
-        from django.http import JsonResponse  # Local import to avoid circular import
-
+        """
+        Get the nearest place to the provided latitude and longitude.
+        """
         latitude, longitude = self._get_lat_lon_from_request(request)
         if latitude is None or longitude is None:
             return self._error_response("Latitude and longitude are required")
 
-        nearest_place = find_nearest_place(latitude, longitude)
+        nearest_place = find_nearest_place(latitude, longitude, self.queryset)
         if nearest_place:
             serializer = self.get_serializer(nearest_place)
             return Response(serializer.data)
@@ -32,8 +39,9 @@ class PlaceViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='entity-name')
     def get_entity_name(self, request):
-        from django.http import JsonResponse  # Local import to avoid circular import
-
+        """
+        Get the entity name for the provided latitude and longitude.
+        """
         latitude, longitude = self._get_lat_lon_from_request(request)
         if latitude is None or longitude is None:
             return self._error_response("Latitude and longitude are required")
@@ -41,8 +49,9 @@ class PlaceViewSet(viewsets.ModelViewSet):
         return self._create_or_fetch_place(latitude, longitude)
 
     def _create_or_fetch_place(self, latitude, longitude):
-        from django.http import JsonResponse  # Local import to avoid circular import
-
+        """
+        Create or fetch a place based on latitude and longitude.
+        """
         formatted_name, locality = get_location_name(latitude, longitude)
 
         if locality:
@@ -68,6 +77,9 @@ class PlaceViewSet(viewsets.ModelViewSet):
             return self._error_response("No nearby place found", status=status.HTTP_404_NOT_FOUND)
 
     def _get_lat_lon_from_request(self, request):
+        """
+        Extract latitude and longitude from the request.
+        """
         try:
             latitude = float(request.query_params.get('latitude'))
             longitude = float(request.query_params.get('longitude'))
@@ -77,5 +89,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
             return None, None
 
     def _error_response(self, message, status=status.HTTP_400_BAD_REQUEST):
-        from django.http import JsonResponse  # Local import to avoid circular import
-        return JsonResponse({"error": message}, status=status)
+        """
+        Return an error response with the provided message and status.
+        """
+        return Response({"error": message}, status=status)

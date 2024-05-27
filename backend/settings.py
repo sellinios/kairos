@@ -115,6 +115,8 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000  # Adjust this number as necessary
 
 # OpenCage API Key
 OPENCAGE_API_KEY = os.getenv('OPENCAGE_API_KEY')
+# settings.py
+GOOGLE_MAPS_ELEVATION_API_KEY = 'AIzaSyAkxUge7Lguc6BD8Dsjlo3b5bK6A0owK14'
 
 TINYMCE_DEFAULT_CONFIG = {
     'theme': 'silver',

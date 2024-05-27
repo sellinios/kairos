@@ -1,9 +1,16 @@
+"""
+This module defines the MetarData model, which represents METAR weather data.
+"""
+
 import re
 import datetime
 from django.db import models
 from .model_metar_station import MetarStation
 
 class MetarData(models.Model):
+    """
+    Represents METAR weather data for a specific station.
+    """
     station = models.ForeignKey(
         MetarStation, on_delete=models.CASCADE, related_name='metar_data'
     )
@@ -21,10 +28,16 @@ class MetarData(models.Model):
         return f"METAR Data for {self.station.name} at {self.timestamp}"
 
     def save(self, *args, **kwargs):
+        """
+        Save the MetarData instance, decoding the METAR text before saving.
+        """
         self.decode_metar()
-        super(MetarData, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def decode_metar(self):
+        """
+        Decode the METAR text to extract weather data attributes.
+        """
         # Decode the METAR timestamp
         metar_date_time_match = re.search(r'\b\d{6}Z\b', self.metar_text)
         if metar_date_time_match:

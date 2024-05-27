@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
+import { fetchNearestPlace } from '../../services/apiServiceGeography'; // Adjust the path as needed
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -47,19 +47,11 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
 
   const fetchEntityData = useCallback(async (latitude: number, longitude: number) => {
     try {
-      const response = await axios.get('/api/places/entity-name/', {
-        params: { latitude, longitude }
-      });
-
-      if (response.data.entity_name) {
-        setEntityName(response.data.entity_name);
-        setFetchError(false);
-        onLocationUpdate(response.data.entity_name, latitude, longitude);
-        localStorage.setItem('entityName', response.data.entity_name);
-      } else {
-        setEntityName(t('entity_not_found'));
-        onLocationUpdate('Unknown Entity', latitude, longitude);
-      }
+      const place = await fetchNearestPlace(latitude, longitude);
+      setEntityName(place.name);
+      setFetchError(false);
+      onLocationUpdate(place.name, latitude, longitude);
+      localStorage.setItem('entityName', place.name);
     } catch (error) {
       setEntityName(t('failed_to_fetch_entity'));
       setFetchError(true);
