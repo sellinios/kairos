@@ -1,6 +1,4 @@
-"""
-Admin configuration for the geography app.
-"""
+# geography/admin.py
 
 from django.contrib import admin
 from .models.model_geographic_planet import Planet
@@ -51,19 +49,9 @@ class PlaceAdmin(admin.ModelAdmin):
     Admin view for the Place model.
     """
     list_display = [
-        'id', 'longitude', 'latitude', 'height', 'category',
-        'admin_division'
+        'id', 'name', 'longitude', 'latitude', 'height', 'category', 'admin_division'
     ]
     search_fields = [
-        'id', 'longitude', 'latitude', 'category__name',
-        'admin_division__name'
+        'id', 'name', 'longitude', 'latitude', 'category__name', 'admin_division__name'
     ]
     list_filter = ['category', 'admin_division']
-
-    def get_form(self, request, obj=None, change=False, **kwargs):
-        """
-        Override the default form to make the admin_division field optional.
-        """
-        form = super().get_form(request, obj, change, **kwargs)
-        form.base_fields['admin_division'].required = False
-        return form

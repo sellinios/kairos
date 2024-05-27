@@ -1,12 +1,7 @@
-"""
-This module contains utility functions for geographic operations.
-"""
+# geography/geographic_utils.py
 
-import requests
-from django.conf import settings
-from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
-from requests.exceptions import RequestException
+from django.contrib.gis.db.models.functions import Distance
 
 # Cache to store nearest place lookups
 nearest_place_cache = {}
@@ -26,49 +21,17 @@ def find_nearest_place(latitude, longitude, place_queryset):
 
     return nearest_place
 
-def get_elevation(latitude, longitude):
+def store_new_place(name, latitude, longitude, height=0):
     """
-    Get the elevation of a given latitude and longitude using Google Maps Elevation API.
+    Store a new Place instance in the database.
     """
-    api_key = settings.GOOGLE_MAPS_ELEVATION_API_KEY
-    url = f'https://maps.googleapis.com/maps/api/elevation/json?locations={latitude},{longitude}&key={api_key}'
-
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-    except RequestException as e:
-        print(f"Request failed: {e}")
-        return None
-
-    data = response.json()
-    if 'results' in data and len(data['results']) > 0:
-        elevation = data['results'][0].get('elevation')
-        return elevation
-
-    return None
-
-def get_location_name(latitude, longitude):
-    """
-    Get the location name and municipality for a given latitude and longitude using OpenCage API.
-    """
-    api_key = settings.OPENCAGE_API_KEY
-    url = f'https://api.opencagedata.com/geocode/v1/json?q={latitude}+{longitude}&key={api_key}'
-
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-    except RequestException as e:
-        print(f"Request failed: {e}")
-        return None, None
-
-    data = response.json()
-    if not data['results']:
-        return None, None
-
-    result = data['results'][0]
-    formatted_name = result.get('formatted')
-    components = result.get('components', {})
-
-    municipality = components.get('municipality')
-
-    return formatted_name, municipality
+    from django.apps import apps
+    Place = apps.get_model('geography', 'Place')
+    place = Place.objects.create(
+        name=name,
+        latitude=latitude,
+        longitude=longitude,
+        height=height,
+        location=Point(longitude, latitude, srid=4326)
+    )
+    return place

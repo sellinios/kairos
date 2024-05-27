@@ -1,3 +1,5 @@
+// frontend/src/services/apiServiceGeography.ts
+
 import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_API_URL;
@@ -7,6 +9,9 @@ export interface Place {
   name: string;
   latitude: number;
   longitude: number;
+  height: number;
+  category: string;
+  admin_division: string;
 }
 
 export interface Country {
@@ -76,7 +81,6 @@ export const getRegion = async (continent: string, region: string): Promise<Regi
   }
 };
 
-// New function to fetch countries within a continent
 export const getCountriesInContinent = async (continent: string): Promise<Country[]> => {
   try {
     const response = await axios.get<Country[]>(`${BASE_URL}/api/continents/${continent}/countries/`);

@@ -1,8 +1,11 @@
+# backend/settings.py
+
 import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()  # Load environment variables from a .env file
+# Load environment variables from a .env file
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,15 +17,18 @@ ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',  'django_celery_beat',
+    'django.contrib.auth',
+    'django_celery_beat',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis', 'imagekit',
+    'django.contrib.gis',
+    'imagekit',
     'rest_framework',
     'corsheaders',
-    'articles',  'gfs_management',
+    'articles',
+    'gfs_management',
     'tinymce',
     'geography',
     'weather',
@@ -112,11 +118,6 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000  # Adjust this number as necessary
-
-# OpenCage API Key
-OPENCAGE_API_KEY = os.getenv('OPENCAGE_API_KEY')
-# settings.py
-GOOGLE_MAPS_ELEVATION_API_KEY = 'AIzaSyAkxUge7Lguc6BD8Dsjlo3b5bK6A0owK14'
 
 TINYMCE_DEFAULT_CONFIG = {
     'theme': 'silver',

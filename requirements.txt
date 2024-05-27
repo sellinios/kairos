@@ -1,5 +1,6 @@
 amqp==5.2.0
 asgiref==3.8.1
+astroid==3.2.2
 billiard==4.2.0
 celery==5.4.0
 certifi==2024.2.2
@@ -9,6 +10,7 @@ click-didyoumean==0.3.1
 click-plugins==1.1.1
 click-repl==0.3.0
 cron-descriptor==1.4.3
+dill==0.3.8
 Django==5.0.6
 django-appconf==1.0.6
 django-celery-beat==2.6.0
@@ -17,17 +19,24 @@ django-imagekit==5.0.0
 django-timezone-field==6.1.0
 django-tinymce==4.0.0
 djangorestframework==3.15.1
+flake8==7.0.0
 geojson==3.1.0
 gunicorn==22.0.0
 idna==3.7
+isort==5.13.2
 kombu==5.3.7
+mccabe==0.7.0
 numpy==1.26.4
 packaging==24.0
 pilkit==3.0
 pillow==10.3.0
+platformdirs==4.2.2
 prompt-toolkit==3.0.43
 psycopg2-binary==2.9.9
+pycodestyle==2.11.1
+pyflakes==3.2.0
 pygrib==2.1.5
+pylint==3.2.2
 pyproj==3.6.1
 python-crontab==3.1.0
 python-dateutil==2.9.0.post0
@@ -37,6 +46,7 @@ setuptools==70.0.0
 shapely==2.0.4
 six==1.16.0
 sqlparse==0.5.0
+tomlkit==0.12.5
 tzdata==2024.1
 urllib3==2.2.1
 vine==5.1.0

@@ -1,5 +1,7 @@
+// frontend/src/components/LocationDisplay/LocationDisplay.tsx
+
 import React, { useEffect, useState, useCallback } from 'react';
-import { fetchNearestPlace } from '../../services/apiServiceGeography'; // Adjust the path as needed
+import { fetchNearestPlace, Place } from '../../services/'; // Adjust the path as needed
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,6 +17,7 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
   const [entityName, setEntityName] = useState<string>(t('locating'));
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
+  const [height, setHeight] = useState<number | null>(null);
   const [fetchError, setFetchError] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -49,6 +52,7 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
     try {
       const place = await fetchNearestPlace(latitude, longitude);
       setEntityName(place.name);
+      setHeight(place.height);
       setFetchError(false);
       onLocationUpdate(place.name, latitude, longitude);
       localStorage.setItem('entityName', place.name);
@@ -118,6 +122,11 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
           {latitude !== null && longitude !== null && (
             <div className="coords">
               Lon: {longitude.toFixed(6)}, Lat: {latitude.toFixed(6)}
+            </div>
+          )}
+          {height !== null && (
+            <div className="coords">
+              Elevation: {height} m
             </div>
           )}
         </div>

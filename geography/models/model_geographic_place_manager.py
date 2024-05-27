@@ -1,12 +1,6 @@
-"""
-This module defines the PlaceManager class, which includes custom
-methods for managing Place objects.
-"""
-
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
-
 
 class PlaceManager(models.Manager):
     """
