@@ -3,7 +3,7 @@ from django.db import models
 class AdminDivisionInstance(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    level = models.ForeignKey('geography.Level', on_delete=models.CASCADE, related_name='divisions')  # Use string reference to avoid circular import
+    level = models.ForeignKey('geography.Level', on_delete=models.CASCADE, related_name='divisions')
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='subdivisions')
 
     class Meta:
