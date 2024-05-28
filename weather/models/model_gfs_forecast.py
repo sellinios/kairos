@@ -25,10 +25,11 @@ class GFSForecast(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Save the GFSForecast instance, ensuring the timestamp is properly formatted.
+        Save the GFSForecast instance, ensuring the timestamp is properly formatted and location is set.
         """
         self.clean_timestamp()
-        self.location = Point(self.longitude, self.latitude, srid=4326)
+        if not self.location:
+            self.location = Point(self.longitude, self.latitude, srid=4326)
         super().save(*args, **kwargs)  # Use Python 3 style super()
 
     def __str__(self):

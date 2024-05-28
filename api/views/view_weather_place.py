@@ -38,5 +38,8 @@ class DynamicWeatherView(APIView):
             logger.debug(f"No weather data found for nearest location: ({latitude}, {longitude})")
             return Response({"error": "Weather data not found for the nearest location."}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = WeatherSerializer(nearest_forecast)
+        # Fetch all forecasts with the same latitude and longitude as the nearest forecast
+        forecasts = GFSForecast.objects.filter(latitude=nearest_forecast.latitude, longitude=nearest_forecast.longitude).order_by('timestamp')
+
+        serializer = WeatherSerializer(forecasts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
