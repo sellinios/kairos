@@ -1,7 +1,7 @@
 // frontend/src/components/LocationDisplay/LocationDisplay.tsx
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { fetchNearestPlace, Place } from '../../services/apiServiceGeography'; // Adjust the path as needed
+import { fetchNearestPlace, Place } from '../../services/'; // Adjust the path as needed
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import 'bootstrap/dist/css/bootstrap.min.css';

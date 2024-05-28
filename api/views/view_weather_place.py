@@ -11,7 +11,7 @@ class WeatherPlaceViewSet(viewsets.ViewSet):
     A simple ViewSet for retrieving weather information for a specific place.
     """
 
-    @action(detail=False, methods=['get'], url_path='weather/europe/greece/attica/(?P<municipality>[^/.]+)/(?P<place_slug>[^/.]+)')
+    @action(detail=False, methods=['get'], url_path='europe/greece/attica/(?P<municipality>[^/.]+)/(?P<place_slug>[^/.]+)')
     def retrieve_weather(self, request, municipality=None, place_slug=None):
         try:
             place = Place.objects.get(slug=place_slug, admin_division__slug=municipality)

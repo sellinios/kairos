@@ -33,7 +33,7 @@ const App: React.FC = () => {
                             <Route path="/about" element={<About />} />
                             <Route path="/contact" element={<Contact />} />
                             <Route path="/place/:placeName" element={<PlaceDetail />} />
-                            <Route path="/weather/:placeName" element={<WeatherDetail />} />
+                            <Route path="/weather/:continent/:country/:region/:municipality/:placeSlug" element={<WeatherDetail />} />
                             <Route path="/aethra-geo-engine" element={<AethraGeoEngine />} />
                             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                             <Route path="/articles/:slug" element={<ArticleDetail />} />
@@ -52,8 +52,7 @@ const App: React.FC = () => {
                     buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
                     expires={150}
                 >
-                    This website uses cookies to enhance the user experience.{" "}
-                    <a href="/privacy-policy" style={{ color: "#FFD700" }}>Learn more</a>
+                    This website uses cookies to enhance the user experience. By continuing to browse the site, you consent to our use of cookies.
                 </CookieConsent>
             </div>
         </Router>

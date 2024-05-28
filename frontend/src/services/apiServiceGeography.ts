@@ -1,5 +1,3 @@
-// frontend/src/services/apiServiceGeography.ts
-
 import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_API_URL;
@@ -9,9 +7,17 @@ export interface Place {
   name: string;
   latitude: number;
   longitude: number;
-  height: number;
-  category: string;
-  admin_division: string;
+  elevation: number; // Ensure this matches your model
+  category: {
+    id: number;
+    name: string;
+  };
+  admin_division: {
+    id: number;
+    name: string;
+    slug: string;
+    parent: number | null;
+  };
 }
 
 export interface Country {

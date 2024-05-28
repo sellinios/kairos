@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchWeather, fetchPlaceDetails } from '../../../services/';
-import { Place } from '../../../services/'; // Import Place interface
+import { fetchWeather, fetchPlaceDetails } from '../../../services';
+
+interface Place {
+  id: number;
+  name: string;
+  slug: string;
+  longitude: number;
+  latitude: number;
+  elevation: number;
+  category: { id: number; name: string };
+  admin_division: { id: number; name: string; slug: string; parent: number | null };
+}
 
 interface Weather {
   temperature: number;
   description: string;
-  details: string;
+  // Add other weather-related fields as needed
 }
 
-const WeatherDetail: React.FC = () => {
+const WeatherPage: React.FC = () => {
   const { continent, country, region, municipality, placeSlug } = useParams<{
     continent: string;
     country: string;
@@ -19,7 +29,7 @@ const WeatherDetail: React.FC = () => {
   }>();
 
   const [place, setPlace] = useState<Place | null>(null);
-  const [weather, setWeather] = useState<Weather | null>(null);
+  const [weather, setWeather] = useState<Weather[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,23 +56,23 @@ const WeatherDetail: React.FC = () => {
     };
 
     fetchWeatherData();
-  }, [placeSlug]);
+  }, [continent, country, region, municipality, placeSlug]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
-  const weatherDetails = weather ? JSON.parse(weather.details) : {};
-
   return (
     <div>
       <h1>Weather for {place?.name}</h1>
-      {Object.entries(weatherDetails).map(([key, value]) => (
-        <div key={key}>
-          <p>{key.replace(/_/g, ' ')}: {value}</p>
+      {weather.length > 0 && weather.map((data, index) => (
+        <div key={index}>
+          <p>Temperature: {data.temperature}°C</p>
+          <p>Description: {data.description}</p>
+          {/* Render other weather details here */}
         </div>
       ))}
     </div>
   );
 };
 
-export default WeatherDetail;
+export default WeatherPage;
