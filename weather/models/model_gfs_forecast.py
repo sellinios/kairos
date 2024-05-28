@@ -1,10 +1,8 @@
 import datetime
 from django.db import models
 from django.utils import timezone
-from geography.models import Place  # Import the Place model
 
 class GFSForecast(models.Model):
-    place = models.ForeignKey(Place, on_delete=models.CASCADE)  # Add the ForeignKey relationship
     latitude = models.FloatField()
     longitude = models.FloatField()
     forecast_data = models.JSONField()  # Can store more than one weather variable

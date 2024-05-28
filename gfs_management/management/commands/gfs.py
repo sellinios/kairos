@@ -10,7 +10,7 @@ import requests
 from django.core.management.base import BaseCommand
 from shapely.geometry import Point, shape
 
-from geography.models import Country, Place
+from geography.models import Country
 from gfs_management.models import GFSConfig, GFSParameter
 from weather.models.model_gfs_forecast import GFSForecast
 
@@ -104,12 +104,6 @@ def parse_and_import_gfs_data(file_path, relevant_parameters, country, base_time
                     if not country_shape.contains(point):
                         continue
 
-                    # Check for exact match with Place records
-                    try:
-                        place = Place.objects.get(latitude=lat, longitude=lon)
-                    except Place.DoesNotExist:
-                        continue
-
                     param_name = f"{grib.parameterName.lower().replace(' ', '_')}_level_{grib.level}_{grib.typeOfLevel}"
                     forecast_data.append({
                         'latitude': lat,
@@ -117,8 +111,7 @@ def parse_and_import_gfs_data(file_path, relevant_parameters, country, base_time
                         'timestamp': valid_date,
                         'forecast_hour': forecast_hour,
                         'param_name': param_name,
-                        'value': value,
-                        'place': place
+                        'value': value
                     })
     except Exception as e:
         logger.error("Error processing GRIB file %s: %s", file_path, e)
@@ -132,7 +125,7 @@ def parse_and_import_gfs_data(file_path, relevant_parameters, country, base_time
                 latitude=data['latitude'],
                 longitude=data['longitude'],
                 timestamp=data['timestamp'],
-                defaults={'forecast_data': {}, 'place': data['place']}
+                defaults={'forecast_data': {}}
             )
 
             forecast.forecast_data[data['param_name']] = data['value']
