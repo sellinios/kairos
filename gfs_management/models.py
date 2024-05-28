@@ -1,16 +1,16 @@
-"""
-Models for GFS management application.
-"""
-
 from django.db import models
 from geography.models import Country
 
 class GFSParameter(models.Model):
     """Model to store GFS parameter information."""
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     level = models.BigIntegerField()
     type_of_level = models.CharField(max_length=255)
+    parameter_id = models.IntegerField(unique=True)
+
+    class Meta:
+        unique_together = ('parameter_id', 'level', 'type_of_level')
 
     def __str__(self):
         return str(self.name)

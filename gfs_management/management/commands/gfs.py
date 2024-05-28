@@ -1,7 +1,3 @@
-"""
-Command to import GFS data into the database.
-"""
-
 import logging
 import os
 import re
@@ -27,33 +23,33 @@ def get_latest_available_hour(base_url, date):
     for hour in reversed(available_hours):
         url = f"{base_url}/gfs.{date}/{hour}/"
         response = requests.head(url, timeout=10)
-        if response.status_code == 200:
+        if response.status_code == 200):
             return hour
     return None
 
-def download_gfs_data_sequence(base_url, date, hours, forecast_hours, save_directory):
+def download_gfs_data_sequence(base_url, date, hours, save_directory):
     os.makedirs(save_directory, exist_ok=True)
     grib_files = []
 
     for hour in hours:
-        for forecast_hour in forecast_hours:
-            file_name = f"gfs.t{hour}z.pgrb2.0p25.f{forecast_hour:03}"
-            url = f"{base_url}/gfs.{date}/{hour}/atmos/{file_name}"
-            save_path = os.path.join(
-                save_directory, f"gfs_{date}_{hour}_{forecast_hour:03}.grib2"
-            )
-            if not os.path.exists(save_path):
-                response = requests.get(url, timeout=60)
-                if response.status_code == 200:
-                    with open(save_path, 'wb') as file:
-                        file.write(response.content)
-                    logger.info("Downloaded GFS data to %s", save_path)
-                    grib_files.append(save_path)
-                else:
-                    logger.warning("Failed to download GFS data from %s", url)
-            else:
-                logger.info("File already exists: %s", save_path)
+        forecast_hour = 1  # Only process forecast hour 001
+        file_name = f"gfs.t{hour}z.pgrb2.0p25.f{forecast_hour:03}"
+        url = f"{base_url}/gfs.{date}/{hour}/atmos/{file_name}"
+        save_path = os.path.join(
+            save_directory, f"gfs_{date}_{hour}_{forecast_hour:03}.grib2"
+        )
+        if not os.path.exists(save_path):
+            response = requests.get(url, timeout=60)
+            if response.status_code == 200):
+                with open(save_path, 'wb') as file:
+                    file.write(response.content)
+                logger.info("Downloaded GFS data to %s", save_path)
                 grib_files.append(save_path)
+            else:
+                logger.warning("Failed to download GFS data from %s", url)
+        else:
+            logger.info("File already exists: %s", save_path)
+            grib_files.append(save_path)
     return grib_files
 
 def extract_forecast_hour_from_filename(filename):
@@ -62,7 +58,7 @@ def extract_forecast_hour_from_filename(filename):
         return int(match.group(1))
     return None
 
-def parse_and_import_gfs_data(file_path, relevant_parameters, country, base_time):
+def parse_and_import_gfs_data(file_path, country, base_time):
     logger.info("Starting to parse GFS data from %s.", file_path)
 
     forecast_hour = extract_forecast_hour_from_filename(os.path.basename(file_path))
@@ -87,34 +83,52 @@ def parse_and_import_gfs_data(file_path, relevant_parameters, country, base_time
         valid_date = base_time + timedelta(hours=forecast_hour - 1)
 
         for i, grib in enumerate(gribs, start=1):
-            param_key = (grib.parameterName, grib.level, grib.typeOfLevel)
-            if param_key in relevant_parameters:
-                data = grib.values
-                lats, lons = grib.latlons()
+            # Use parameter_id, level, and type_of_level to uniquely identify parameters
+            param_key = (i, grib.level, grib.typeOfLevel)
 
-                logger.info(
-                    "Processing message %d of %d. Parameter: %s, Level: %d, Type of Level: %s",
-                    i, total_messages, grib.parameterName, grib.level, grib.typeOfLevel
+            # Check if the parameter already exists in the database
+            parameter_exists = GFSParameter.objects.filter(
+                parameter_id=i,
+                level=grib.level,
+                type_of_level=grib.typeOfLevel
+            ).exists()
+
+            if not parameter_exists:
+                # Save parameter to database if it does not already exist
+                GFSParameter.objects.create(
+                    name=grib.parameterName,
+                    level=grib.level,
+                    type_of_level=grib.typeOfLevel,
+                    parameter_id=i,
+                    description=f"{grib.parameterName} at level {grib.level} of type {grib.typeOfLevel}"
                 )
-                logger.info("Valid date for forecast hour %d is %s (UTC)", forecast_hour, valid_date.isoformat())
 
-                for lat, lon, value in zip(lats.flatten(), lons.flatten(), data.flatten()):
-                    if isinstance(value, np.ma.core.MaskedConstant):
-                        value = None
+            data = grib.values
+            lats, lons = grib.latlons()
 
-                    point = Point(lon, lat)
-                    if not country_shape.contains(point):
-                        continue
+            logger.info(
+                "Processing message %d of %d. Parameter: %s, Level: %d, Type of Level: %s",
+                i, total_messages, grib.parameterName, grib.level, grib.typeOfLevel
+            )
+            logger.info("Valid date for forecast hour %d is %s (UTC)", forecast_hour, valid_date.isoformat())
 
-                    param_name = f"{grib.parameterName.lower().replace(' ', '_')}_level_{grib.level}_{grib.typeOfLevel}"
-                    forecast_data.append({
-                        'latitude': lat,
-                        'longitude': lon,
-                        'timestamp': valid_date,
-                        'forecast_hour': forecast_hour,
-                        'param_name': param_name,
-                        'value': value
-                    })
+            for lat, lon, value in zip(lats.flatten(), lons.flatten(), data.flatten()):
+                if isinstance(value, np.ma.core.MaskedConstant):
+                    value = None
+
+                point = Point(lon, lat)
+                if not country_shape.contains(point):
+                    continue
+
+                param_name = f"{grib.parameterName.lower().replace(' ', '_')}_level_{grib.level}_{grib.typeOfLevel}"
+                forecast_data.append({
+                    'latitude': lat,
+                    'longitude': lon,
+                    'timestamp': valid_date,
+                    'forecast_hour': forecast_hour,
+                    'param_name': param_name,
+                    'value': value
+                })
     except Exception as e:
         logger.error("Error processing GRIB file %s: %s", file_path, e)
         return
@@ -176,39 +190,15 @@ class Command(BaseCommand):
             return
 
         for country in countries:
-            try:
-                logger.info("Processing country: %s", country.name)
+            hours = GFSConfig.objects.filter(countries=country).first().get_forecast_hours()
 
-                gfs_config = GFSConfig.objects.filter(countries=country).first()
-                if not gfs_config:
-                    logger.error("No GFS configuration found for %s.", country.name)
-                    continue
+            if not hours:
+                logger.warning("No forecast hours configured for country: %s", country.name)
+                continue
 
-                forecast_hours = gfs_config.get_forecast_hours()
-                if not forecast_hours:
-                    logger.error("No forecast hours specified in GFS configuration.")
-                    continue
+            grib_files = download_gfs_data_sequence(base_url, date, [latest_hour], save_directory)
 
-                logger.info("Forecast hours: %s", forecast_hours)
-                logger.info("Downloading GFS data for date: %s, hour: %s, forecast hours: %s", date, latest_hour, forecast_hours)
+            for file_path in grib_files:
+                parse_and_import_gfs_data(file_path, country, now)
 
-                grib_files = download_gfs_data_sequence(base_url, date, [latest_hour], forecast_hours, save_directory)
-
-                relevant_parameters = {(param.name, param.level, param.type_of_level): param.description for param in GFSParameter.objects.all()}
-
-                for grib_file in grib_files:
-                    parse_and_import_gfs_data(grib_file, relevant_parameters, country, now)
-
-                logger.info("GFS data import process completed for country: %s", country.name)
-
-                logger.info("Cleaning up GFS data files.")
-                for filename in os.listdir(save_directory):
-                    file_path = os.path.join(save_directory, filename)
-                    if os.path.isfile(file_path) and filename.endswith(".grib2"):
-                        os.remove(file_path)
-                        logger.info("Deleted file: %s", file_path)
-
-            except Exception as e:
-                logger.error("Error processing country %s: %s", country.name, e)
-
-        logger.info("All countries processed.")
+        logger.info("Completed the GFS data import process.")
