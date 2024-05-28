@@ -1,8 +1,15 @@
+from rest_framework import viewsets
+from weather.models import GFSForecast
+from api.serializers.serializer_weather_place import WeatherSerializer
+
+class WeatherPlaceViewSet(viewsets.ModelViewSet):
+    queryset = GFSForecast.objects.all()
+    serializer_class = WeatherSerializer
+
+# Ensure DynamicWeatherView is also defined correctly
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from weather.models import GFSForecast
-from api.serializers.serializer_weather_place import WeatherSerializer
 
 class DynamicWeatherView(APIView):
     def get(self, request, continent, country, region, subregion, city):
