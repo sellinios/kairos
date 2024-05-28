@@ -187,12 +187,17 @@ class Command(BaseCommand):
                     logger.error("No forecast hours specified in GFS configuration.")
                     continue
 
+                parameters = gfs_config.parameters.all()
+                if not parameters:
+                    logger.error("No parameters specified in GFS configuration for %s.", country.name)
+                    continue
+
+                relevant_parameters = {(param.name, param.level, param.type_of_level): param.description for param in parameters}
+
                 logger.info("Forecast hours: %s", forecast_hours)
                 logger.info("Downloading GFS data for date: %s, hour: %s, forecast hours: %s", date, latest_hour, forecast_hours)
 
                 grib_files = download_gfs_data_sequence(base_url, date, [latest_hour], forecast_hours, save_directory)
-
-                relevant_parameters = {(param.name, param.level, param.type_of_level): param.description for param in GFSParameter.objects.all()}
 
                 for grib_file in grib_files:
                     parse_and_import_gfs_data(grib_file, relevant_parameters, country, now)
