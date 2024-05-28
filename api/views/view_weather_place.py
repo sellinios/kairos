@@ -6,11 +6,11 @@ class WeatherPlaceViewSet(viewsets.ModelViewSet):
     queryset = GFSForecast.objects.all()
     serializer_class = WeatherSerializer
 
-# Ensure DynamicWeatherView is also defined correctly
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from utils.nearest_place import find_nearest_place
+from django.contrib.gis.geos import Point
+from django.contrib.gis.db.models.functions import Distance
 import logging
 
 logger = logging.getLogger(__name__)
@@ -29,19 +29,14 @@ class DynamicWeatherView(APIView):
         except ValueError:
             return Response({"error": "Invalid latitude or longitude."}, status=status.HTTP_400_BAD_REQUEST)
 
-        nearest_place = find_nearest_place(latitude, longitude)
-        if not nearest_place:
-            return Response({"error": "No nearby place found."}, status=status.HTTP_404_NOT_FOUND)
+        point = Point(longitude, latitude, srid=4326)
 
-        logger.debug(f"Nearest place found: {nearest_place.name} ({nearest_place.latitude}, {nearest_place.longitude})")
+        # Find the nearest forecast
+        nearest_forecast = GFSForecast.objects.annotate(distance=Distance('location', point)).order_by('distance').first()
 
-        # Find forecasts near the nearest place
-        weather_data = GFSForecast.objects.filter(
-            latitude=nearest_place.latitude, longitude=nearest_place.longitude
-        )
-        if not weather_data.exists():
-            logger.debug(f"No weather data found for nearest place: {nearest_place.name} ({nearest_place.latitude}, {nearest_place.longitude})")
-            return Response({"error": "Weather data not found for the nearest place."}, status=status.HTTP_404_NOT_FOUND)
+        if not nearest_forecast:
+            logger.debug(f"No weather data found for nearest location: ({latitude}, {longitude})")
+            return Response({"error": "Weather data not found for the nearest location."}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = WeatherSerializer(weather_data, many=True)
+        serializer = WeatherSerializer(nearest_forecast)
         return Response(serializer.data, status=status.HTTP_200_OK)

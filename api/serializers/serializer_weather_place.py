@@ -8,8 +8,6 @@ class PlaceSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'slug', 'longitude', 'latitude', 'elevation', 'category', 'admin_division']
 
 class WeatherSerializer(serializers.ModelSerializer):
-    place = PlaceSerializer()
-
     class Meta:
         model = GFSForecast
-        fields = '__all__'
+        fields = ['id', 'latitude', 'longitude', 'forecast_data', 'timestamp']

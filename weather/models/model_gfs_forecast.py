@@ -1,12 +1,15 @@
 import datetime
 from django.db import models
 from django.utils import timezone
+from django.contrib.gis.db import models as gis_models
+from django.contrib.gis.geos import Point
 
 class GFSForecast(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     forecast_data = models.JSONField()  # Can store more than one weather variable
     timestamp = models.DateTimeField()
+    location = gis_models.PointField(geography=True, null=True, blank=True)
 
     def clean_timestamp(self):
         """
@@ -25,6 +28,7 @@ class GFSForecast(models.Model):
         Save the GFSForecast instance, ensuring the timestamp is properly formatted.
         """
         self.clean_timestamp()
+        self.location = Point(self.longitude, self.latitude, srid=4326)
         super().save(*args, **kwargs)  # Use Python 3 style super()
 
     def __str__(self):

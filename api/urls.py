@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from api.views.view_geographic_place import PlaceViewSet
 from api.views.view_geographic_continent import ContinentViewSet
 from api.views.view_geographic_country import CountryViewSet
-from api.views.view_weather_place import WeatherPlaceViewSet, DynamicWeatherView
+from api.views.view_weather_place import WeatherPlaceViewSet, DynamicWeatherView  # Ensure correct imports
 from api.views.view_articles import ArticleList, ArticleDetail, latest_articles
 
 router = DefaultRouter()
@@ -17,5 +17,5 @@ urlpatterns = [
     path('articles/', ArticleList.as_view(), name='article-list'),
     path('articles/latest/', latest_articles, name='latest-articles'),
     path('articles/<slug:slug>/', ArticleDetail.as_view(), name='article-detail'),
-    path('weather/<str:continent>/<str:country>/<str:region>/<str:subregion>/<str:city>/', DynamicWeatherView.as_view(), name='dynamic-weather'),
+    path('weather/<str:continent>/<str:country>/<str:region>/<str:subregion>/<str:city>/', DynamicWeatherView.as_view(), name='dynamic_weather'),  # Add the dynamic weather endpoint
 ]
