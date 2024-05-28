@@ -10,9 +10,6 @@ class CategorySerializer(serializers.ModelSerializer):
     Serializer class for the Category model.
     """
     class Meta:
-        """
-        Meta class to map serializer's fields with the model fields.
-        """
         model = Category
         fields = ['id', 'name']
 
@@ -20,12 +17,11 @@ class AdminDivisionInstanceSerializer(serializers.ModelSerializer):
     """
     Serializer class for the AdminDivisionInstance model.
     """
+    parent = serializers.PrimaryKeyRelatedField(queryset=AdminDivisionInstance.objects.all(), allow_null=True, required=False)
+
     class Meta:
-        """
-        Meta class to map serializer's fields with the model fields.
-        """
         model = AdminDivisionInstance
-        fields = ['id', 'name', 'level']
+        fields = ['id', 'name', 'level', 'slug', 'parent']
 
 class PlaceSerializer(serializers.ModelSerializer):
     """
@@ -33,21 +29,23 @@ class PlaceSerializer(serializers.ModelSerializer):
     """
     category = CategorySerializer()
     admin_division = AdminDivisionInstanceSerializer()
+    url = serializers.SerializerMethodField()
+    weather_url = serializers.SerializerMethodField()
 
     class Meta:
-        """
-        Meta class to map serializer's fields with the model fields.
-        """
         model = Place
         fields = [
-            'id', 'longitude', 'latitude', 'height',
-            'category', 'admin_division'
+            'id', 'longitude', 'latitude', 'elevation',
+            'category', 'admin_division', 'url', 'weather_url'
         ]
 
+    def get_url(self, obj):
+        return obj.get_full_url()
+
+    def get_weather_url(self, obj):
+        return obj.get_weather_url()
+
     def create(self, validated_data):
-        """
-        Create and return a new Place instance, given the validated data.
-        """
         category_data = validated_data.pop('category')
         admin_division_data = validated_data.pop('admin_division')
         category, _ = Category.objects.get_or_create(**category_data)
@@ -60,9 +58,6 @@ class PlaceSerializer(serializers.ModelSerializer):
         return place
 
     def update(self, instance, validated_data):
-        """
-        Update and return an existing Place instance, given the validated data.
-        """
         category_data = validated_data.pop('category')
         admin_division_data = validated_data.pop('admin_division')
         category, _ = Category.objects.get_or_create(**category_data)
@@ -70,7 +65,7 @@ class PlaceSerializer(serializers.ModelSerializer):
 
         instance.longitude = validated_data.get('longitude', instance.longitude)
         instance.latitude = validated_data.get('latitude', instance.latitude)
-        instance.height = validated_data.get('height', instance.height)
+        instance.elevation = validated_data.get('elevation', instance.elevation)
         instance.category = category
         instance.admin_division = admin_division
         instance.save()

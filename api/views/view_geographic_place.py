@@ -64,7 +64,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
             name=default_name,
             latitude=latitude,
             longitude=longitude,
-            height=0,  # Default height
+            elevation=0,
             category=default_category,
             admin_division=default_admin_division,
             location=Point(longitude, latitude, srid=4326)

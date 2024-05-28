@@ -16,7 +16,7 @@ class CountrySerializer(serializers.ModelSerializer):
         model = Country
         fields = [
             'id', 'name', 'iso_alpha2', 'iso_alpha3', 'iso_numeric',
-            'capital', 'official_languages', 'currency', 'area'
+            'capital', 'official_languages', 'currency', 'area', 'slug'
         ]
 
 class ContinentSerializer(serializers.ModelSerializer):

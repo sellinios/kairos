@@ -8,9 +8,6 @@ from .model_geographic_admin_division import AdminDivisionInstance
 from .model_geographic_place_manager import PlaceManager
 
 class Place(models.Model):
-    """
-    Represents a geographic place.
-    """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True, blank=True)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
@@ -29,15 +26,9 @@ class Place(models.Model):
         verbose_name_plural = "Places"
 
     def __str__(self):
-        """
-        Return a string representation of the Place instance.
-        """
         return f"{self.name or self.category.name} ({self.latitude}, {self.longitude})"
 
     def clean(self):
-        """
-        Validate the Place instance before saving.
-        """
         if not self.admin_division:
             raise ValidationError('Place must be associated with an AdminDivisionInstance.')
         if self.admin_division.level.name != 'Municipality':
@@ -48,7 +39,7 @@ class Place(models.Model):
         self.location = Point(self.longitude, self.latitude, srid=4326)
 
         if not self.elevation:
-            self.elevation = 0  # Default elevation if elevation is not provided
+            self.elevation = 0
 
         if not self.name:
             self.name = "To Be Defined"
@@ -56,7 +47,6 @@ class Place(models.Model):
             if similar_names > 0:
                 self.name = f"{self.name} {similar_names + 1}"
 
-        # Generate slug
         if not self.slug:
             self.slug = slugify(self.name)
             similar_slugs = Place.objects.filter(slug__startswith=self.slug).count()
@@ -66,9 +56,6 @@ class Place(models.Model):
         super().save(*args, **kwargs)
 
     def get_full_url(self):
-        """
-        Generate the full URL for the Place based on its administrative divisions.
-        """
         parts = [self.slug]
         admin_division = self.admin_division
 
@@ -76,4 +63,24 @@ class Place(models.Model):
             parts.append(admin_division.slug)
             admin_division = admin_division.parent
 
+        if self.admin_division.country:
+            parts.append(self.admin_division.country.slug)
+            if self.admin_division.country.continent:
+                parts.append(self.admin_division.country.continent.slug)
+
         return f"https://kairos.gr/geography/{'/'.join(reversed(parts))}"
+
+    def get_weather_url(self):
+        parts = [self.slug]
+        admin_division = self.admin_division
+
+        while admin_division:
+            parts.append(admin_division.slug)
+            admin_division = admin_division.parent
+
+        if self.admin_division.country:
+            parts.append(self.admin_division.country.slug)
+            if self.admin_division.country.continent:
+                parts.append(self.admin_division.country.continent.slug)
+
+        return f"https://kairos.gr/weather/{'/'.join(reversed(parts))}"
