@@ -1,35 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchWeather, fetchNearestPlaceDetails, Weather, WeatherPlace } from '../../../services';
+import { fetchWeatherData, Weather } from '../../../services';
 
 const WeatherPage: React.FC = () => {
-  const { latitude, longitude } = useParams<{ latitude: string; longitude: string }>();
+  const { continent, country, region, subregion, city } = useParams<{
+    continent: string;
+    country: string;
+    region: string;
+    subregion: string;
+    city: string;
+  }>();
 
-  const [place, setPlace] = useState<WeatherPlace | null>(null);
   const [weather, setWeather] = useState<Weather[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchWeatherData = async () => {
-      if (!latitude || !longitude) {
-        setError('Latitude or longitude is undefined');
+    console.log('Received parameters:', { continent, country, region, subregion, city });
+
+    const fetchWeatherDataAsync = async () => {
+      if (!continent || !country || !region || !subregion || !city) {
+        setError('Some required parameters are missing');
         setLoading(false);
         return;
       }
 
       try {
-        const lat = parseFloat(latitude);
-        const lon = parseFloat(longitude);
-
-        console.log('Fetching nearest place details for coordinates:', { latitude, longitude });
-        const placeDetails = await fetchNearestPlaceDetails(lat, lon);
-        setPlace(placeDetails);
-
-        console.log('Fetching weather data for place:', placeDetails);
-        const weatherData = await fetchWeather(lat, lon);
+        const weatherData = await fetchWeatherData(continent, country, region, subregion, city);
         setWeather(weatherData);
-
         setLoading(false);
       } catch (err) {
         console.error('Failed to fetch weather data:', err);
@@ -38,15 +36,15 @@ const WeatherPage: React.FC = () => {
       }
     };
 
-    fetchWeatherData();
-  }, [latitude, longitude]);
+    fetchWeatherDataAsync();
+  }, [continent, country, region, subregion, city]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
     <div>
-      <h1>Weather for {place?.name}</h1>
+      <h1>Weather Data for {city}</h1>
       {weather && weather.map((forecast, index) => (
         <div key={index}>
           <h2>{forecast.timestamp}</h2>

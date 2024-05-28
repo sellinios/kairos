@@ -7,7 +7,7 @@ import Contact from './components/Contact/Contact';
 import NotFound from './components/NotFound/NotFound';
 import Footer from './components/Footer/Footer';
 import PlaceDetail from './components/PlaceDetail/PlaceDetail';
-import WeatherDetail from './components/Weather/WeatherDetail/WeatherDetail';
+import WeatherPage from './components/Weather/WeatherPage/WeatherPage';
 import AethraGeoEngine from './components/AethraGeoEngine/AethraGeoEngine';
 import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy';
 import Header from './components/Header/Header';
@@ -33,7 +33,7 @@ const App: React.FC = () => {
                             <Route path="/about" element={<About />} />
                             <Route path="/contact" element={<Contact />} />
                             <Route path="/place/:placeName" element={<PlaceDetail />} />
-                            <Route path="/weather/:continent/:country/:region/:municipality/:placeSlug/:latitude/:longitude" element={<WeatherDetail />} />
+                            <Route path="/weather/:continent/:country/:region/:subregion/:city" element={<WeatherPage />} />
                             <Route path="/aethra-geo-engine" element={<AethraGeoEngine />} />
                             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                             <Route path="/articles/:slug" element={<ArticleDetail />} />
