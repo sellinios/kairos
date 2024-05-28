@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchWeather, fetchPlaceDetails } from '../../../services';
-
-interface Place {
-  id: number;
-  name: string;
-  slug: string;
-  longitude: number;
-  latitude: number;
-  elevation: number;
-  category: { id: number; name: string };
-  admin_division: { id: number; name: string; slug: string; parent: number | null };
-}
+import { fetchWeather, fetchPlaceDetails } from '../../../services/';
+import { Place } from '../../../services/';
 
 interface Weather {
   temperature: number;
   description: string;
-  // Add other weather-related fields as needed
+  details: string;
 }
 
 const WeatherPage: React.FC = () => {
@@ -29,7 +19,7 @@ const WeatherPage: React.FC = () => {
   }>();
 
   const [place, setPlace] = useState<Place | null>(null);
-  const [weather, setWeather] = useState<Weather[]>([]);
+  const [weather, setWeather] = useState<Weather | null>(null); // Ensure this is a single Weather object
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -56,19 +46,23 @@ const WeatherPage: React.FC = () => {
     };
 
     fetchWeatherData();
-  }, [continent, country, region, municipality, placeSlug]);
+  }, [placeSlug]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
+  const weatherDetails = weather ? JSON.parse(weather.details) : {};
+
   return (
     <div>
       <h1>Weather for {place?.name}</h1>
-      {weather.length > 0 && weather.map((data, index) => (
-        <div key={index}>
-          <p>Temperature: {data.temperature}°C</p>
-          <p>Description: {data.description}</p>
-          {/* Render other weather details here */}
+      {Object.entries(weatherDetails).map(([key, value]) => (
+        <div key={key}>
+          <p>
+            <>
+              {key.replace(/_/g, ' ')}: {value}
+            </>
+          </p>
         </div>
       ))}
     </div>

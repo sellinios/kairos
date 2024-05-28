@@ -1,13 +1,29 @@
 import axios from 'axios';
-import { Place } from './apiServiceGeography'; // Import the Place interface
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
-interface Weather {
+export interface Weather {
   temperature: number;
   description: string;
-  details: string; // Assume details are stored as JSON string
   // Add other weather-related fields as needed
+}
+
+export interface WeatherPlace { // Use alias here
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  elevation: number; // Ensure this matches your model
+  category: {
+    id: number;
+    name: string;
+  };
+  admin_division: {
+    id: number;
+    name: string;
+    slug: string;
+    parent: number | null;
+  };
 }
 
 export const fetchWeather = async (latitude: number, longitude: number): Promise<Weather> => {
@@ -22,9 +38,9 @@ export const fetchWeather = async (latitude: number, longitude: number): Promise
   }
 };
 
-export const fetchPlaceDetails = async (slug: string): Promise<Place> => {
+export const fetchPlaceDetails = async (slug: string): Promise<WeatherPlace> => { // Use alias here
   try {
-    const response = await axios.get<Place>(`${BASE_URL}/api/places/${slug}/`);
+    const response = await axios.get<WeatherPlace>(`${BASE_URL}/api/places/${slug}/`);
     return response.data;
   } catch (error) {
     console.error('Error fetching place details:', error);

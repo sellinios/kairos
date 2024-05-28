@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchWeather, fetchPlaceDetails } from '../../../services/';
-import { Place } from '../../../services/'; // Import Place interface
-
-interface Weather {
-  temperature: number;
-  description: string;
-  details: string;
-}
+import { fetchWeather, fetchPlaceDetails, Weather, WeatherPlace } from '../../../services';
 
 const WeatherDetail: React.FC = () => {
   const { continent, country, region, municipality, placeSlug } = useParams<{
@@ -18,21 +11,15 @@ const WeatherDetail: React.FC = () => {
     placeSlug: string;
   }>();
 
-  const [place, setPlace] = useState<Place | null>(null);
+  const [place, setPlace] = useState<WeatherPlace | null>(null);
   const [weather, setWeather] = useState<Weather | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      if (!placeSlug) {
-        setError('Place slug is undefined');
-        setLoading(false);
-        return;
-      }
-
       try {
-        const placeDetails = await fetchPlaceDetails(placeSlug);
+        const placeDetails = await fetchPlaceDetails(placeSlug!);
         setPlace(placeDetails);
 
         const weatherData = await fetchWeather(placeDetails.latitude, placeDetails.longitude);
@@ -46,21 +33,21 @@ const WeatherDetail: React.FC = () => {
     };
 
     fetchWeatherData();
-  }, [placeSlug]);
+  }, [continent, country, region, municipality, placeSlug]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
-  const weatherDetails = weather ? JSON.parse(weather.details) : {};
-
   return (
     <div>
       <h1>Weather for {place?.name}</h1>
-      {Object.entries(weatherDetails).map(([key, value]) => (
-        <div key={key}>
-          <p>{key.replace(/_/g, ' ')}: {value}</p>
-        </div>
-      ))}
+      {weather && (
+        <>
+          {Object.entries(weather).map(([key, value]) => (
+            <p key={key}>{key.replace(/_/g, ' ')}: {String(value)}</p>
+          ))}
+        </>
+      )}
     </div>
   );
 };
