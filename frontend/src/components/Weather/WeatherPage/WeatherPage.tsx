@@ -1,68 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchWeather, fetchPlaceDetails } from '../../../services/';
-import { Place } from '../../../services/';
-
-interface Weather {
-  temperature: number;
-  description: string;
-  details: string;
-}
+import { fetchWeather, fetchNearestPlaceDetails, Weather, WeatherPlace } from '../../../services';
 
 const WeatherPage: React.FC = () => {
-  const { continent, country, region, municipality, placeSlug } = useParams<{
-    continent: string;
-    country: string;
-    region: string;
-    municipality: string;
-    placeSlug: string;
-  }>();
+  const { latitude, longitude } = useParams<{ latitude: string; longitude: string }>();
 
-  const [place, setPlace] = useState<Place | null>(null);
-  const [weather, setWeather] = useState<Weather | null>(null); // Ensure this is a single Weather object
+  const [place, setPlace] = useState<WeatherPlace | null>(null);
+  const [weather, setWeather] = useState<Weather[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      if (!placeSlug) {
-        setError('Place slug is undefined');
+      if (!latitude || !longitude) {
+        setError('Latitude or longitude is undefined');
         setLoading(false);
         return;
       }
 
       try {
-        const placeDetails = await fetchPlaceDetails(placeSlug);
+        const lat = parseFloat(latitude);
+        const lon = parseFloat(longitude);
+
+        console.log('Fetching nearest place details for coordinates:', { latitude, longitude });
+        const placeDetails = await fetchNearestPlaceDetails(lat, lon);
         setPlace(placeDetails);
 
-        const weatherData = await fetchWeather(placeDetails.latitude, placeDetails.longitude);
+        console.log('Fetching weather data for place:', placeDetails);
+        const weatherData = await fetchWeather(lat, lon);
         setWeather(weatherData);
 
         setLoading(false);
       } catch (err) {
+        console.error('Failed to fetch weather data:', err);
         setError('Failed to fetch weather data');
         setLoading(false);
       }
     };
 
     fetchWeatherData();
-  }, [placeSlug]);
+  }, [latitude, longitude]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
-  const weatherDetails = weather ? JSON.parse(weather.details) : {};
-
   return (
     <div>
       <h1>Weather for {place?.name}</h1>
-      {Object.entries(weatherDetails).map(([key, value]) => (
-        <div key={key}>
-          <p>
-            <>
-              {key.replace(/_/g, ' ')}: {value}
-            </>
-          </p>
+      {weather && weather.map((forecast, index) => (
+        <div key={index}>
+          <h2>{forecast.timestamp}</h2>
+          {Object.entries(forecast.forecast_data).map(([key, value]) => (
+            <p key={key}>{key.replace(/_/g, ' ')}: {String(value)}</p>
+          ))}
         </div>
       ))}
     </div>

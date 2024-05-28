@@ -3,17 +3,16 @@ import axios from 'axios';
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 export interface Weather {
-  temperature: number;
-  description: string;
-  // Add other weather-related fields as needed
+  timestamp: string;
+  forecast_data: Record<string, any>;
 }
 
-export interface WeatherPlace { // Use alias here
+export interface WeatherPlace {
   id: number;
   name: string;
   latitude: number;
   longitude: number;
-  elevation: number; // Ensure this matches your model
+  elevation: number;
   category: {
     id: number;
     name: string;
@@ -26,9 +25,9 @@ export interface WeatherPlace { // Use alias here
   };
 }
 
-export const fetchWeather = async (latitude: number, longitude: number): Promise<Weather> => {
+export const fetchWeather = async (latitude: number, longitude: number): Promise<Weather[]> => {
   try {
-    const response = await axios.get<Weather>(`${BASE_URL}/api/weather/`, {
+    const response = await axios.get<Weather[]>(`${BASE_URL}/api/weather/nearest/`, {
       params: { latitude, longitude }
     });
     return response.data;
@@ -38,12 +37,14 @@ export const fetchWeather = async (latitude: number, longitude: number): Promise
   }
 };
 
-export const fetchPlaceDetails = async (slug: string): Promise<WeatherPlace> => { // Use alias here
+export const fetchNearestPlaceDetails = async (latitude: number, longitude: number): Promise<WeatherPlace> => {
   try {
-    const response = await axios.get<WeatherPlace>(`${BASE_URL}/api/places/${slug}/`);
+    const response = await axios.get<WeatherPlace>(`${BASE_URL}/api/places/nearest/`, {
+      params: { latitude, longitude }
+    });
     return response.data;
   } catch (error) {
-    console.error('Error fetching place details:', error);
+    console.error('Error fetching nearest place details:', error);
     throw error;
   }
 };

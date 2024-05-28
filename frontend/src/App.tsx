@@ -33,7 +33,7 @@ const App: React.FC = () => {
                             <Route path="/about" element={<About />} />
                             <Route path="/contact" element={<Contact />} />
                             <Route path="/place/:placeName" element={<PlaceDetail />} />
-                            <Route path="/weather/:continent/:country/:region/:municipality/:placeSlug" element={<WeatherDetail />} />
+                            <Route path="/weather/:continent/:country/:region/:municipality/:placeSlug/:latitude/:longitude" element={<WeatherDetail />} />
                             <Route path="/aethra-geo-engine" element={<AethraGeoEngine />} />
                             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                             <Route path="/articles/:slug" element={<ArticleDetail />} />
