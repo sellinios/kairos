@@ -1,12 +1,11 @@
-from django.contrib.gis.db import models as gis_models
 from django.db import models
+from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from .model_geographic_category import Category
 from .model_geographic_admin_division import AdminDivisionInstance
 from .model_geographic_place_manager import PlaceManager
-from django.apps import apps
 
 class Place(models.Model):
     """
@@ -39,6 +38,8 @@ class Place(models.Model):
         """
         Validate the Place instance before saving.
         """
+        if not self.admin_division:
+            raise ValidationError('Place must be associated with an AdminDivisionInstance.')
         if self.admin_division.level.name != 'Municipality':
             raise ValidationError('Place can only be associated with an AdminDivisionInstance at the Municipality level.')
 

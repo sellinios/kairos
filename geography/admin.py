@@ -36,6 +36,7 @@ class AdminDivisionInstanceAdmin(admin.ModelAdmin):
     list_filter = ['level']
     search_fields = ['name']
 
+
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
     list_display = [
@@ -48,7 +49,8 @@ class PlaceAdmin(admin.ModelAdmin):
     ]
     list_filter = ['category', 'admin_division', 'confirmed']
 
+    # Ensure the admin_division is required
     def get_form(self, request, obj=None, change=False, **kwargs):
         form = super().get_form(request, obj, change, **kwargs)
-        form.base_fields['admin_division'].required = False
+        form.base_fields['admin_division'].required = True
         return form
