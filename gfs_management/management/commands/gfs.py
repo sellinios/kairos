@@ -1,7 +1,3 @@
-"""
-Command to import GFS data into the database.
-"""
-
 import logging
 import os
 import re
@@ -37,6 +33,8 @@ def download_gfs_data_sequence(base_url, date, hours, forecast_hours, save_direc
 
     for hour in hours:
         for forecast_hour in forecast_hours:
+            if forecast_hour == 0:
+                continue
             file_name = f"gfs.t{hour}z.pgrb2.0p25.f{forecast_hour:03}"
             url = f"{base_url}/gfs.{date}/{hour}/atmos/{file_name}"
             save_path = os.path.join(
