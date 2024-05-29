@@ -13,7 +13,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr", '127.0.0.1:8000', '127.0.0.1']
+ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr", '127.0.0.1:8000', '127.0.0.1', 'localhost:8000', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'imagekit',
     'rest_framework',
     'corsheaders',
-    'articles',
+    'articles',  'backend',
     'gfs_management',
     'tinymce',
     'geography',

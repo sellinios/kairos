@@ -1,60 +1,78 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { fetchWeatherData, Weather } from '../../../services';
+
+interface WeatherData {
+    temperature: number;
+    weather_description: string;
+}
+
+interface Place {
+    id: number;
+    name: string;
+    longitude: number;
+    latitude: number;
+    elevation: number;
+    category: { id: number; name: string };
+    admin_division: { id: number; name: string; level: number; slug: string; parent: number | null };
+    url: string;
+    weather_url: string;
+    weather?: WeatherData;
+}
 
 const WeatherPage: React.FC = () => {
-  const { continent, country, region, subregion, city } = useParams<{
-    continent: string;
-    country: string;
-    region: string;
-    subregion: string;
-    city: string;
-  }>();
+    const [placesWithWeather, setPlacesWithWeather] = useState<Place[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-  const [weather, setWeather] = useState<Weather[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+    async function fetchPlacesWithWeather() {
+        try {
+            const response = await fetch('/api/combined_places_weather/');
+            if (!response.ok) throw new Error('Failed to fetch combined places and weather data');
+            const data: Place[] = await response.json();
+            console.log('Fetched data:', data);  // Log fetched data
+            return data;
+        } catch (err) {
+            setError('Error fetching combined places and weather data');
+            console.error('Error fetching combined places and weather data:', err);
+            return [];
+        } finally {
+            setLoading(false);
+        }
+    }
 
-  useEffect(() => {
-    console.log('Received parameters:', { continent, country, region, subregion, city });
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetchPlacesWithWeather();
+            if (data.length === 0) {
+                setError('No data found');
+                return;
+            }
+            setPlacesWithWeather(data);
+        };
+        fetchData();
+    }, []);
 
-    const fetchWeatherDataAsync = async () => {
-      if (!continent || !country || !region || !subregion || !city) {
-        setError('Some required parameters are missing');
-        setLoading(false);
-        return;
-      }
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
 
-      try {
-        const weatherData = await fetchWeatherData(continent, country, region, subregion, city);
-        setWeather(weatherData);
-        setLoading(false);
-      } catch (err) {
-        console.error('Failed to fetch weather data:', err);
-        setError('Failed to fetch weather data');
-        setLoading(false);
-      }
-    };
-
-    fetchWeatherDataAsync();
-  }, [continent, country, region, subregion, city]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-
-  return (
-    <div>
-      <h1>Weather Data for {city}</h1>
-      {weather && weather.map((forecast, index) => (
-        <div key={index}>
-          <h2>{forecast.timestamp}</h2>
-          {Object.entries(forecast.forecast_data).map(([key, value]) => (
-            <p key={key}>{key.replace(/_/g, ' ')}: {String(value)}</p>
-          ))}
+    return (
+        <div>
+            {placesWithWeather.map((place) => (
+                <div key={place.id}>
+                    <h2>{place.admin_division.name}</h2>
+                    <p>Longitude: {place.longitude}</p>
+                    <p>Latitude: {place.latitude}</p>
+                    {place.weather ? (
+                        <>
+                            <p>Weather: {place.weather.weather_description}</p>
+                            <p>Temperature: {place.weather.temperature}°C</p>
+                        </>
+                    ) : (
+                        <p>Weather data not available</p>
+                    )}
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 };
 
 export default WeatherPage;

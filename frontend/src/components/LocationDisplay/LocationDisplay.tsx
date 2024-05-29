@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { fetchNearestPlace, Place } from '../../services/';
 
 interface LocationDisplayProps {
+  latitude: number;
+  longitude: number;
   onLocationUpdate: (name: string, latitude: number, longitude: number) => void;
 }
 
-const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) => {
+const LocationDisplay: React.FC<LocationDisplayProps> = ({ latitude, longitude, onLocationUpdate }) => {
   const [entityName, setEntityName] = useState<string | null>(null);
   const [elevation, setElevation] = useState<number | null>(null);
   const [fetchError, setFetchError] = useState<boolean>(false);
@@ -13,12 +15,10 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const latitude = 37.7749;  // Example latitude, replace with actual value
-        const longitude = -122.4194;  // Example longitude, replace with actual value
-
         const place: Place = await fetchNearestPlace(latitude, longitude);
+        console.log(place); // Verify the place object structure
         setEntityName(place.name);
-        setElevation(place.elevation);  // Using the elevation property
+        setElevation(place.elevation);
         setFetchError(false);
         onLocationUpdate(place.name, latitude, longitude);
         localStorage.setItem('entityName', place.name);
@@ -28,7 +28,7 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ onLocationUpdate }) =
     };
 
     fetchLocation();
-  }, [onLocationUpdate]);
+  }, [latitude, longitude, onLocationUpdate]);
 
   if (fetchError) {
     return <div>Error fetching location.</div>;

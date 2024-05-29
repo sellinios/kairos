@@ -2,11 +2,16 @@ import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
+export interface Weather {
+  timestamp: string;
+  forecast_data: Record<string, any>;
+}
+
 export interface Place {
   id: number;
   name: string;
-  latitude: number;
   longitude: number;
+  latitude: number;
   elevation: number;
   category: {
     id: number;
@@ -18,6 +23,8 @@ export interface Place {
     slug: string;
     parent: number | null;
   };
+  url: string;
+  weather_url: string;
 }
 
 export interface Country {
@@ -45,54 +52,9 @@ export interface Region {
   description?: string;
 }
 
-export interface Weather {
-  timestamp: string;
-  forecast_data: Record<string, any>;
-}
-
-export interface WeatherPlace {
-  id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-  elevation: number;
-  category: {
-    id: number;
-    name: string;
-  };
-  admin_division: {
-    id: number;
-    name: string;
-    slug: string;
-    parent: number | null;
-  };
-}
-
-
-export const fetchNearestPlace = async (latitude: number, longitude: number): Promise<Place> => {
+export const fetchWeatherData = async (weatherUrl: string): Promise<Weather[]> => {
   try {
-    const response = await axios.get<Place>(`${BASE_URL}/api/places/nearest/`, {
-      params: { latitude, longitude }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching nearest place:', error);
-    throw error;
-  }
-};
-
-export const fetchWeatherData = async (
-  continent: string,
-  country: string,
-  region: string,
-  subregion: string,
-  city: string
-): Promise<Weather[]> => {
-  try {
-    const url = `${BASE_URL}/api/weather/${continent}/${country}/${region}/${subregion}/${city}/`;
-    console.log('Fetching weather data from URL:', url);
-    const response = await axios.get<Weather[]>(url);
-    console.log('Weather data response:', response.data);
+    const response = await axios.get<Weather[]>(weatherUrl);
     return response.data;
   } catch (error) {
     console.error('Error fetching weather data:', error);
@@ -100,33 +62,12 @@ export const fetchWeatherData = async (
   }
 };
 
-export const fetchWeatherPlaceDetails = async (
-  continent: string,
-  country: string,
-  region: string,
-  subregion: string,
-  city: string
-): Promise<WeatherPlace> => {
+export const fetchPlaceList = async (): Promise<Place[]> => {
   try {
-    const url = `${BASE_URL}/api/places/details/`;
-    console.log('Fetching place details from URL:', url, 'with params:', { continent, country, region, subregion, city });
-    const response = await axios.get<WeatherPlace>(url, {
-      params: { continent, country, region, subregion, city }
-    });
-    console.log('Place details response:', response.data);
+    const response = await axios.get<Place[]>(`${BASE_URL}/api/places/`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching place details:', error);
-    throw error;
-  }
-};
-
-export const getContinents = async (): Promise<Continent[]> => {
-  try {
-    const response = await axios.get<Continent[]>(`${BASE_URL}/api/continents/`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching continents:', error);
+    console.error('Error fetching places:', error);
     throw error;
   }
 };
@@ -141,6 +82,16 @@ export const getContinent = async (name: string): Promise<Continent> => {
   }
 };
 
+export const getCountriesInContinent = async (continent: string): Promise<Country[]> => {
+  try {
+    const response = await axios.get<Country[]>(`${BASE_URL}/api/continents/${continent}/countries/`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching countries in continent ${continent}:`, error);
+    throw error;
+  }
+};
+
 export const getRegion = async (continent: string, region: string): Promise<Region> => {
   try {
     const response = await axios.get<Region>(`${BASE_URL}/api/continents/${continent}/regions/${region}/`);
@@ -151,12 +102,14 @@ export const getRegion = async (continent: string, region: string): Promise<Regi
   }
 };
 
-export const getCountriesInContinent = async (continent: string): Promise<Country[]> => {
+export const fetchNearestPlace = async (latitude: number, longitude: number): Promise<Place> => {
   try {
-    const response = await axios.get<Country[]>(`${BASE_URL}/api/continents/${continent}/countries/`);
+    const response = await axios.get<Place>(`${BASE_URL}/api/places/nearest/`, {
+      params: { latitude, longitude }
+    });
     return response.data;
   } catch (error) {
-    console.error(`Error fetching countries in continent ${continent}:`, error);
+    console.error('Error fetching nearest place:', error);
     throw error;
   }
 };
