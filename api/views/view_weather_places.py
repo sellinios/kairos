@@ -41,13 +41,19 @@ class WeatherDetailAPIView(APIView):
         place_obj = get_object_or_404(Place, slug=place_name, admin_division=admin_division_obj)
 
         # Find the nearest GFS forecast point
-        location = place_obj.location  # Use 'location' instead of 'boundary'
-        nearest_forecast = GFSForecast.objects.annotate(
+        location = place_obj.location
+        nearest_forecast_point = GFSForecast.objects.annotate(
             distance=Distance('location', location)
-        ).order_by('distance').first()  # Get the nearest forecast point
+        ).order_by('distance').first()
 
-        if not nearest_forecast:
+        if not nearest_forecast_point:
             return Response({'error': 'No forecast data available'}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = GFSForecastSerializer(nearest_forecast)
+        # Fetch all forecast entries for the nearest forecast point
+        nearest_forecasts = GFSForecast.objects.filter(
+            latitude=nearest_forecast_point.latitude,
+            longitude=nearest_forecast_point.longitude
+        ).order_by('timestamp')
+
+        serializer = GFSForecastSerializer(nearest_forecasts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -16,7 +16,7 @@ import NavigationMenu from './components/NavigationMenu/NavigationMenu';
 import ArticleDetail from './components/Blog/ArticleDetail/ArticleDetail';
 import ContinentDetail from './components/ContinentDetail/ContinentDetail';
 import CountryDetail from './components/CountryDetail/CountryDetail';
-import PlaceList from './components/PlaceList/PlaceList'; // Add this import
+import PlaceList from './components/PlaceList/PlaceList';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -24,7 +24,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
-        <UpperHeader /> {/* Use the imported component */}
+        <UpperHeader />
         <Header />
         <NavigationMenu />
         <div className="container">
@@ -40,7 +40,7 @@ const App: React.FC = () => {
               <Route path="/articles/:slug" element={<ArticleDetail />} />
               <Route path="/geography/:continent" element={<ContinentDetail />} />
               <Route path="/geography/:continent/:country" element={<CountryDetail />} />
-              <Route path="/places" element={<PlaceList />} /> {/* Add this route */}
+              <Route path="/places" element={<PlaceList />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
