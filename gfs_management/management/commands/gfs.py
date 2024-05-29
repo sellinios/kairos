@@ -19,8 +19,8 @@ logger = logging.getLogger(__name__)
 
 # Utility functions
 def get_latest_available_hour(base_url, date):
-    available_hours = ['00', '06', '12', '18']
-    for hour in reversed(available_hours):
+    available_hours = ['18', '12', '06', '00']
+    for hour in available_hours:
         url = f"{base_url}/gfs.{date}/{hour}/"
         response = requests.head(url, timeout=10)
         if response.status_code == 200:
@@ -33,8 +33,6 @@ def download_gfs_data_sequence(base_url, date, hours, forecast_hours, save_direc
 
     for hour in hours:
         for forecast_hour in forecast_hours:
-            if forecast_hour == 0:
-                continue
             file_name = f"gfs.t{hour}z.pgrb2.0p25.f{forecast_hour:03}"
             url = f"{base_url}/gfs.{date}/{hour}/atmos/{file_name}"
             save_path = os.path.join(
@@ -49,6 +47,7 @@ def download_gfs_data_sequence(base_url, date, hours, forecast_hours, save_direc
                     grib_files.append(save_path)
                 else:
                     logger.warning("Failed to download GFS data from %s", url)
+                    return False  # Indicate a failed attempt
             else:
                 logger.info("File already exists: %s", save_path)
                 grib_files.append(save_path)
@@ -155,17 +154,28 @@ class Command(BaseCommand):
         base_url = "https://nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod"
         date = now.strftime("%Y%m%d")
 
-        latest_hour = get_latest_available_hour(base_url, date)
-        if latest_hour is None:
+        def try_download(date, hours):
+            save_directory = "data/gfs_files"
+            forecast_hours = list(range(1, 241))  # Start from 1, not 4
+            for hour in hours:
+                grib_files = download_gfs_data_sequence(base_url, date, [hour], forecast_hours, save_directory)
+                if grib_files:
+                    return grib_files
+            return None
+
+        hours_to_try = ['18', '12', '06', '00']
+        grib_files = try_download(date, hours_to_try)
+
+        if not grib_files:
             logger.warning("No available GFS data found for the specified date. Trying the previous cycle.")
-            now -= timedelta(hours=6)
+            now -= timedelta(days=1)
             date = now.strftime("%Y%m%d")
-            latest_hour = get_latest_available_hour(base_url, date)
-            if latest_hour is None:
+            grib_files = try_download(date, hours_to_try)
+            if not grib_files:
                 logger.error("No available GFS data found for the previous cycle as well.")
                 return
 
-        now = now.replace(hour=int(latest_hour), minute=0, second=0, microsecond=0)
+        now = now.replace(hour=int(hours_to_try[0]), minute=0, second=0, microsecond=0)
         save_directory = "data/gfs_files"
 
         countries = Country.objects.filter(fetch_forecasts=True)
@@ -195,9 +205,16 @@ class Command(BaseCommand):
                 relevant_parameters = {(param.name, param.level, param.type_of_level): param.description for param in parameters}
 
                 logger.info("Forecast hours: %s", forecast_hours)
-                logger.info("Downloading GFS data for date: %s, hour: %s, forecast hours: %s", date, latest_hour, forecast_hours)
+                logger.info("Downloading GFS data for date: %s, hours: %s", date, hours_to_try)
 
-                grib_files = download_gfs_data_sequence(base_url, date, [latest_hour], forecast_hours, save_directory)
+                if not grib_files:
+                    logger.warning("Download failed, trying previous cycle.")
+                    now -= timedelta(days=1)
+                    date = now.strftime("%Y%m%d")
+                    grib_files = try_download(date, hours_to_try)
+                    if not grib_files:
+                        logger.error("Download failed again, aborting.")
+                        return
 
                 for grib_file in grib_files:
                     parse_and_import_gfs_data(grib_file, relevant_parameters, country, now)
