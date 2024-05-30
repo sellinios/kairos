@@ -140,6 +140,7 @@ def parse_and_import_gfs_data(file_path, relevant_parameters, country, base_time
         os.remove(file_path)
         logger.info("Deleted GRIB file: %s", file_path)
 
+
 class Command(BaseCommand):
     """
     Import GFS data into the database.
@@ -154,9 +155,8 @@ class Command(BaseCommand):
         base_url = "https://nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod"
         date = now.strftime("%Y%m%d")
 
-        def try_download(date, hours):
+        def try_download(date, hours, forecast_hours):
             save_directory = "data/gfs_files"
-            forecast_hours = list(range(1, 241))  # Start from 1, not 4
             for hour in hours:
                 grib_files = download_gfs_data_sequence(base_url, date, [hour], forecast_hours, save_directory)
                 if grib_files:
@@ -164,20 +164,8 @@ class Command(BaseCommand):
             return None
 
         hours_to_try = ['18', '12', '06', '00']
-        grib_files = try_download(date, hours_to_try)
 
-        if not grib_files:
-            logger.warning("No available GFS data found for the specified date. Trying the previous cycle.")
-            now -= timedelta(days=1)
-            date = now.strftime("%Y%m%d")
-            grib_files = try_download(date, hours_to_try)
-            if not grib_files:
-                logger.error("No available GFS data found for the previous cycle as well.")
-                return
-
-        now = now.replace(hour=int(hours_to_try[0]), minute=0, second=0, microsecond=0)
-        save_directory = "data/gfs_files"
-
+        # Fetch the forecast hours from the GFSConfig model
         countries = Country.objects.filter(fetch_forecasts=True)
         if not countries.exists():
             self.stdout.write(self.style.ERROR("No countries are enabled for fetching forecasts."))
@@ -202,19 +190,23 @@ class Command(BaseCommand):
                     logger.error("No parameters specified in GFS configuration for %s.", country.name)
                     continue
 
-                relevant_parameters = {(param.name, param.level, param.type_of_level): param.description for param in parameters}
+                relevant_parameters = {(param.name, param.level, param.type_of_level): param.description for param in
+                                       parameters}
 
                 logger.info("Forecast hours: %s", forecast_hours)
                 logger.info("Downloading GFS data for date: %s, hours: %s", date, hours_to_try)
 
+                grib_files = try_download(date, hours_to_try, forecast_hours)
                 if not grib_files:
                     logger.warning("Download failed, trying previous cycle.")
                     now -= timedelta(days=1)
                     date = now.strftime("%Y%m%d")
-                    grib_files = try_download(date, hours_to_try)
+                    grib_files = try_download(date, hours_to_try, forecast_hours)
                     if not grib_files:
                         logger.error("Download failed again, aborting.")
                         return
+
+                now = now.replace(hour=int(hours_to_try[0]), minute=0, second=0, microsecond=0)
 
                 for grib_file in grib_files:
                     parse_and_import_gfs_data(grib_file, relevant_parameters, country, now)
@@ -222,6 +214,7 @@ class Command(BaseCommand):
                 logger.info("GFS data import process completed for country: %s", country.name)
 
                 logger.info("Cleaning up GFS data files.")
+                save_directory = "data/gfs_files"
                 for filename in os.listdir(save_directory):
                     file_path = os.path.join(save_directory, filename)
                     if os.path.isfile(file_path) and filename.endswith(".grib2"):
@@ -232,3 +225,5 @@ class Command(BaseCommand):
                 logger.error("Error processing country %s: %s", country.name, e)
 
         logger.info("All countries processed.")
+
+# Models remain unchanged
