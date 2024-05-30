@@ -1,5 +1,3 @@
-# backend/settings.py
-
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -10,10 +8,10 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')  # Correctly load the API key from the .env file
 DEBUG = True
 
-ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr", '127.0.0.1:8000', '127.0.0.1', 'localhost:8000', 'localhost']
+ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,7 +25,8 @@ INSTALLED_APPS = [
     'imagekit',
     'rest_framework',
     'corsheaders',
-    'articles',  'backend',
+    'articles',
+    'backend',
     'gfs_management',
     'tinymce',
     'geography',
