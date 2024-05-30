@@ -5,19 +5,19 @@ import RainIcon from '../../../assets/icons/extreme-day-rain.svg';
 import CloudIcon from '../../../assets/icons/partly-cloudy-day.svg';
 import SunIcon from '../../../assets/icons/clear-day.svg';
 
-interface WeatherData {
+interface ForecastData {
     pressure_level_0_surface: number;
     temperature_level_0_surface: number;
-    wind_speed_gust_level_0_surface: number;
+    wind_speed_gust_level_0_surface: number;  // Corrected property name
     precipitation_rate_level_0_surface: number;
-    total_precipitation_level_0_surface: number;
+    total_precipitation_level_0_surface?: number; // Optional field
     low_cloud_cover_level_0_lowCloudLayer: number;
     high_cloud_cover_level_0_highCloudLayer: number;
-    convective_precipitation_level_0_surface: number;
+    convective_precipitation_level_0_surface?: number; // Optional field
     medium_cloud_cover_level_0_middleCloudLayer: number;
-    convective_precipitation_rate_level_0_surface: number;
-    maximum_temperature_level_2_heightAboveGround: number;
-    minimum_temperature_level_2_heightAboveGround: number;
+    convective_precipitation_rate_level_0_surface?: number; // Optional field
+    maximum_temperature_level_2_heightAboveGround?: number; // Optional field
+    minimum_temperature_level_2_heightAboveGround?: number; // Optional field
     u_component_of_wind_level_10_heightAboveGround: number;
     v_component_of_wind_level_10_heightAboveGround: number;
     convective_available_potential_energy_level_0_surface: number;
@@ -27,7 +27,10 @@ interface Forecast {
     id: number;
     latitude: number;
     longitude: number;
-    forecast_data: WeatherData;
+    temperature_celsius: number;
+    wind_speed: number;
+    wind_direction: number;
+    forecast_data: ForecastData;
     timestamp: string;
 }
 
@@ -54,7 +57,7 @@ const WeatherPage: React.FC = () => {
                 throw new Error(`Failed to fetch weather data: ${response.status} ${response.statusText}`);
             }
             const data: Forecast[] = await response.json();
-            console.log('Fetched data:', data);  // Log fetched data
+            console.log('Fetched data:', data);
             setForecasts(data);
         } catch (err) {
             if (err instanceof Error) {
@@ -81,30 +84,24 @@ const WeatherPage: React.FC = () => {
         return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     };
 
-    const calculateWindDirection = (u: number, v: number) => {
-        return (Math.atan2(v, u) * (180 / Math.PI)).toFixed(2);
-    };
-
-    const calculateWindSpeed = (u: number, v: number) => {
-        return Math.sqrt(Math.pow(u, 2) + Math.pow(v, 2)).toFixed(2);
-    };
-
-    const convertToCelsius = (kelvin: number) => {
-        return (kelvin - 273.15).toFixed(2);
-    };
-
     const getWeatherIcon = (precipitation: number, cloudCover: number) => {
         if (precipitation > 0) {
-            return RainIcon; // rain icon
+            return RainIcon;
         } else if (cloudCover > 50) {
-            return CloudIcon; // cloudy icon
+            return CloudIcon;
         } else {
-            return SunIcon; // sunny icon
+            return SunIcon;
         }
     };
 
     const roundCloudCover = (value: number) => {
         return Math.round(value);
+    };
+
+    const getCardinalDirection = (angle: number) => {
+        const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+        const index = Math.floor((angle / 22.5) + 0.5) % 16;
+        return directions[index];
     };
 
     return (
@@ -119,13 +116,13 @@ const WeatherPage: React.FC = () => {
                             <th>Conditions</th>
                             <th>Clouds (L/M/H)</th>
                             <th>Temperature (°C)</th>
-                            <th>Wind Direction (°)</th>
+                            <th>Wind Direction</th>
                             <th>Wind Speed (m/s)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {forecasts.map((forecast, index) => (
-                            <tr key={index}>
+                        {forecasts.map((forecast) => (
+                            <tr key={forecast.id}>
                                 <td>{formatDate(forecast.timestamp)}</td>
                                 <td>{forecast.forecast_data.precipitation_rate_level_0_surface}</td>
                                 <td>
@@ -142,19 +139,9 @@ const WeatherPage: React.FC = () => {
                                       ${roundCloudCover(forecast.forecast_data.medium_cloud_cover_level_0_middleCloudLayer)}/
                                       ${roundCloudCover(forecast.forecast_data.high_cloud_cover_level_0_highCloudLayer)}`}
                                 </td>
-                                <td>{convertToCelsius(forecast.forecast_data.temperature_level_0_surface)}</td>
-                                <td>
-                                    {calculateWindDirection(
-                                        forecast.forecast_data.u_component_of_wind_level_10_heightAboveGround,
-                                        forecast.forecast_data.v_component_of_wind_level_10_heightAboveGround
-                                    )}
-                                </td>
-                                <td>
-                                    {calculateWindSpeed(
-                                        forecast.forecast_data.u_component_of_wind_level_10_heightAboveGround,
-                                        forecast.forecast_data.v_component_of_wind_level_10_heightAboveGround
-                                    )}
-                                </td>
+                                <td>{forecast.temperature_celsius.toFixed(2)}</td>
+                                <td>{getCardinalDirection(forecast.wind_direction)}</td>
+                                <td>{forecast.wind_speed.toFixed(2)}</td>
                             </tr>
                         ))}
                     </tbody>
