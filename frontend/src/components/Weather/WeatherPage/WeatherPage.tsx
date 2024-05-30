@@ -103,6 +103,10 @@ const WeatherPage: React.FC = () => {
         }
     };
 
+    const roundCloudCover = (value: number) => {
+        return Math.round(value);
+    };
+
     return (
         <div className="weather-page">
             <h2>Weather for {city}</h2>
@@ -124,11 +128,33 @@ const WeatherPage: React.FC = () => {
                             <tr key={index}>
                                 <td>{formatDate(forecast.timestamp)}</td>
                                 <td>{forecast.forecast_data.precipitation_rate_level_0_surface}</td>
-                                <td><img src={getWeatherIcon(forecast.forecast_data.precipitation_rate_level_0_surface, forecast.forecast_data.high_cloud_cover_level_0_highCloudLayer)} alt="weather icon" /></td>
-                                <td>{`${forecast.forecast_data.low_cloud_cover_level_0_lowCloudLayer}/${forecast.forecast_data.medium_cloud_cover_level_0_middleCloudLayer}/${forecast.forecast_data.high_cloud_cover_level_0_highCloudLayer}`}</td>
+                                <td>
+                                    <img
+                                        src={getWeatherIcon(
+                                            forecast.forecast_data.precipitation_rate_level_0_surface,
+                                            forecast.forecast_data.high_cloud_cover_level_0_highCloudLayer
+                                        )}
+                                        alt="weather icon"
+                                    />
+                                </td>
+                                <td>
+                                    {`${roundCloudCover(forecast.forecast_data.low_cloud_cover_level_0_lowCloudLayer)}/
+                                      ${roundCloudCover(forecast.forecast_data.medium_cloud_cover_level_0_middleCloudLayer)}/
+                                      ${roundCloudCover(forecast.forecast_data.high_cloud_cover_level_0_highCloudLayer)}`}
+                                </td>
                                 <td>{convertToCelsius(forecast.forecast_data.temperature_level_0_surface)}</td>
-                                <td>{calculateWindDirection(forecast.forecast_data.u_component_of_wind_level_10_heightAboveGround, forecast.forecast_data.v_component_of_wind_level_10_heightAboveGround)}</td>
-                                <td>{calculateWindSpeed(forecast.forecast_data.u_component_of_wind_level_10_heightAboveGround, forecast.forecast_data.v_component_of_wind_level_10_heightAboveGround)}</td>
+                                <td>
+                                    {calculateWindDirection(
+                                        forecast.forecast_data.u_component_of_wind_level_10_heightAboveGround,
+                                        forecast.forecast_data.v_component_of_wind_level_10_heightAboveGround
+                                    )}
+                                </td>
+                                <td>
+                                    {calculateWindSpeed(
+                                        forecast.forecast_data.u_component_of_wind_level_10_heightAboveGround,
+                                        forecast.forecast_data.v_component_of_wind_level_10_heightAboveGround
+                                    )}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
