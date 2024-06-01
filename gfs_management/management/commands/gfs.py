@@ -10,7 +10,7 @@ import requests
 from django.core.management.base import BaseCommand
 from shapely.geometry import Point, shape
 
-from geography.models import Country
+from geography.models import model_geographic_country
 from gfs_management.models import GFSConfig, GFSParameter
 from weather.models.model_gfs_forecast import GFSForecast
 
@@ -166,7 +166,7 @@ class Command(BaseCommand):
         hours_to_try = ['18', '12', '06', '00']
 
         # Fetch the forecast hours from the GFSConfig model
-        countries = Country.objects.filter(fetch_forecasts=True)
+        countries = model_geographic_country.objects.filter(fetch_forecasts=True)
         if not countries.exists():
             self.stdout.write(self.style.ERROR("No countries are enabled for fetching forecasts."))
             return

@@ -26,6 +26,9 @@ class GeographicPlace(models.Model):
         category (ForeignKey): Category to which the place belongs.
         admin_division (ForeignKey): Administrative division to which the place belongs.
         location (PointField): Geographical location of the place.
+        nearest_gfs_latitude (FloatField): Nearest GFS forecast latitude.
+        nearest_gfs_longitude (FloatField): Nearest GFS forecast longitude.
+        nearest_gfs_location (PointField): Nearest GFS forecast location as a geographic point.
     """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True, blank=True)
@@ -41,6 +44,9 @@ class GeographicPlace(models.Model):
         GeographicDivision, on_delete=models.CASCADE, related_name='places'
     )
     location = gis_models.PointField(geography=True, null=True, blank=True)
+    nearest_gfs_latitude = models.FloatField(null=True, blank=True)
+    nearest_gfs_longitude = models.FloatField(null=True, blank=True)
+    nearest_gfs_location = gis_models.PointField(geography=True, null=True, blank=True)
 
     objects = GeographicManager()
 
@@ -122,3 +128,23 @@ class GeographicPlace(models.Model):
                 parts.append(self.admin_division.country.continent.slug)
 
         return f"https://kairos.gr/weather/{'/'.join(reversed(parts))}"
+
+    def update_nearest_gfs_coordinates(self, gfs_forecasts):
+        """
+        Update the nearest GFS coordinates based on available GFS forecasts.
+        """
+        min_distance = float('inf')
+        nearest_forecast = None
+        place_point = Point(self.longitude, self.latitude, srid=4326)
+        for forecast in gfs_forecasts:
+            forecast_point = Point(forecast.longitude, forecast.latitude, srid=4326)
+            distance = place_point.distance(forecast_point)
+            if distance < min_distance:
+                min_distance = distance
+                nearest_forecast = forecast
+
+        if nearest_forecast:
+            self.nearest_gfs_latitude = nearest_forecast.latitude
+            self.nearest_gfs_longitude = nearest_forecast.longitude
+            self.nearest_gfs_location = forecast_point
+            self.save()
