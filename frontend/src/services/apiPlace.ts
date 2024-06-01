@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
-export interface Place {
+export interface NearestPlace {
   id: number;
   name: string;
   longitude: number;
@@ -22,14 +22,18 @@ export interface Place {
   weather_url: string;
 }
 
-export const fetchNearestPlace = async (latitude: number, longitude: number): Promise<Place> => {
+export const fetchNearestPlace = async (latitude: number, longitude: number): Promise<NearestPlace> => {
   try {
-    const response = await axios.get<Place>(`${BASE_URL}/places/nearest/`, {
+    const response = await axios.get<NearestPlace>(`${BASE_URL}/places/nearest/`, {
       params: { latitude, longitude }
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching nearest place:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('Error fetching nearest place:', error.response ? error.response.data : error.message);
+    } else {
+      console.error('Unknown error:', error);
+    }
     throw error;
   }
 };

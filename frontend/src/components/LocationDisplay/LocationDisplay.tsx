@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchNearestPlace, Place } from '../../services/';
+import { fetchNearestPlace, NearestPlace } from '../../services';
 
 interface LocationDisplayProps {
   latitude: number;
@@ -10,20 +10,34 @@ interface LocationDisplayProps {
 const LocationDisplay: React.FC<LocationDisplayProps> = ({ latitude, longitude, onLocationUpdate }) => {
   const [entityName, setEntityName] = useState<string | null>(null);
   const [elevation, setElevation] = useState<number | null>(null);
-  const [fetchError, setFetchError] = useState<boolean>(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const place: Place = await fetchNearestPlace(latitude, longitude);
-        console.log(place); // Verify the place object structure
-        setEntityName(place.name);
-        setElevation(place.elevation);
-        setFetchError(false);
-        onLocationUpdate(place.name, latitude, longitude);
-        localStorage.setItem('entityName', place.name);
+        const place: NearestPlace = await fetchNearestPlace(latitude, longitude);
+        console.log('Fetched place:', place); // Log the place object
+
+        // Ensure all necessary fields are present and valid
+        if (
+          place &&
+          typeof place.name === 'string' &&
+          typeof place.elevation === 'number' &&
+          typeof place.latitude === 'number' &&
+          typeof place.longitude === 'number'
+        ) {
+          setEntityName(place.name);
+          setElevation(place.elevation);
+          setFetchError(null);
+          onLocationUpdate(place.name, latitude, longitude);
+          localStorage.setItem('entityName', place.name);
+        } else {
+          console.error('Invalid place data structure:', place);
+          setFetchError('Invalid place data');
+        }
       } catch (error) {
-        setFetchError(true);
+        console.error('Error fetching location:', error);
+        setFetchError('Error fetching location');
       }
     };
 
@@ -31,13 +45,13 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ latitude, longitude, 
   }, [latitude, longitude, onLocationUpdate]);
 
   if (fetchError) {
-    return <div>Error fetching location.</div>;
+    return <div>{fetchError}</div>;
   }
 
   return (
     <div>
-      <h1>{entityName}</h1>
-      <p>Elevation: {elevation} meters</p>
+      <h1>{entityName || 'Loading...'}</h1>
+      <p>Elevation: {elevation !== null ? `${elevation} meters` : 'Loading...'}</p>
     </div>
   );
 };
