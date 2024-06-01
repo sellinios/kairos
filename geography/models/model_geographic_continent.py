@@ -1,38 +1,43 @@
 """
-This module defines the Continent model, which represents a continent and its attributes.
+This module defines the GeographicContinent model, which represents a continent and its attributes.
 """
 
 from django.db import models
 from django.utils.text import slugify
 
-class Continent(models.Model):
+class GeographicContinent(models.Model):
     """
-    Represents a continent and its attributes.
+    Model representing a continent and its attributes.
+
+    Attributes:
+        id (AutoField): Primary key for the model.
+        name (CharField): Name of the continent.
+        slug (SlugField): URL-friendly version of the continent name.
     """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
 
     class Meta:
-        verbose_name = "Continent"
-        verbose_name_plural = "Continents"
+        verbose_name = "Geographic Continent"
+        verbose_name_plural = "Geographic Continents"
 
     def save(self, *args, **kwargs):
         """
-        Save the Continent instance, generating a slug if not already provided.
+        Save the GeographicContinent instance, generating a slug if not already provided.
         """
         if not self.slug:
             self.slug = slugify(self.name)
-        super().save(*args, **kwargs)  # Use Python 3 style super()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         """
-        Return a string representation of the Continent instance.
+        Return a string representation of the GeographicContinent instance.
         """
         return str(self.name)
 
     def get_slug(self):
         """
-        Return the slug of the Continent instance.
+        Return the slug of the GeographicContinent instance.
         """
         return self.slug

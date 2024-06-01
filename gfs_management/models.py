@@ -1,5 +1,5 @@
 from django.db import models
-from geography.models import Country
+from geography.models import GeographicCountry
 from django.utils import timezone
 
 class GFSParameter(models.Model):
@@ -19,7 +19,7 @@ class GFSParameter(models.Model):
 
 class GFSConfig(models.Model):
     """Model to store GFS configuration."""
-    countries = models.ManyToManyField(Country, related_name='gfs_configs')
+    countries = models.ManyToManyField(GeographicCountry, related_name='gfs_configs')
     forecast_hours = models.CharField(
         max_length=255, default="24"
     )  # Store as comma-separated values

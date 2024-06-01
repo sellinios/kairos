@@ -12,4 +12,5 @@ class GeographyConfig(AppConfig):
     name = 'geography'
 
     def ready(self):
-        import geography.signals  # Import the signal handlers to connect them
+        # Import the signal handlers to connect them
+        import geography.signals  # pylint: disable=import-outside-toplevel, unused-import

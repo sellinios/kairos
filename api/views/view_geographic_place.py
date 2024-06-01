@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from geography.models import Place
+from geography.models import GeographicPlace
 from api.serializers.serializer_geographic_place import PlaceSerializer
 from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
@@ -23,7 +23,7 @@ class NearestPlaceAPIView(APIView):
 
         user_location = Point(longitude, latitude, srid=4326)
 
-        nearest_place = Place.objects.annotate(distance=Distance('location', user_location)).order_by(
+        nearest_place = GeographicPlace.objects.annotate(distance=Distance('location', user_location)).order_by(
             'distance').first()
 
         if nearest_place:

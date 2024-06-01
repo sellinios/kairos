@@ -1,21 +1,16 @@
 """
-This module defines the Category model, which represents a category of geographic entities.
+Model definition for GeographicCategory.
 """
 
 from django.db import models
 
-class Category(models.Model):
-    """
-    Represents a category of geographic entities.
-    """
+class GeographicCategory(models.Model):
+    """Model representing a geographic category."""
     name = models.CharField(max_length=50, unique=True)
 
     class Meta:
-        verbose_name = "Category"
-        verbose_name_plural = "Categories"
+        verbose_name = "Geographic Category"
+        verbose_name_plural = "Geographic Categories"
 
     def __str__(self):
-        """
-        Return a string representation of the Category instance.
-        """
-        return str(self.name)
+        return self.name

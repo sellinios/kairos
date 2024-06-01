@@ -1,8 +1,9 @@
-from .model_geographic_admin_division import AdminDivisionInstance
-from .model_geographic_country import Country, CountryDetails
-from .model_geographic_place import Place
-from .model_geographic_planet import Planet
-from .model_geographic_continent import Continent
-from .model_geographic_level import Level
-from .model_geographic_category import Category
-from .model_geographic_place_manager import PlaceManager
+# geography/models/__init__.py
+from .model_geographic_category import GeographicCategory
+from .model_geographic_level import GeographicLevel
+from .model_geographic_planet import GeographicPlanet
+from .model_geographic_country import GeographicCountry, GeographicCountryDetails
+from .model_geographic_continent import GeographicContinent
+from .model_geographic_division import GeographicDivision
+from .model_geographic_place import GeographicPlace
+from .model_geographic_manager import GeographicManager

@@ -1,5 +1,6 @@
 import os
 import subprocess
+import shutil
 from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
@@ -15,8 +16,12 @@ class Command(BaseCommand):
             migrations_dir = os.path.join(app, "migrations")
             if os.path.exists(migrations_dir):
                 for file in os.listdir(migrations_dir):
+                    file_path = os.path.join(migrations_dir, file)
                     if file != "__init__.py":
-                        os.remove(os.path.join(migrations_dir, file))
+                        if os.path.isdir(file_path):
+                            shutil.rmtree(file_path)
+                        else:
+                            os.remove(file_path)
                 with open(os.path.join(migrations_dir, "__init__.py"), 'w') as f:
                     pass
                 self.stdout.write(self.style.SUCCESS(f"Cleaned migrations for {app}."))

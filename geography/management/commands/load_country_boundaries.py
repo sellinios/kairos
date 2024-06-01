@@ -2,7 +2,7 @@ import os
 from django.core.management.base import BaseCommand
 from django.contrib.gis.gdal import DataSource
 from django.contrib.gis.geos import MultiPolygon, Polygon
-from geography.models import Country, Continent
+from geography.models import GeographicCountry, GeographicContinent
 
 class Command(BaseCommand):
     help = 'Load country boundaries and continents into the database'
@@ -47,7 +47,7 @@ class Command(BaseCommand):
                     continue  # Skip this record
 
                 # Get or create the continent
-                continent, created = Continent.objects.get_or_create(name=continent_name)
+                continent, created = GeographicContinent.objects.get_or_create(name=continent_name)
 
                 # Handle missing fields by checking if they exist in the feature
                 area = feature.get('AREA') if 'AREA' in feature.fields else None
@@ -57,7 +57,7 @@ class Command(BaseCommand):
                 iso_numeric = feature.get('ISO_N3') if 'ISO_N3' in feature.fields else None
 
                 # Update or create the country
-                Country.objects.update_or_create(
+                GeographicCountry.objects.update_or_create(
                     iso_alpha3=iso_alpha3,
                     defaults={
                         'name': name,
@@ -73,4 +73,3 @@ class Command(BaseCommand):
                 )
 
         self.stdout.write(self.style.SUCCESS('Successfully loaded country boundaries and continents'))
-
