@@ -17,9 +17,10 @@ export interface NearestPlace {
 
 export const fetchNearestPlace = async (latitude: number, longitude: number): Promise<NearestPlace> => {
   try {
-    const response = await axios.get<NearestPlace>(`${BASE_URL}/nearest-place/`, {
+    const response = await axios.get<NearestPlace>(`${BASE_URL}/api/nearest-place/`, {
       params: { latitude, longitude }
     });
+    console.log('API Response:', response.data); // Detailed logging of API response
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

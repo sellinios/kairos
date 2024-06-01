@@ -1,9 +1,7 @@
-/* src/components/UpperHeader/UpperHeader.css */
+/* UpperHeader.css */
 .upper-header {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 10px 20px;
   background-color: #f8f9fa; /* Light background to differentiate from header */
-  border-bottom: 1px solid #dee2e6; /* Border to separate from header */
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import LocationDisplay from '../LocationDisplay/LocationDisplay';
+import './UpperHeader.css'; // Import the CSS file
 
 interface UpperHeaderProps {
   onLocationUpdate?: (location: string, latitude: number, longitude: number) => void;
@@ -29,13 +30,13 @@ const UpperHeader: React.FC<UpperHeaderProps> = ({ onLocationUpdate = () => {} }
   }
 
   return (
-    <div>
+    <header className="upper-header d-flex align-items-center p-3 bg-light">
       <LocationDisplay
         latitude={latitude}
         longitude={longitude}
         onLocationUpdate={onLocationUpdate}
       />
-    </div>
+    </header>
   );
 };
 

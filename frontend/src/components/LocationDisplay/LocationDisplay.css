@@ -1,55 +1,23 @@
-/* src/components/LocationDisplay/LocationDisplay.css */
-.location-display-container {
-  display: flex;
-  flex-direction: column;
+/* LocationDisplay.css */
+
+.location-display {
   padding: 10px;
-  background-color: #f8f9fa; /* Light background to differentiate from header */
-  border-bottom: 1px solid #dee2e6; /* Border to separate from header */
+  text-align: center;
+  font-family: 'Arial', sans-serif;
 }
 
-.location-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.location-info {
-  flex: 1;
+.location-display h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
   color: #333;
 }
 
-.dot {
-  height: 14px;
-  width: 14px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 10px;
-  border: 2px solid #333;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+.location-display p {
+  font-size: 18px;
+  color: #666;
 }
 
-.dot-green {
-  background-color: #28a745;
-}
-
-.dot-red {
-  background-color: #dc3545;
-}
-
-.single-line {
-  display: flex;
-  align-items: center;
-}
-
-.entity-name {
+.location-display.error {
+  color: red;
   font-weight: bold;
-  font-size: 1rem;
-  color: #007bff;
-}
-
-.coords {
-  font-size: 0.9rem;
-  color: #6c757d;
-  margin-left: 24px; /* Indent the coordinates to align properly */
 }
