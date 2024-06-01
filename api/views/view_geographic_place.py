@@ -1,11 +1,11 @@
+# api/views/view_geographic_place.py
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from geography.models import GeographicPlace
+from geography.models import GeographicPlace, GeographicDivision, GeographicCountry, GeographicContinent
 from api.serializers.serializer_geographic_place import PlaceSerializer
 from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
-
 
 class NearestPlaceAPIView(APIView):
     def get(self, request, *args, **kwargs):
@@ -23,11 +23,16 @@ class NearestPlaceAPIView(APIView):
 
         user_location = Point(longitude, latitude, srid=4326)
 
-        nearest_place = GeographicPlace.objects.annotate(distance=Distance('location', user_location)).order_by(
-            'distance').first()
+        nearest_place = GeographicPlace.objects.annotate(distance=Distance('location', user_location)).order_by('distance').first()
 
         if nearest_place:
-            serializer = PlaceSerializer(nearest_place)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            data = PlaceSerializer(nearest_place).data
+            # Adding hierarchy data
+            division = nearest_place.admin_division
+            data['subregion'] = division.slug
+            data['region'] = division.parent.slug if division.parent else 'unknown'
+            data['country'] = division.country.slug if division.country else 'unknown'
+            data['continent'] = division.country.continent.slug if division.country and division.country.continent else 'unknown'
+            return Response(data, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'No place found'}, status=status.HTTP_404_NOT_FOUND)

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './WeatherPage.css';
-import RainIcon from '../../../assets/icons/extreme-day-rain.svg';
-import CloudIcon from '../../../assets/icons/partly-cloudy-day.svg';
-import SunIcon from '../../../assets/icons/clear-day.svg';
+import { WiDayRain, WiDayCloudy, WiDaySunny } from 'react-icons/wi';
 
 interface ForecastData {
     pressure_level_0_surface: number;
@@ -86,11 +84,11 @@ const WeatherPage: React.FC = () => {
 
     const getWeatherIcon = (precipitation: number, cloudCover: number) => {
         if (precipitation > 0) {
-            return RainIcon;
+            return <WiDayRain />;
         } else if (cloudCover > 50) {
-            return CloudIcon;
+            return <WiDayCloudy />;
         } else {
-            return SunIcon;
+            return <WiDaySunny />;
         }
     };
 
@@ -125,15 +123,7 @@ const WeatherPage: React.FC = () => {
                             <tr key={forecast.id}>
                                 <td>{formatDate(forecast.timestamp)}</td>
                                 <td>{forecast.forecast_data.precipitation_rate_level_0_surface}</td>
-                                <td>
-                                    <img
-                                        src={getWeatherIcon(
-                                            forecast.forecast_data.precipitation_rate_level_0_surface,
-                                            forecast.forecast_data.high_cloud_cover_level_0_highCloudLayer
-                                        )}
-                                        alt="weather icon"
-                                    />
-                                </td>
+                                <td>{getWeatherIcon(forecast.forecast_data.precipitation_rate_level_0_surface, forecast.forecast_data.high_cloud_cover_level_0_highCloudLayer)}</td>
                                 <td>
                                     {`${roundCloudCover(forecast.forecast_data.low_cloud_cover_level_0_lowCloudLayer)}/
                                       ${roundCloudCover(forecast.forecast_data.medium_cloud_cover_level_0_middleCloudLayer)}/
@@ -151,6 +141,6 @@ const WeatherPage: React.FC = () => {
             )}
         </div>
     );
-};
+}
 
 export default WeatherPage;

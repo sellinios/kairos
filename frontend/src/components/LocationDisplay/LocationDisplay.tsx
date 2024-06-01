@@ -12,22 +12,27 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ latitude, longitude, 
   const [entityName, setEntityName] = useState<string | null>(null);
   const [elevation, setElevation] = useState<number | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [continent, setContinent] = useState<string>('unknown');
+  const [country, setCountry] = useState<string>('unknown');
+  const [region, setRegion] = useState<string>('unknown');
+  const [subregion, setSubregion] = useState<string>('unknown');
+  const [city, setCity] = useState<string>('unknown');
 
   useEffect(() => {
     const fetchLocation = async () => {
       try {
+        console.log(`Fetching nearest place for coordinates: (${latitude}, ${longitude})`);
         const place: NearestPlace = await fetchNearestPlace(latitude, longitude);
         console.log('Fetched place:', place); // Log the place object
 
-        if (
-          place &&
-          typeof place.name === 'string' &&
-          typeof place.elevation === 'number' &&
-          typeof place.latitude === 'number' &&
-          typeof place.longitude === 'number'
-        ) {
+        if (place && typeof place.name === 'string' && typeof place.elevation === 'number' && typeof place.latitude === 'number' && typeof place.longitude === 'number') {
           setEntityName(place.name);
           setElevation(place.elevation);
+          setCity(place.name);
+          setContinent(place.continent || 'unknown');
+          setCountry(place.country || 'unknown');
+          setRegion(place.region || 'unknown');
+          setSubregion(place.subregion || 'unknown');
           setFetchError(null);
           onLocationUpdate(place.name, latitude, longitude);
           localStorage.setItem('entityName', place.name);
@@ -48,10 +53,20 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ latitude, longitude, 
     return <div className="location-display error">{fetchError}</div>;
   }
 
+  const formatUrl = (continent: string, country: string, region: string, subregion: string, city: string) => {
+    const urlName = city.toLowerCase().replace(/ /g, '-');
+    return `https://kairos.gr/weather/${continent}/${country}/${region}/${subregion}/${urlName}/`;
+  };
+
   return (
     <div className="location-display">
       <h1 className="h4">{entityName || 'Loading...'}</h1>
       <p>Elevation: {elevation !== null ? `${elevation} meters` : 'Loading...'}</p>
+      {entityName && (
+        <a href={formatUrl(continent, country, region, subregion, city)} target="_blank" rel="noopener noreferrer">
+          View weather for {entityName}
+        </a>
+      )}
     </div>
   );
 };
