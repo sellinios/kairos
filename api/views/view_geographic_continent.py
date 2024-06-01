@@ -1,7 +1,14 @@
-from rest_framework import viewsets
-from geography.models import GeographicContinent
-from api.serializers.serializer_geographic_continent import ContinentSerializer
+# api/views/view_geographic_continent.py
 
-class ContinentViewSet(viewsets.ModelViewSet):
+from rest_framework import generics
+from geography.models import GeographicContinent
+from api.serializers.serializer_geographic_continent import GeographicContinentSerializer
+
+class GeographicContinentListView(generics.ListAPIView):
     queryset = GeographicContinent.objects.all()
-    serializer_class = ContinentSerializer
+    serializer_class = GeographicContinentSerializer
+
+class GeographicContinentDetailView(generics.RetrieveAPIView):
+    queryset = GeographicContinent.objects.all()
+    serializer_class = GeographicContinentSerializer
+    lookup_field = 'slug'
