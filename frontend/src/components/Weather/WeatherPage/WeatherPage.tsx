@@ -7,17 +7,17 @@ import SunIcon from '../../../assets/icons/clear-day.svg';
 
 interface ForecastData {
     pressure_level_0_surface: number;
-    temperature_level_0_surface: number;
-    wind_speed_gust_level_0_surface: number;  // Corrected property name
+    temperature_level_2_heightAboveGround: number;
+    wind_speed_gust_level_0_surface: number;
     precipitation_rate_level_0_surface: number;
-    total_precipitation_level_0_surface?: number; // Optional field
+    total_precipitation_level_0_surface?: number;
     low_cloud_cover_level_0_lowCloudLayer: number;
     high_cloud_cover_level_0_highCloudLayer: number;
-    convective_precipitation_level_0_surface?: number; // Optional field
+    convective_precipitation_level_0_surface?: number;
     medium_cloud_cover_level_0_middleCloudLayer: number;
-    convective_precipitation_rate_level_0_surface?: number; // Optional field
-    maximum_temperature_level_2_heightAboveGround?: number; // Optional field
-    minimum_temperature_level_2_heightAboveGround?: number; // Optional field
+    convective_precipitation_rate_level_0_surface?: number;
+    maximum_temperature_level_2_heightAboveGround?: number;
+    minimum_temperature_level_2_heightAboveGround?: number;
     u_component_of_wind_level_10_heightAboveGround: number;
     v_component_of_wind_level_10_heightAboveGround: number;
     convective_available_potential_energy_level_0_surface: number;

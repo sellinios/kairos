@@ -225,5 +225,3 @@ class Command(BaseCommand):
                 logger.error("Error processing country %s: %s", country.name, e)
 
         logger.info("All countries processed.")
-
-# Models remain unchanged
