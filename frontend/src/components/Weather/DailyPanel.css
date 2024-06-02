@@ -86,9 +86,17 @@ hr {
     flex-direction: row;
   }
 
-  .forecast-details .col-sm-6 {
+  .forecast-details .col-sm-6,
+  .panel-header .col-sm-6 {
     flex: 0 0 50%;
     max-width: 50%;
+  }
+
+  .forecast-details .col-md-2:nth-child(5),
+  .forecast-details .col-md-2:nth-child(6),
+  .panel-header .col-md-2:nth-child(5),
+  .panel-header .col-md-2:nth-child(6) {
+    display: none; /* Hide Precipitation and Alerts sections on mobile */
   }
 
   .panel-date,

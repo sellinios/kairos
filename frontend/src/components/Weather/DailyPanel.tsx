@@ -17,7 +17,7 @@ interface DailyPanelProps {
 
 const DailyPanel: React.FC<DailyPanelProps> = ({ forecasts, country, showHeaders }) => {
   const getCardinalDirection = (angle: number): string => {
-    const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+    const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
     const index = Math.floor((angle / 22.5) + 0.5) % 16;
     return directions[index];
   };
@@ -126,6 +126,7 @@ const DailyPanel: React.FC<DailyPanelProps> = ({ forecasts, country, showHeaders
                   <a href="#" className="link">Open hourly forecast &gt;</a>
                 </div>
               </div>
+              <hr />
             </div>
           </div>
         );
