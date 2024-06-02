@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
                                 <li><Link to="/geography/africa" className="text-white"><FontAwesomeIcon icon={faGlobe} /> {t('africa')}</Link></li>
                                 <li><Link to="/geography/north-america" className="text-white"><FontAwesomeIcon icon={faGlobe} /> {t('northAmerica')}</Link></li>
                                 <li><Link to="/geography/south-america" className="text-white"><FontAwesomeIcon icon={faGlobe} /> {t('southAmerica')}</Link></li>
-                                <li><Link to="/geography/oceania" className="text-white"><FontAwesomeIcon icon={faGlobe} /> {t('Oceania')}</Link></li>
+                                <li><Link to="/geography/oceania" className="text-white"><FontAwesomeIcon icon={faGlobe} /> {t('oceania')}</Link></li>
                                 <li><Link to="/geography/antarctica" className="text-white"><FontAwesomeIcon icon={faGlobe} /> {t('antarctica')}</Link></li>
                             </ul>
                         </nav>

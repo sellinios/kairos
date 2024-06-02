@@ -1,36 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './WeatherPage.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import DailyPanel from '../DailyPanel'; // Corrected path
+import { Forecast, DailyForecast } from '../types'; // Corrected path
 import { WiDayRain, WiDayCloudy, WiDaySunny } from 'react-icons/wi';
+import './WeatherPage.css'; // Corrected path
 
-interface ForecastData {
-    pressure_level_0_surface: number;
-    temperature_level_2_heightAboveGround: number;
-    wind_speed_gust_level_0_surface: number;
-    precipitation_rate_level_0_surface: number;
-    total_precipitation_level_0_surface?: number;
-    low_cloud_cover_level_0_lowCloudLayer: number;
-    high_cloud_cover_level_0_highCloudLayer: number;
-    convective_precipitation_level_0_surface?: number;
-    medium_cloud_cover_level_0_middleCloudLayer: number;
-    convective_precipitation_rate_level_0_surface?: number;
-    maximum_temperature_level_2_heightAboveGround?: number;
-    minimum_temperature_level_2_heightAboveGround?: number;
-    u_component_of_wind_level_10_heightAboveGround: number;
-    v_component_of_wind_level_10_heightAboveGround: number;
-    convective_available_potential_energy_level_0_surface: number;
-}
-
-interface Forecast {
-    id: number;
-    latitude: number;
-    longitude: number;
-    temperature_celsius: number;
-    wind_speed: number;
-    wind_direction: number;
-    forecast_data: ForecastData;
-    timestamp: string;
-}
+const countryTimeZones: { [key: string]: string } = {
+    'greece': 'Europe/Athens',
+    'japan': 'Asia/Tokyo',
+    // Add more countries and their time zones here as needed
+};
 
 const WeatherPage: React.FC = () => {
     const { continent, country, region, subregion, city } = useParams<{
@@ -40,102 +20,107 @@ const WeatherPage: React.FC = () => {
         subregion: string;
         city: string;
     }>();
-    const [forecasts, setForecasts] = useState<Forecast[]>([]);
+
+    const [dailyForecasts, setDailyForecasts] = useState<DailyForecast[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    async function fetchWeatherData() {
-        try {
-            const url = `/api/weather/${continent}/${country}/${region}/${subregion}/${city}/`;
-            console.log(`Fetching data from ${url}`);
-            const response = await fetch(url);
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error(`Error response from server: ${errorText}`);
-                throw new Error(`Failed to fetch weather data: ${response.status} ${response.statusText}`);
-            }
-            const data: Forecast[] = await response.json();
-            console.log('Fetched data:', data);
-            setForecasts(data);
-        } catch (err) {
-            if (err instanceof Error) {
-                setError(`Error fetching weather data: ${err.message}`);
-                console.error('Error fetching weather data:', err);
-            } else {
-                setError('An unknown error occurred');
-                console.error('An unknown error occurred:', err);
-            }
-        } finally {
-            setLoading(false);
-        }
-    }
-
     useEffect(() => {
+        const fetchWeatherData = async () => {
+            try {
+                const url = `/api/weather/${continent}/${country}/${region}/${subregion}/${city}/`;
+                console.log(`Fetching data from ${url}`);
+                const response = await fetch(url);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error(`Error response from server: ${errorText}`);
+                    throw new Error(`Failed to fetch weather data: ${response.status} ${response.statusText}`);
+                }
+                const data: Forecast[] = await response.json();
+                const dailyData = processDailyData(data);
+                setDailyForecasts(dailyData);
+            } catch (err) {
+                if (err instanceof Error) {
+                    setError(`Error fetching weather data: ${err.message}`);
+                    console.error('Error fetching weather data:', err);
+                } else {
+                    setError('An unknown error occurred');
+                    console.error('An unknown error occurred:', err);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchWeatherData();
     }, [continent, country, region, subregion, city]);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
+    const processDailyData = (data: Forecast[]): DailyForecast[] => {
+        const groupedByDate = data.reduce((acc: { [key: string]: Forecast[] }, curr) => {
+            const date = curr.date;
+            if (!acc[date]) {
+                acc[date] = [];
+            }
+            acc[date].push(curr);
+            return acc;
+        }, {});
 
-    const formatDate = (timestamp: string) => {
-        const date = new Date(timestamp);
-        return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+        return Object.keys(groupedByDate).map(date => {
+            const dailyData = groupedByDate[date];
+            const minTemp = Math.min(...dailyData.map(f => f.temperature_celsius));
+            const maxTemp = Math.max(...dailyData.map(f => f.temperature_celsius));
+            const generalIcon = getGeneralIcon(dailyData);
+            const generalText = getGeneralText(dailyData);
+            return {
+                date,
+                minTemp,
+                maxTemp,
+                generalIcon,
+                generalText,
+                hourlyForecasts: dailyData
+            };
+        });
     };
 
-    const getWeatherIcon = (precipitation: number, cloudCover: number) => {
-        if (precipitation > 0) {
-            return <WiDayRain />;
-        } else if (cloudCover > 50) {
-            return <WiDayCloudy />;
-        } else {
-            return <WiDaySunny />;
-        }
+    const getGeneralIcon = (dailyData: Forecast[]): JSX.Element => {
+        let rain = false;
+        let cloudy = false;
+        let sunny = false;
+
+        dailyData.forEach(forecast => {
+            if (forecast.forecast_data.precipitation_rate_level_0_surface > 0) {
+                rain = true;
+            } else if (forecast.forecast_data.high_cloud_cover_level_0_highCloudLayer > 50) {
+                cloudy = true;
+            } else {
+                sunny = true;
+            }
+        });
+
+        if (rain) return <WiDayRain className="icon" />;
+        if (cloudy) return <WiDayCloudy className="icon" />;
+        return <WiDaySunny className="icon" />;
     };
 
-    const roundCloudCover = (value: number) => {
-        return Math.round(value);
-    };
-
-    const getCardinalDirection = (angle: number) => {
-        const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-        const index = Math.floor((angle / 22.5) + 0.5) % 16;
-        return directions[index];
+    const getGeneralText = (dailyData: Forecast[]): string => {
+        let windy = false;
+        dailyData.forEach(forecast => {
+            if (forecast.wind_speed > 5) {
+                windy = true;
+            }
+        });
+        return windy ? 'Windy' : '';
     };
 
     return (
         <div className="weather-page">
             <h2>Weather for {city}</h2>
-            {forecasts.length > 0 ? (
-                <table className="weather-table">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Precipitation (mm/hr)</th>
-                            <th>Conditions</th>
-                            <th>Clouds (L/M/H)</th>
-                            <th>Temperature (°C)</th>
-                            <th>Wind Direction</th>
-                            <th>Wind Speed (m/s)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {forecasts.map((forecast) => (
-                            <tr key={forecast.id}>
-                                <td>{formatDate(forecast.timestamp)}</td>
-                                <td>{forecast.forecast_data.precipitation_rate_level_0_surface}</td>
-                                <td>{getWeatherIcon(forecast.forecast_data.precipitation_rate_level_0_surface, forecast.forecast_data.high_cloud_cover_level_0_highCloudLayer)}</td>
-                                <td>
-                                    {`${roundCloudCover(forecast.forecast_data.low_cloud_cover_level_0_lowCloudLayer)}/
-                                      ${roundCloudCover(forecast.forecast_data.medium_cloud_cover_level_0_middleCloudLayer)}/
-                                      ${roundCloudCover(forecast.forecast_data.high_cloud_cover_level_0_highCloudLayer)}`}
-                                </td>
-                                <td>{forecast.temperature_celsius.toFixed(2)}</td>
-                                <td>{getCardinalDirection(forecast.wind_direction)}</td>
-                                <td>{forecast.wind_speed.toFixed(2)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            {dailyForecasts.length > 0 ? (
+                <div className="daily-panels">
+                    {dailyForecasts.map((daily, idx) => (
+                        <DailyPanel key={idx} daily={daily} country={country || ''} />
+                    ))}
+                </div>
             ) : (
                 <p>No weather data available.</p>
             )}

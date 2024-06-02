@@ -6,8 +6,12 @@ from api.views.view_geographic_country import GeographicCountryListView, Geograp
 from api.views.view_geographic_level import GeographicLevelListView, GeographicLevelDetailView
 from api.views.view_geographic_continent import GeographicContinentListView, GeographicContinentDetailView
 
-# Define the router, if any viewsets are used
+# Initialize the router
 router = DefaultRouter()
+
+# Register viewsets with the router
+# Note: If you had any viewsets, they would be registered here, for example:
+# router.register(r'continents', ContinentViewSet)
 
 urlpatterns = [
     re_path(r'^weather/(?P<continent>[\w-]+)/(?P<country>[\w-]+)/(?P<levels_and_place>.+)/$', WeatherDetailAPIView.as_view(), name='weather_detail_api'),
@@ -18,5 +22,5 @@ urlpatterns = [
     path('levels/<int:id>/', GeographicLevelDetailView.as_view(), name='geographic_level_detail'),
     path('continents/', GeographicContinentListView.as_view(), name='geographic_continent_list'),
     path('continents/<slug:slug>/', GeographicContinentDetailView.as_view(), name='geographic_continent_detail'),
-    path('', include(router.urls)),
+    path('', include(router.urls)),  # Include the router URLs if you have viewsets
 ]

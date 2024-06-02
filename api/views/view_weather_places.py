@@ -1,5 +1,3 @@
-# api/views/view_weather_places.py
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -53,7 +51,7 @@ class WeatherDetailAPIView(APIView):
         nearest_forecasts = GFSForecast.objects.filter(
             latitude=nearest_forecast_point.latitude,
             longitude=nearest_forecast_point.longitude
-        ).order_by('timestamp')
+        ).order_by('date', 'hour')  # Sort by date and hour
 
         serializer = GFSForecastSerializer(nearest_forecasts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
