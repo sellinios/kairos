@@ -1,5 +1,5 @@
 const config = {
-  defaultLanguage: 'en',
+  defaultLanguage: 'gr',
   featureFlag: true
 };
 
