@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DailyPanel from '../DailyPanel';
 import { Forecast, DailyForecast } from '../types';
 import { WiDayRain, WiDayCloudy, WiDaySunny } from 'react-icons/wi';
-import TemperatureChart from '../TemperatureChart';
 import './WeatherPage.css';
 
 const countryTimeZones: { [key: string]: string } = {
@@ -114,25 +113,15 @@ const WeatherPage: React.FC = () => {
     return windy ? 'Windy' : '';
   };
 
-  const getChartData = (dailyForecasts: DailyForecast[]) => {
-    return dailyForecasts.map(forecast => ({
-      date: forecast.date,
-      temperature: forecast.maxTemp,
-    }));
-  };
-
   return (
     <div className="weather-page">
       <h2>Weather for {city}</h2>
       {dailyForecasts.length > 0 ? (
-        <>
-          <TemperatureChart data={getChartData(dailyForecasts)} />
-          <div className="daily-panels">
-            {dailyForecasts.map((daily, idx) => (
-              <DailyPanel key={idx} daily={daily} country={country || ''} />
-            ))}
-          </div>
-        </>
+        <div className="daily-panels">
+          {dailyForecasts.map((daily, idx) => (
+            <DailyPanel key={idx} forecasts={[daily]} country={country || ''} showHeaders={idx === 0} />
+          ))}
+        </div>
       ) : (
         <p>No weather data available.</p>
       )}

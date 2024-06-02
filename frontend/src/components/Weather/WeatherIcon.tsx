@@ -1,6 +1,6 @@
 import React from 'react';
 import { WeatherSvg } from 'weather-icons-animated';
-import { WeatherState } from './Wtypes';
+import { WeatherState } from './types';
 
 interface WeatherIconProps {
   state: WeatherState;
