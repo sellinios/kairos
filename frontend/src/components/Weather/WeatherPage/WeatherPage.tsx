@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DailyPanel from '../DailyPanel'; // Corrected path
 import { Forecast, DailyForecast } from '../types'; // Corrected path
-import { WiDayRain, WiDayCloudy, WiDaySunny } from 'react-icons/wi';
+import { WiDayRain, WiDayCloudy, WiDaySunny } from 'react-icons/wi'; // Ensure this import
 import './WeatherPage.css'; // Corrected path
 
 const countryTimeZones: { [key: string]: string } = {
@@ -38,7 +38,8 @@ const WeatherPage: React.FC = () => {
                 }
                 const data: Forecast[] = await response.json();
                 const dailyData = processDailyData(data);
-                setDailyForecasts(dailyData);
+                const filteredDailyData = dailyData.filter(daily => new Date(daily.date).getTime() >= new Date().setHours(0, 0, 0, 0));
+                setDailyForecasts(filteredDailyData);
             } catch (err) {
                 if (err instanceof Error) {
                     setError(`Error fetching weather data: ${err.message}`);
