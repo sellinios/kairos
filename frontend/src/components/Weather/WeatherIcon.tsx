@@ -1,6 +1,6 @@
 import React from 'react';
 import { WeatherSvg } from 'weather-icons-animated';
-import { WeatherState } from './Wtypes';  // Adjusted path
+import { WeatherState } from './Wtypes';
 
 interface WeatherIconProps {
   state: WeatherState;
@@ -9,7 +9,7 @@ interface WeatherIconProps {
   night?: boolean;
 }
 
-const WeatherIcon: React.FC<WeatherIconProps> = ({ state, width = 200, height = 200, night = false }) => {
+const WeatherIcon: React.FC<WeatherIconProps> = ({ state, width = 100, height = 100, night = false }) => {
   return <WeatherSvg state={state} width={width} height={height} night={night} />;
 };
 

@@ -3,6 +3,7 @@ import WeatherIcon from './WeatherIcon';
 import { DailyForecast } from './types';
 import { WeatherState } from './Wtypes';
 import './DailyPanel.css';
+import TemperatureChart from './TemperatureChart';
 
 const countryTimeZones: { [key: string]: string } = {
   'greece': 'Europe/Athens',
@@ -88,31 +89,34 @@ const DailyPanel: React.FC<DailyPanelProps> = ({ daily, country }) => {
     daily.hourlyForecasts[0].forecast_data.precipitation_rate_level_0_surface
   );
 
+  const chartData = daily.hourlyForecasts.map(forecast => ({
+    date: formatDateTime(forecast.date, forecast.hour, country),
+    temperature: forecast.temperature_celsius,
+  }));
+
   return (
-    <div className="daily-panel">
-      <div className="panel-header">
+    <div className="daily-panel bg-dark text-white">
+      <div className="panel-header d-flex justify-content-between align-items-center">
         <div className="panel-date">{new Date(daily.date).toLocaleDateString()}</div>
         <div className="panel-icon">
           <WeatherIcon state={generalIconState} width={100} height={100} />
         </div>
         <div className="panel-temp">{`Max: ${daily.maxTemp.toFixed(1)}°C`}</div>
       </div>
+      <TemperatureChart data={chartData} />
       <div className="panel-body">
         <div>{getGeneralTextDetails(daily.generalText)}</div>
         <div>{`Min: ${daily.minTemp.toFixed(1)}°C`}</div>
         <div>Wind: {daily.hourlyForecasts[0] && getCardinalDirection(daily.hourlyForecasts[0].wind_direction)} {daily.hourlyForecasts[0] && (daily.hourlyForecasts[0].wind_speed * 3.6).toFixed(1)} km/h</div>
-        <div>Wind Gusts: {/* Add wind gusts if available */}</div>
-        <div>Probability of Precipitation: {/* Add probability if available */}</div>
-        <div>Probability of Thunderstorms: {/* Add probability if available */}</div>
         <div>Precipitation: {totalPrecipitation.toFixed(2)} mm</div>
         <div>Cloud Cover: {daily.hourlyForecasts[0] && roundCloudCover(daily.hourlyForecasts[0].forecast_data.high_cloud_cover_level_0_highCloudLayer)}%</div>
-        <button onClick={() => setShowHourlyDetails(!showHourlyDetails)} className="link">
+        <button onClick={() => setShowHourlyDetails(!showHourlyDetails)} className="link btn btn-light mt-2">
           <span>{showHourlyDetails ? 'Hide' : 'Show'} Hourly Details</span>
         </button>
         {showHourlyDetails && (
-          <div className="forecast-details">
+          <div className="forecast-details mt-2">
             {daily.hourlyForecasts.map((forecast, index) => (
-              <div key={index} className="forecast-detail">
+              <div key={index} className="forecast-detail mb-2">
                 <div>Time: {formatDateTime(forecast.date, forecast.hour, country)}</div>
                 <div>Temp: {forecast.temperature_celsius.toFixed(1)}°C</div>
                 <div>Wind: {getCardinalDirection(forecast.wind_direction)} {forecast.wind_speed.toFixed(1)} km/h</div>

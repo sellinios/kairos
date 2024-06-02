@@ -1,51 +1,60 @@
+/* App.css */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  padding-bottom: 60px; /* Footer height */
+}
+
 .footer {
-    background-color: #343a40;
-    color: white;
-    padding: 1.5rem 0;
+  background-color: #343a40;
+  color: white;
+  padding: 1.5rem 0;
+  text-align: center;
 }
 
 .footer .container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .footer .row {
-    width: 100%;
+  width: 100%;
 }
 
 .footer-nav {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .footer-nav ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 .footer-nav li {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .footer-nav a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
 }
 
 .footer-nav a:hover {
-    color: #d3d3d3;
+  color: #d3d3d3;
 }
 
 .footer-nav h5 {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 p {
-    margin: 0;
-}
-
-.text-center {
-    text-align: center;
+  margin: 0;
 }

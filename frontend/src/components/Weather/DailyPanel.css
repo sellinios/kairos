@@ -1,83 +1,29 @@
 .daily-panel {
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+  background-color: #4049bd; /* Dark Blue Background */
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  color: white; /* White text */
 }
 
 .panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+  border-bottom: 1px solid rgb(241, 242, 246); /* White with transparency */
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
-.panel-header > div {
-    flex: 1;
-    text-align: center;
-}
-
+.panel-date,
+.panel-temp,
 .panel-icon {
-    font-size: 2em;
-}
-
-.panel-temp {
-    font-weight: bold;
-    font-size: 1.1em;
-}
-
-.panel-body {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.panel-body div {
-    font-size: 1em;
-    color: #666;
-}
-
-.link {
-    text-decoration: none;
-    color: inherit;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1em;
-    margin-top: 10px;
-}
-
-.forecast-details {
-    margin-top: 15px;
+  font-size: 1.2em;
 }
 
 .forecast-detail {
-    margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #ffffff33; /* White with transparency */
+  border-radius: 5px;
 }
 
-@media (max-width: 768px) {
-    .panel-header {
-        flex-direction: column;
-    }
-
-    .panel-icon {
-        font-size: 1.5em;
-    }
-
-    .panel-temp {
-        font-size: 1em;
-    }
-
-    .panel-body {
-        gap: 3px;
-    }
-
-    .panel-body div {
-        font-size: 0.9em;
-    }
-
-    .link {
-        margin: 5px 0;
-    }
+.chart-container {
+  margin-top: 10px;
 }

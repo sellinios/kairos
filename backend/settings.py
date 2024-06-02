@@ -13,7 +13,7 @@ DEBUG = True
 
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr"]
+ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr", "localhost", "127.0.0.1", "127.0.0.1:8000"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
