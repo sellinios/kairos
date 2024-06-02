@@ -1,108 +1,41 @@
-/* DailyPanel.css */
-
-.daily-panel {
-  margin-bottom: 20px;
-}
-
-.panel-header {
-  background-color: #f8f9fa;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.panel-date {
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-.temperature {
-  display: inline-block;
-}
-
-.max-temp, .min-temp {
-  font-size: 1.1em;
-}
-
-.wind-direction {
-  display: inline-block;
-  margin-right: 5px;
-}
-
-.icon {
-  font-size: 2.5em;
-}
-
-.icon-header {
-  visibility: hidden; /* Keep the icon header but hide it */
-}
-
-.link {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.link:hover {
-  text-decoration: underline;
-}
-
-hr {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: none; /* Remove the default border */
-  border-top: 1px solid #e9ecef; /* Custom border for hr */
-}
-
-.forecast-row {
-  padding: 10px 0;
+.daily-panel .forecast-row {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .forecast-details {
   display: flex;
   flex-wrap: wrap;
+  align-items: center; /* ensures alignment is consistent */
+  padding: 10px 0;
 }
 
 .forecast-details > div {
-  margin-bottom: 10px;
+  flex: 1 1 100%; /* each div takes full width on small screens */
+  margin-bottom: 10px; /* space between rows */
 }
 
-@media (max-width: 768px) {
-  .panel-header .col-md-2,
-  .panel-header .col-md-1,
-  .forecast-details .col-md-2,
-  .forecast-details .col-md-1 {
-    flex: 0 0 50%;
-    max-width: 50%;
-    text-align: left;
+@media (min-width: 576px) {
+  .forecast-details > div {
+    flex: 0 0 auto; /* adjust size based on content */
   }
 
-  .panel-header .col-md-1:last-child,
-  .forecast-details .col-md-1:last-child {
-    flex: 0 0 100%;
-    max-width: 100%;
+  .forecast-details .panel-date,
+  .forecast-details .temperature,
+  .forecast-details .wind-direction,
+  .forecast-details .precipitation,
+  .forecast-details .cloud-cover,
+  .forecast-details .alerts {
+    flex: 1 0 20%; /* allocate space evenly */
   }
 
-  .panel-header,
-  .forecast-details {
-    flex-direction: row;
+  .forecast-details .icon-header {
+    flex: 0 0 10%; /* smaller width for icon */
   }
+}
 
-  .forecast-details .col-sm-6,
-  .panel-header .col-sm-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-
-  .forecast-details .col-md-2:nth-child(5),
-  .forecast-details .col-md-2:nth-child(6),
-  .panel-header .col-md-2:nth-child(5),
-  .panel-header .col-md-2:nth-child(6) {
-    display: none; /* Hide Precipitation and Alerts sections on mobile */
-  }
-
-  .panel-date,
-  .temperature,
-  .wind-direction,
-  .link {
-    font-size: 0.9em; /* Smaller text on mobile */
-  }
+.daily-panel .forecast-row hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%; /* ensure hr spans full width */
 }
