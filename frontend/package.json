@@ -60,7 +60,6 @@
     "@types/react-helmet": "^6.1.11",
     "@types/react-i18next": "^8.1.0",
     "@types/react-router-dom": "^5.3.3",
-    "weather-icons-animated": "^1.0.1",
     "web-vitals": "^4.0.1"
   }
 }
