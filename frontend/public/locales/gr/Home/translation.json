@@ -1,12 +1,12 @@
 {
   "homeTitle": "Αρχική",
   "weatherDescription": "Ελέγξτε τις τελευταίες ενημερώσεις και προβλέψεις καιρού για",
-  "stayUpdated": "Μείνετε ενημερωμένοι με τον καιρό του Kairos.",
+  "stayUpdated": "Μείνετε ενημερωμένοι με το Kairos Weather.",
   "weatherIn": "Καιρός σε",
   "currentWeather": "Τρέχων καιρός σε",
   "kairosWeather": "από το Kairos Weather",
   "loading": "Φόρτωση...",
   "error": "Σφάλμα",
   "weatherFetchError": "Αποτυχία ανάκτησης δεδομένων καιρού.",
-  "metarFetchError": "Αποτυχία ανάκτησης δεδομένων METAR.",
+  "metarFetchError": "Αποτυχία ανάκτησης δεδομένων METAR."
 }
