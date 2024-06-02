@@ -47,7 +47,6 @@ export interface DailyForecast {
   date: string;
   minTemp: number;
   maxTemp: number;
-  generalIcon: JSX.Element;
   generalText: string;
   hourlyForecasts: Forecast[];
 }

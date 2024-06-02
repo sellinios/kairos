@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import WeatherIcon from './WeatherIcon';
 import { DailyForecast, WeatherState } from './types';
 import './DailyPanel.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const countryTimeZones: { [key: string]: string } = {
+const countryTimeZones = {
   'greece': 'Europe/Athens',
   'japan': 'Asia/Tokyo',
 };
@@ -22,42 +22,34 @@ const DailyPanel: React.FC<DailyPanelProps> = ({ forecasts, country, showHeaders
     return directions[index];
   };
 
-  const roundCloudCover = (value: number): number => {
-    return Math.round(value);
-  };
+  const roundCloudCover = (value: number): number => Math.round(value);
 
-  const calculateTotalPrecipitation = (daily: DailyForecast): number => {
-    return daily.hourlyForecasts.reduce((total, forecast) => total + forecast.forecast_data.precipitation_rate_level_0_surface, 0);
-  };
+  const calculateTotalPrecipitation = (daily: DailyForecast): number =>
+    daily.hourlyForecasts.reduce((total, { forecast_data }) => total + forecast_data.precipitation_rate_level_0_surface, 0);
 
   const getWeatherIconState = (description: string, cloudCover: number, precipitation: number): WeatherState => {
-    if (precipitation > 0 || description.toLowerCase().includes('rain') || description.toLowerCase().includes('storm')) {
+    if (precipitation > 0 || /rain|storm/.test(description.toLowerCase())) {
       return 'rainy';
     }
-
-    if (description.toLowerCase().includes('snow')) {
+    if (/snow/.test(description.toLowerCase())) {
       return 'snowy';
     }
-
-    if (description.toLowerCase().includes('fog')) {
+    if (/fog/.test(description.toLowerCase())) {
       return 'fog';
     }
-
-    if (description.toLowerCase().includes('hail')) {
+    if (/hail/.test(description.toLowerCase())) {
       return 'hail';
     }
-
-    if (description.toLowerCase().includes('thunder')) {
+    if (/thunder/.test(description.toLowerCase())) {
       return 'lightning';
     }
-
     if (cloudCover < 25) {
-      return description.toLowerCase().includes('night') ? 'clear-night' : 'sunny';
-    } else if (cloudCover < 50) {
-      return 'partlycloudy';
-    } else {
-      return 'cloudy';
+      return /night/.test(description.toLowerCase()) ? 'clear-night' : 'sunny';
     }
+    if (cloudCover < 50) {
+      return 'partlycloudy';
+    }
+    return 'cloudy';
   };
 
   const formatDate = (dateString: string) => {
@@ -68,37 +60,41 @@ const DailyPanel: React.FC<DailyPanelProps> = ({ forecasts, country, showHeaders
 
   return (
     <div className="daily-panel container">
-      {forecasts.map(daily => {
-        const totalPrecipitation = calculateTotalPrecipitation(daily);
-        const generalIconState = getWeatherIconState(
-          daily.generalText,
-          daily.hourlyForecasts[0].forecast_data.high_cloud_cover_level_0_highCloudLayer,
-          daily.hourlyForecasts[0].forecast_data.precipitation_rate_level_0_surface
+      {forecasts.map(({ date, generalText, maxTemp, minTemp, hourlyForecasts }) => {
+        const totalPrecipitation = useMemo(
+          () => calculateTotalPrecipitation({ date, generalText, maxTemp, minTemp, hourlyForecasts }),
+          [hourlyForecasts]
+        );
+        const generalIconState = useMemo(
+          () =>
+            getWeatherIconState(
+              generalText,
+              hourlyForecasts[0]?.forecast_data.high_cloud_cover_level_0_highCloudLayer,
+              hourlyForecasts[0]?.forecast_data.precipitation_rate_level_0_surface
+            ),
+          [generalText, hourlyForecasts]
         );
 
         return (
-          <div key={daily.date} className="row mb-3 forecast-row">
+          <div key={date} className="row mb-3 forecast-row">
             <div className="col-12">
               <div className="d-flex flex-wrap align-items-center forecast-details">
-                <div className="col-md-2 col-sm-6 panel-date">
-                  {formatDate(daily.date)}
-                </div>
+                <div className="col-md-2 col-sm-6 panel-date">{formatDate(date)}</div>
                 <div className="col-md-1 col-sm-6 d-flex align-items-center justify-content-center">
                   <WeatherIcon state={generalIconState} width={60} height={60} />
                 </div>
                 <div className="col-md-2 col-sm-6 temperature">
-                  <span className="max-temp">{daily.maxTemp.toFixed(1)}°C</span> / <span className="min-temp">{daily.minTemp.toFixed(1)}°C</span>
+                  <span className="max-temp">{maxTemp.toFixed(1)}°C</span> / <span className="min-temp">{minTemp.toFixed(1)}°C</span>
                 </div>
                 <div className="col-md-2 col-sm-6 wind-direction">
-                  <span style={{ transform: `rotate(${daily.hourlyForecasts[0].wind_direction}deg)` }}>↑</span>
-                  {daily.hourlyForecasts[0] && getCardinalDirection(daily.hourlyForecasts[0].wind_direction)} {daily.hourlyForecasts[0] && (daily.hourlyForecasts[0].wind_speed * 3.6).toFixed(1)} km/h
+                  <span style={{ transform: `rotate(${hourlyForecasts[0]?.wind_direction}deg)` }}>↑</span>
+                  {hourlyForecasts[0] && getCardinalDirection(hourlyForecasts[0].wind_direction)}{' '}
+                  {hourlyForecasts[0] && (hourlyForecasts[0].wind_speed * 3.6).toFixed(1)} km/h
                 </div>
                 <div className="col-md-2 col-sm-6 precipitation">
                   <span className="precipitation-tag">Precipitation: {totalPrecipitation.toFixed(2)} mm</span>
                 </div>
-                <div className="col-md-2 col-sm-6 alerts">
-                  No alerts
-                </div>
+                <div className="col-md-2 col-sm-6 alerts">No alerts</div>
               </div>
               <hr />
             </div>

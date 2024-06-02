@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DailyPanel from '../DailyPanel';
 import { Forecast, DailyForecast } from '../types';
-import { WiDayRain, WiDayCloudy, WiDaySunny } from 'react-icons/wi';
+import SunnyIcon from '../Icons/SunnyIcon';
+import RainyIcon from '../Icons/RainyIcon';
+import CloudyIcon from '../Icons/CloudyIcon';
 import './WeatherPage.css';
 
 const countryTimeZones: { [key: string]: string } = {
@@ -98,9 +100,9 @@ const WeatherPage: React.FC = () => {
       }
     });
 
-    if (rain) return <WiDayRain className="icon" />;
-    if (cloudy) return <WiDayCloudy className="icon" />;
-    return <WiDaySunny className="icon" />;
+    if (rain) return <RainyIcon className="icon" />;
+    if (cloudy) return <CloudyIcon className="icon" />;
+    return <SunnyIcon className="icon" />;
   };
 
   const getGeneralText = (dailyData: Forecast[]): string => {
@@ -127,6 +129,6 @@ const WeatherPage: React.FC = () => {
       )}
     </div>
   );
-}
+};
 
 export default WeatherPage;

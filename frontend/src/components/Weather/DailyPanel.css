@@ -6,36 +6,35 @@
 .forecast-details {
   display: flex;
   flex-wrap: wrap;
-  align-items: center; /* ensures alignment is consistent */
+  align-items: center;
   padding: 10px 0;
 }
 
 .forecast-details > div {
-  flex: 1 1 100%; /* each div takes full width on small screens */
-  margin-bottom: 10px; /* space between rows */
+  flex: 1 1 100%;
+  margin-bottom: 10px;
 }
 
 @media (min-width: 576px) {
   .forecast-details > div {
-    flex: 0 0 auto; /* adjust size based on content */
+    flex: 0 0 auto;
   }
 
-  .forecast-details .panel-date,
-  .forecast-details .temperature,
-  .forecast-details .wind-direction,
-  .forecast-details .precipitation,
-  .forecast-details .cloud-cover,
-  .forecast-details .alerts {
-    flex: 1 0 20%; /* allocate space evenly */
+  .panel-date,
+  .temperature,
+  .wind-direction,
+  .precipitation,
+  .alerts {
+    flex: 1 0 20%;
   }
 
-  .forecast-details .icon-header {
-    flex: 0 0 10%; /* smaller width for icon */
+  .icon-header {
+    flex: 0 0 10%;
   }
 }
 
-.daily-panel .forecast-row hr {
+.forecast-row hr {
   margin-top: 10px;
   margin-bottom: 10px;
-  width: 100%; /* ensure hr spans full width */
+  width: 100%;
 }
