@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da80d901-fd43-41cb-99dc-a50af004a5c2" name="Changes" comment="" />
+    <list default="true" id="da80d901-fd43-41cb-99dc-a50af004a5c2" name="Changes" comment="changes">
+      <change afterPath="$PROJECT_DIR$/gfs_management/tasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/articles/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/articles/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/celery.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/celery.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geography/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/geography/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gfs_management/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weather/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/weather/migrations/0001_initial.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,8 +77,8 @@
       <window_info id="Django.Structure" side_tool="true" />
       <window_info id="Settings Sync History" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.09628907" />
-      <window_info id="Commit" order="1" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16816406" />
+      <window_info id="Commit" order="1" weight="0.25253904" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
@@ -79,13 +87,16 @@
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.34087646" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" weight="0.3904454" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.40840518" />
-      <window_info anchor="bottom" id="Services" order="4" />
-      <window_info anchor="bottom" id="Python Packages" order="5" weight="0.41487068" />
-      <window_info anchor="bottom" id="Python Console" order="6" weight="0.1" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3674569" />
+      <window_info anchor="bottom" id="Services" order="4" weight="0.40840518" />
+      <window_info anchor="bottom" id="Python Packages" order="5" weight="0.40840518" />
+      <window_info anchor="bottom" id="Python Console" order="6" weight="0.32650864" />
       <window_info anchor="bottom" id="Run" order="7" weight="0.41487068" />
       <window_info anchor="right" id="Endpoints" show_stripe_button="false" />
+      <window_info anchor="right" id="com.intellij.reactbuddy.storybook" show_stripe_button="false" side_tool="true" />
+      <window_info anchor="right" id="com.intellij.reactbuddy.reactInspector" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
+      <window_info anchor="right" id="com.intellij.reactbuddy.reactComponents" show_stripe_button="false" />
       <window_info anchor="right" id="SciView" show_stripe_button="false" />
       <window_info anchor="right" id="Notifications" order="0" weight="0.3298828" />
       <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
@@ -161,5 +172,9 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes" />
   </component>
 </project>
