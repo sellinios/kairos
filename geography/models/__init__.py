@@ -1,9 +1,10 @@
 # geography/models/__init__.py
-from .model_geographic_category import GeographicCategory
-from .model_geographic_level import GeographicLevel
-from .model_geographic_planet import GeographicPlanet
-from .model_geographic_country import GeographicCountry, GeographicCountryDetails
-from .model_geographic_continent import GeographicContinent
-from .model_geographic_division import GeographicDivision
+
 from .model_geographic_place import GeographicPlace
+from .model_geographic_category import GeographicCategory
+from .model_geographic_continent import GeographicContinent
+from .model_geographic_country import GeographicCountry
+from .model_geographic_division import GeographicDivision
+from .model_geographic_level import GeographicLevel
 from .model_geographic_manager import GeographicManager
+from .model_geographic_planet import GeographicPlanet

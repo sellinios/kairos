@@ -112,16 +112,13 @@ class PlaceAdmin(admin.ModelAdmin):
                 name=admin_divisions.get('country', '')
             )
             admin_area_1 = self._get_or_create_admin_division(
-                admin_divisions.get('admin_area_1', ''), 'Admin Area 1', country
+                admin_divisions.get('admin_area_1', ''), 'Region', country
             )
             admin_area_2 = self._get_or_create_admin_division(
-                admin_divisions.get('admin_area_2', ''), 'Admin Area 2', country, admin_area_1
-            )
-            admin_area_3 = self._get_or_create_admin_division(
-                admin_divisions.get('admin_area_3', ''), 'Admin Area 3', country, admin_area_2
+                admin_divisions.get('admin_area_2', ''), 'Municipality', country, admin_area_1
             )
 
-            place.admin_division = admin_area_3
+            place.admin_division = admin_area_2
 
     def _extract_admin_divisions(self, geocode_result):
         """Extract administrative divisions from geocode result."""
@@ -135,8 +132,6 @@ class PlaceAdmin(admin.ModelAdmin):
                 admin_divisions['admin_area_1'] = component['long_name']
             elif 'administrative_area_level_2' in component['types']:
                 admin_divisions['admin_area_2'] = component['long_name']
-            elif 'administrative_area_level_3' in component['types']:
-                admin_divisions['admin_area_3'] = component['long_name']
             elif 'locality' in component['types']:
                 admin_divisions['locality'] = component['long_name']
 

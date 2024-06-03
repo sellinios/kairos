@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = 'Load country boundaries and continents into the database'
 
     def handle(self, *args, **options):
-        shp_file_path = '/home/lefteris.broker/kairos/data/natural-earth-vector-5.1.0/10m_cultural/ne_10m_admin_0_countries.shp'
+        shp_file_path = '/home/lefteris.broker/aethra/data/natural-earth-vector-5.1.0/10m_cultural/ne_10m_admin_0_countries.shp'
 
         if not os.path.exists(shp_file_path):
             self.stdout.write(self.style.ERROR(f"Shapefile not found: {shp_file_path}"))
