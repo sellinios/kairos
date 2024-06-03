@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="kairosdb@localhost" uuid="0d372d4e-0300-4225-b5e4-8b20e09007da">
+    <data-source source="LOCAL" name="kairosdb@localhost" uuid="df2e10f8-8ca5-42dc-8b36-78645032c596">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

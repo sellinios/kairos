@@ -2,17 +2,23 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load environment variables from a .env file
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')  # Correctly load the API key from the .env file
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
 DEBUG = True
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
 ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr", "localhost", "127.0.0.1", "127.0.0.1:8000"]
 
 INSTALLED_APPS = [
@@ -35,6 +41,8 @@ INSTALLED_APPS = [
     'weather',
     'api',
 ]
+
+print("CELERY_BEAT_SCHEDULER:", CELERY_BEAT_SCHEDULER)  # Add this line for debugging
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,7 +77,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',  # Use the PostGIS backend
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
@@ -118,7 +126,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 
-DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000  # Adjust this number as necessary
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 
 TINYMCE_DEFAULT_CONFIG = {
     'theme': 'silver',

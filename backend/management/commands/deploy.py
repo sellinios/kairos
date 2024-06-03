@@ -6,8 +6,8 @@ class Command(BaseCommand):
     help = 'Deploy the application'
 
     def handle(self, *args, **kwargs):
-        FRONTEND_DIR = os.path.expanduser('~/kairos/frontend')
-        MAIN_PROJECT_DIR = os.path.expanduser('~/kairos')
+        FRONTEND_DIR = os.path.expanduser('~/aethra/frontend')
+        MAIN_PROJECT_DIR = os.path.expanduser('~/aethra')
 
         # Update and upgrade system packages
         self.stdout.write(self.style.SUCCESS("Updating and upgrading system packages..."))
