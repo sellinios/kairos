@@ -1,7 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import logging
 import os
-from datetime import timedelta, timezone
 import geojson
 import numpy as np
 import pygrib

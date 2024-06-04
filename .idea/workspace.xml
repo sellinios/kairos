@@ -5,15 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da80d901-fd43-41cb-99dc-a50af004a5c2" name="Changes" comment="celery">
-      <change afterPath="$PROJECT_DIR$/geography/management/commands/geonames.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/geography/management/commands/places.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/df2e10f8-8ca5-42dc-8b36-78645032c596.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/df2e10f8-8ca5-42dc-8b36-78645032c596.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/df2e10f8-8ca5-42dc-8b36-78645032c596/storage_v2/_src_/database/kairosdb.4bYBMA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/df2e10f8-8ca5-42dc-8b36-78645032c596/storage_v2/_src_/database/kairosdb.4bYBMA/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/articles/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/articles/migrations/0001_initial.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/public/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/sitemap.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geography/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/geography/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geography/management/commands/load_country_boundaries.py" beforeDir="false" afterPath="$PROJECT_DIR$/geography/management/commands/countries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geography/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/geography/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geography/models/model_geographic_place.py" beforeDir="false" afterPath="$PROJECT_DIR$/geography/models/model_geographic_place.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geography/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/geography/migrations/0001_initial.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/gfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gfs_management/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weather/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/weather/migrations/0001_initial.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,18 +27,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "sellinios"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;sellinios&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/sellinios/aethra.git",
-    "accountId": "d073e662-ab2e-4ea7-aa52-57ede1cef9d1"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/sellinios/aethra.git&quot;,
+    &quot;accountId&quot;: &quot;d073e662-ab2e-4ea7-aa52-57ede1cef9d1&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -62,6 +63,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/lefteris.broker/.cache/JetBrains/RemoteDev/dist/373164c89c67b_pycharm-professional-2024.1.2/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -79,31 +81,32 @@
       <window_info id="Django.Structure" side_tool="true" />
       <window_info id="Settings Sync History" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19785157" />
-      <window_info id="Commit" order="1" weight="0.16816406" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.19785157" />
+      <window_info active="true" id="Commit" order="1" visible="true" weight="0.19785157" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" show_stripe_button="false" />
       <window_info anchor="bottom" id="File Transfer" />
-      <window_info anchor="bottom" id="Find" />
-      <window_info anchor="bottom" id="Version Control" order="0" weight="0.34087646" />
+      <window_info anchor="bottom" id="Version Control" order="0" weight="0.3674569" />
       <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3904454" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3674569" />
-      <window_info anchor="bottom" id="Services" order="4" weight="0.40840518" />
+      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3674569" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3301006" />
+      <window_info anchor="bottom" id="Services" order="4" weight="0.3674569" />
       <window_info anchor="bottom" id="Python Packages" order="5" weight="0.40840518" />
       <window_info anchor="bottom" id="Python Console" order="6" weight="0.32650864" />
-      <window_info anchor="bottom" id="Run" order="7" weight="0.41487068" />
+      <window_info anchor="bottom" id="SQL Generator" order="7" weight="0.3301006" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.41487068" />
+      <window_info anchor="bottom" id="Find" order="9" visible="true" weight="0.3301006" />
       <window_info anchor="right" id="Endpoints" show_stripe_button="false" />
-      <window_info anchor="right" id="com.intellij.reactbuddy.storybook" show_stripe_button="false" side_tool="true" />
-      <window_info anchor="right" id="com.intellij.reactbuddy.reactInspector" show_stripe_button="false" side_tool="true" />
+      <window_info anchor="right" id="com.intellij.reactbuddy.storybook" side_tool="true" />
+      <window_info anchor="right" id="com.intellij.reactbuddy.reactInspector" side_tool="true" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
-      <window_info anchor="right" id="com.intellij.reactbuddy.reactComponents" show_stripe_button="false" />
+      <window_info anchor="right" id="com.intellij.reactbuddy.reactComponents" />
       <window_info anchor="right" id="SciView" show_stripe_button="false" />
-      <window_info anchor="right" id="Notifications" order="0" weight="0.3298828" />
+      <window_info anchor="right" id="Notifications" order="0" weight="0.21035156" />
       <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
-      <window_info active="true" anchor="right" id="Database" order="2" visible="true" weight="0.3298828" />
+      <window_info active="true" anchor="right" id="Database" order="2" visible="true" weight="0.3232422" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
       <window_info anchor="right" id="Maven" order="4" weight="0.25" />
       <window_info anchor="right" id="Plots" order="5" />
@@ -123,6 +126,13 @@
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/geography/management/commands" />
     </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="Python.DjangoServer" />
+      </set>
+    </option>
   </component>
   <component name="RunManager">
     <configuration name="aethra" type="Python.DjangoServer" factoryName="Django server">
@@ -181,6 +191,17 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="changes" />
