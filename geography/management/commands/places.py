@@ -7,7 +7,6 @@ from django.db import connection
 from geography.models import GeographicPlace, GeographicCategory, GeographicDivision, GeographicCountry, GeographicLevel
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import geopandas as gpd
-import rasterio
 
 GREECE_BOUNDARIES = {
     'min_latitude': 34.8,
@@ -28,12 +27,11 @@ MUNICIPALITIES_FILE = os.path.join(PROJECT_DATA_DIR, '10m_cultural/ne_10m_admin_
 greece_gdf = gpd.read_file(GREECE_SHAPEFILE)
 greece_gdf = greece_gdf[greece_gdf['NAME'] == 'Greece']
 municipalities_gdf = gpd.read_file(MUNICIPALITIES_FILE)
-
+elevation_gdf = gpd.read_file(ELEVATION_FILE)
 
 def save_progress(lat, lon):
     with open(PROGRESS_FILE, 'w') as f:
         json.dump({'last_latitude': lat, 'last_longitude': lon}, f)
-
 
 def load_progress():
     if os.path.exists(PROGRESS_FILE):
@@ -43,26 +41,24 @@ def load_progress():
         return {'last_latitude': GREECE_BOUNDARIES['min_latitude'],
                 'last_longitude': GREECE_BOUNDARIES['min_longitude']}
 
-
 def is_land(lat, lon):
     point = ShapelyPoint(lon, lat)
     is_within_greece = greece_gdf.contains(point).any()
     if not is_within_greece:
         return False, None
 
-    with rasterio.open(ELEVATION_FILE) as src:
-        for val in src.sample([(lon, lat)]):
-            if val[0] > 0:
-                for _, municipality in municipalities_gdf.iterrows():
-                    if municipality['geometry'].contains(point):
-                        return True, municipality['NAME']
-    return False, None
+    point_gdf = gpd.GeoDataFrame(geometry=[point], crs=greece_gdf.crs)
+    elevation_point = gpd.sjoin(point_gdf, elevation_gdf, how="inner", predicate="within")
 
+    if not elevation_point.empty and elevation_point.iloc[0]['elevation'] > 0:
+        for _, municipality in municipalities_gdf.iterrows():
+            if municipality['geometry'].contains(point):
+                return True, municipality['NAME']
+    return False, None
 
 def truncate_geographic_place():
     with connection.cursor() as cursor:
         cursor.execute('TRUNCATE TABLE geography_geographicplace RESTART IDENTITY CASCADE;')
-
 
 def create_places_batch(latitudes, longitudes, default_category, default_division):
     places_to_create = []
@@ -73,7 +69,6 @@ def create_places_batch(latitudes, longitudes, default_category, default_divisio
                 name = f"{lat}-{lon}"
                 slug = f"{lat}-{lon}"
 
-                # Get or create the municipality division
                 municipality_division, _ = GeographicDivision.objects.get_or_create(
                     name=municipality_name,
                     slug=municipality_name.lower().replace(' ', '-'),
@@ -101,7 +96,6 @@ def create_places_batch(latitudes, longitudes, default_category, default_divisio
     if places_to_create:
         GeographicPlace.objects.bulk_create(places_to_create)
     return len(places_to_create)
-
 
 class Command(BaseCommand):
     help = 'Create geographic places for Greece'
