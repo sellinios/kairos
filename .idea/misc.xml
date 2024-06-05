@@ -3,7 +3,7 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (aethra)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (aethra)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.12.3 (sftp://sellinios@65.109.117.111:22/home/sellinios/.virtualenvs/aethra/bin/python)" project-jdk-type="Python SDK" />
   <component name="PythonCompatibilityInspectionAdvertiser">
     <option name="version" value="3" />
   </component>
