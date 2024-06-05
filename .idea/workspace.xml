@@ -5,13 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da80d901-fd43-41cb-99dc-a50af004a5c2" name="Changes" comment="celery">
-      <change beforePath="$PROJECT_DIR$/.idea/aethra.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/aethra.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/df2e10f8-8ca5-42dc-8b36-78645032c596.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/df2e10f8-8ca5-42dc-8b36-78645032c596.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sshConfigs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sshConfigs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/df2e10f8-8ca5-42dc-8b36-78645032c596.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/df2e10f8-8ca5-42dc-8b36-78645032c596/storage_v2/_src_/database/kairosdb.4bYBMA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/df2e10f8-8ca5-42dc-8b36-78645032c596/storage_v2/_src_/database/kairosdb.4bYBMA/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/df2e10f8-8ca5-42dc-8b36-78645032c596/storage_v2/_src_/database/kairosdb.4bYBMA/schema/public.abK9xQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sshConfigs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/progress.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,57 +51,58 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Django Server.aethra.executor&quot;: &quot;Profiler&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/lefteris.broker/.cache/JetBrains/RemoteDev/dist/373164c89c67b_pycharm-professional-2024.1.2/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Django Server.aethra.executor": "Profiler",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "ts.external.directory.path": "/home/lefteris.broker/.cache/JetBrains/RemoteDev/dist/373164c89c67b_pycharm-professional-2024.1.2/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Bookmarks" show_stripe_button="false" side_tool="true" />
       <window_info id="Merge Requests" show_stripe_button="false" />
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
-      <window_info id="Django.Structure" side_tool="true" />
       <window_info id="Settings Sync History" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19785157" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7166667" visible="true" weight="0.19824219" />
       <window_info id="Commit" order="1" weight="0.19785157" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info id="Django.Structure" order="3" sideWeight="0.28333336" side_tool="true" visible="true" weight="0.19824219" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" show_stripe_button="false" />
-      <window_info anchor="bottom" id="File Transfer" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.3674569" />
       <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3674569" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3301006" />
+      <window_info anchor="bottom" id="Problems View" order="2" weight="0.9385776" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.9385776" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.3301006" />
-      <window_info anchor="bottom" id="Python Packages" order="5" weight="0.40840518" />
-      <window_info anchor="bottom" id="Python Console" order="6" weight="0.32650864" />
+      <window_info anchor="bottom" id="Python Packages" order="5" weight="0.3301006" />
+      <window_info anchor="bottom" id="Python Console" order="6" weight="0.3301006" />
       <window_info anchor="bottom" id="SQL Generator" order="7" weight="0.3301006" />
-      <window_info anchor="bottom" id="Run" order="8" weight="0.41487068" />
-      <window_info anchor="bottom" id="Find" order="9" visible="true" weight="0.3301006" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.3301006" />
+      <window_info anchor="bottom" id="File Transfer" order="9" weight="0.3301006" />
+      <window_info anchor="bottom" id="Find" order="10" visible="true" weight="0.3301006" />
       <window_info anchor="right" id="Endpoints" show_stripe_button="false" />
+      <window_info anchor="right" id="Remote Host" show_stripe_button="false" />
       <window_info anchor="right" id="com.intellij.reactbuddy.storybook" side_tool="true" />
       <window_info anchor="right" id="com.intellij.reactbuddy.reactInspector" side_tool="true" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
@@ -108,7 +110,7 @@
       <window_info anchor="right" id="SciView" show_stripe_button="false" />
       <window_info anchor="right" id="Notifications" order="0" weight="0.21035156" />
       <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
-      <window_info active="true" anchor="right" id="Database" order="2" visible="true" weight="0.15566406" />
+      <window_info active="true" anchor="right" id="Database" order="2" visible="true" weight="0.15605469" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
       <window_info anchor="right" id="Maven" order="4" weight="0.25" />
       <window_info anchor="right" id="Plots" order="5" />
@@ -129,13 +131,6 @@
       <recent name="$PROJECT_DIR$/geography/management/commands" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="configurationTypes">
-      <set>
-        <option value="Python.DjangoServer" />
-      </set>
-    </option>
-  </component>
   <component name="RunManager">
     <configuration name="aethra" type="Python.DjangoServer" factoryName="Django server">
       <module name="aethra" />
@@ -147,7 +142,6 @@
         <env name="DJANGO_SETTINGS_MODULE" value="backend.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Remote Python 3.12.3 (sftp://sellinios@65.109.117.111:22/home/sellinios/.virtualenvs/aethra/bin/python)" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -167,8 +161,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-cb551a44b0f8-JavaScript-PY-242.10180.30" />
-        <option value="bundled-python-sdk-7efad6460ed6-db4a76ca2eac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.10180.30" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.17011.127" />
+        <option value="bundled-python-sdk-48aec45f0201-7e9c3bbb6e34-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.17011.127" />
       </set>
     </attachedChunks>
   </component>
@@ -187,8 +181,27 @@
       <workItem from="1717433884339" duration="730000" />
       <workItem from="1717434615428" duration="313000" />
       <workItem from="1717618012771" duration="32000" />
-      <workItem from="1717618117453" duration="786000" />
+      <workItem from="1717618117453" duration="2020000" />
+      <workItem from="1717621072264" duration="1336000" />
+      <workItem from="1717624049416" duration="1370000" />
     </task>
+    <task id="LOCAL-00001" summary="celery">
+      <option name="closed" value="true" />
+      <created>1717618915893</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1717618915893</updated>
+    </task>
+    <task id="LOCAL-00002" summary="celery">
+      <option name="closed" value="true" />
+      <created>1717618920423</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1717618920423</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
