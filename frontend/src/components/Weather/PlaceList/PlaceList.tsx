@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPlaceList, Place } from '../../services';
+import { fetchPlaceList, Place } from '../../../services';
 
 const PlaceList: React.FC = () => {
   const [places, setPlaces] = useState<Place[]>([]);

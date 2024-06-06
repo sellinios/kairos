@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Header.css';
-import SearchEngine from '../Search/SearchEngine';
+import SearchEngine from './Search/SearchEngine';
 
 const Header: React.FC = () => {
     const { t } = useTranslation('Header'); // Specify the namespace

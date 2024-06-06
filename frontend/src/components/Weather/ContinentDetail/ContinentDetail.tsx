@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getContinent, Continent } from '../../services';
+import { getContinent, Continent } from '../../../services';
 import { Helmet } from 'react-helmet';
 import './ContinentDetail.css';
 

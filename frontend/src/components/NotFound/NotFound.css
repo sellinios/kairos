@@ -1,0 +1,30 @@
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+.not-found-content {
+    max-width: 600px;
+    padding: 40px;
+}
+
+.not-found-content h1 {
+    font-size: 6em;
+    margin-bottom: 20px;
+    color: #478ab6;
+}
+
+.not-found-content p {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #3c82b1;
+}
+
+.motto {
+    font-size: 1.2em;
+    color: #478ab6;
+}

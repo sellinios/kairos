@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchNearestPlace, NearestPlace } from '../../services/';
+import { fetchNearestPlace, NearestPlace } from '../../../services';
 import './LocationDisplay.css'; // Import the CSS file
 
 interface LocationDisplayProps {

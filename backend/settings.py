@@ -7,32 +7,23 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() in ['true', '1']
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
-DEBUG = True
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'UTC'
-
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-
-ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr", "localhost", "127.0.0.1", "127.0.0.1:8000"]
+ALLOWED_HOSTS = ["kairos.gr", "www.kairos.gr", "localhost", "127.0.0.1"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'django_celery_beat',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'imagekit',
     'rest_framework',
     'corsheaders',
+    'imagekit',
+    'django_celery_beat',
     'articles',
     'backend',
     'gfs_management',
@@ -41,8 +32,6 @@ INSTALLED_APPS = [
     'weather',
     'api',
 ]
-
-print("CELERY_BEAT_SCHEDULER:", CELERY_BEAT_SCHEDULER)  # Add this line for debugging
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -94,7 +83,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'en'
-
 LANGUAGES = [
     ('el', 'Greek'),
     ('en', 'English'),
@@ -132,8 +120,14 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme': 'silver',
     'height': 500,
     'menubar': 'file edit view insert format tools table help',
-    'plugins': 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code '
-               'fullscreen insertdatetime media table paste code help wordcount',
-    'toolbar': 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | '
-               'bullist numlist outdent indent | removeformat | help',
+    'plugins': 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
+    'toolbar': 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
 }
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getRegion, Region } from '../../services';
+import { getRegion, Region } from '../../../services';
 
 const RegionDetail: React.FC = () => {
   const { continent, region } = useParams<{ continent: string; region: string }>();
