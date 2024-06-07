@@ -4,51 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da80d901-fd43-41cb-99dc-a50af004a5c2" name="Changes" comment="celery">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Footer/AethraGeoEngine/AethraGeoEngine.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Footer/AethraWeatherEngine/AethraWeatherEngine.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Footer/AethraWeatherEngine/AethraWeatherEngine.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gfs_management/management/commands/OLD/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_download.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/forwardedPorts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/forwardedPorts.xml" afterDir="false" />
+    <list default="true" id="da80d901-fd43-41cb-99dc-a50af004a5c2" name="Changes" comment="GFS">
+      <change afterPath="$PROJECT_DIR$/frontend-global/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/public/logo192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/public/logo512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/public/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/public/robots.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/src/App.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/src/App.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/src/App.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/src/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/src/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/src/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/src/reportWebVitals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-global/src/setupTests.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gfs_management/management/commands/check.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_cleanup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_cleanup_tmp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/celery.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/celery.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/craco.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/craco.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/sitemap.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/About/About.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Footer/About/About.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/About/About.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Footer/About/About.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/AethraGeoEngine/AethraGeoEngine.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Footer/AethraGeoEngine/AethraGeoEngine.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/AethraGeoEngine/AethraGeoEngine.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Contact/Contact.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Footer/Contact/Contact.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Contact/Contact.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Footer/Contact/Contact.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ContinentDetail/ContinentDetail.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Weather/ContinentDetail/ContinentDetail.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ContinentDetail/ContinentDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Weather/ContinentDetail/ContinentDetail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LocationDisplay/LocationDisplay.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/LocationDisplay/LocationDisplay.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LocationDisplay/LocationDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/LocationDisplay/LocationDisplay.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LocationRequestModal/LocationRequestModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/LocationRequestModal/LocationRequestModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login/Login.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/Login/Login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/Login/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/NotFound/NotFound.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NotFound/NotFound.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/NotFound/NotFound.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NotFound/NotFound.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/PlaceDetail/PlaceDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Weather/PlaceDetail/PlaceDetail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/PlaceList/PlaceList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Weather/PlaceList/PlaceList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/PrivacyPolicy/PrivacyPolicy.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Footer/PrivacyPolicy/PrivacyPolicy.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/PrivacyPolicy/PrivacyPolicy.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Footer/PrivacyPolicy/PrivacyPolicy.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/RegionDetail/RegionDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Weather/RegionDetail/RegionDetail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Search/SearchEngine.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/Search/SearchEngine.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Search/SearchEngine.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/Search/SearchEngine.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UpperHeader/UpperHeader.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/UpperHeader/UpperHeader.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UpperHeader/UpperHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/UpperHeader/UpperHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/config/config.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/config.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/config/i18n.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/i18n.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/create_periodic_gfs_tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/management/commands/OLD/create_periodic_gfs_tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/gfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/management/commands/OLD/gfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/gfs_para.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/management/commands/OLD/gfs_para.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gfs_management/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/OLD/create_periodic_gfs_tasks.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_download.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_download.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gfs_management/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/tasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weather/management/commands/create_new_forecasts.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/weather/management/commands/create_periodic_task.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/weather/management/commands/delete_old_forecasts.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,32 +81,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Django Server.aethra.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/sellinios/aethra/frontend/build/locales/gr/AethreaWeatherEngine",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "ts.external.directory.path": "/home/sellinios/.cache/JetBrains/RemoteDev/dist/373164c89c67b_pycharm-professional-2024.1.2/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Django Server.aethra.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sellinios/aethra/gfs_management/management&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/sellinios/.cache/JetBrains/RemoteDev/dist/373164c89c67b_pycharm-professional-2024.1.2/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Bookmarks" show_stripe_button="false" side_tool="true" />
@@ -129,7 +116,7 @@
       <window_info id="Settings Sync History" />
       <window_info id="Learn" show_stripe_button="false" />
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6529412" visible="true" weight="0.33378905" />
-      <window_info id="Commit" order="1" weight="0.32941484" />
+      <window_info id="Commit" order="1" weight="0.33378905" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Django.Structure" order="3" sideWeight="0.34705883" side_tool="true" weight="0.32734376" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
@@ -138,7 +125,7 @@
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.3674569" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" weight="0.49030173" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.49030173" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3997845" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.3301006" />
       <window_info anchor="bottom" id="Python Packages" order="5" weight="0.3301006" />
       <window_info anchor="bottom" id="Python Console" order="6" weight="0.3301006" />
@@ -172,16 +159,17 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/gfs_management/management" />
       <recent name="$PROJECT_DIR$/frontend/build/locales/gr/AethreaWeatherEngine" />
       <recent name="$PROJECT_DIR$/frontend/build/locales/en/AethreaWeatherEngine" />
       <recent name="$PROJECT_DIR$/frontend/build/locales/gr" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/gfs_management" />
       <recent name="$PROJECT_DIR$/gfs_management/management/commands/OLD" />
       <recent name="$PROJECT_DIR$/frontend/src" />
       <recent name="$PROJECT_DIR$/frontend/src/components/Weather" />
       <recent name="$PROJECT_DIR$/frontend/src/components/Footer" />
-      <recent name="$PROJECT_DIR$/frontend/src/components/Header" />
     </key>
   </component>
   <component name="RunManager">
@@ -242,7 +230,7 @@
       <workItem from="1717662171704" duration="1297000" />
       <workItem from="1717672501164" duration="939000" />
       <workItem from="1717678864009" duration="4539000" />
-      <workItem from="1717688155479" duration="6112000" />
+      <workItem from="1717688155479" duration="19579000" />
     </task>
     <task id="LOCAL-00001" summary="celery">
       <option name="closed" value="true" />
@@ -300,7 +288,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717628832283</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="GFS">
+      <option name="closed" value="true" />
+      <created>1717694555863</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1717694555863</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -324,7 +320,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="changes" />
     <MESSAGE value="celery" />
-    <option name="LAST_COMMIT_MESSAGE" value="celery" />
+    <MESSAGE value="GFS" />
+    <option name="LAST_COMMIT_MESSAGE" value="GFS" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
