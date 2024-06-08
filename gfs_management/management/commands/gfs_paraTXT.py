@@ -55,3 +55,4 @@ class Command(BaseCommand):
 
         extract_gfs_parameters(input_file, output_file)
         logger.info("GFS parameter extraction process completed.")
+

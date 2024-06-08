@@ -7,51 +7,41 @@ from shapely.geometry import Point
 from django.core.management.base import BaseCommand
 from weather.models import GFSForecast
 from concurrent.futures import ThreadPoolExecutor
-import re
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
 def extract_forecast_details_from_filename(filename):
     try:
         parts = filename.split('_')
-        date_str = parts[1]  # Extracting '20240608'
-        cycle_hour_str = parts[2]  # Extracting '06'
-        forecast_hour_str = parts[3].split('.')[0]  # Extracting '000'
-
-        # Create utc_cycle_time as datetime object
-        utc_cycle_time = datetime.strptime(f"{date_str} {cycle_hour_str}", "%Y%m%d %H").replace(tzinfo=timezone.utc)
-
-        # Convert forecast_hour_str to integer
-        forecast_hour = int(forecast_hour_str)
-
-        return utc_cycle_time, forecast_hour, date_str
+        date_str = parts[2]
+        hour_str = parts[3].split('.')[0]
+        valid_datetime = datetime.strptime(f"{date_str} {hour_str}", "%Y%m%d %H").replace(tzinfo=timezone.utc)
+        return valid_datetime, int(hour_str)
     except Exception as e:
         logger.error("Error extracting details from filename %s: %s", filename, e)
-        return None, None, None
-
+        return None, None
 
 def bulk_import_forecast_data(forecast_data):
     for data in forecast_data:
         if data['forecast_data']:
-            forecast, created = GFSForecast.objects.update_or_create(
+            forecast, created = GFSForecast.objects.get_or_create(
                 latitude=data['latitude'],
                 longitude=data['longitude'],
                 utc_cycle_time=datetime.fromisoformat(data['utc_cycle_time']),
                 date=data['date'],
                 hour=data['hour'],
-                defaults={'forecast_data': data['forecast_data']}
+                defaults={'forecast_data': {}}
             )
 
+            forecast.forecast_data.update(data['forecast_data'])
             forecast.save()
             logger.info(
                 "Saved GFS forecast for coordinates (%.4f, %.4f) at %s (UTC)",
                 data['latitude'], data['longitude'], data['utc_cycle_time']
             )
 
-
-def process_grib_message(grib, utc_cycle_time, forecast_hour, date_str, chunk_size, current_id):
+def process_grib_message(grib, valid_datetime, chunk_size, current_id):
     forecast_data = []
     data = grib.values
     lats, lons = grib.latlons()
@@ -67,9 +57,9 @@ def process_grib_message(grib, utc_cycle_time, forecast_hour, date_str, chunk_si
             'latitude': lat,
             'longitude': lon,
             'forecast_data': {param_name: value},
-            'date': date_str,
-            'hour': forecast_hour,
-            'utc_cycle_time': utc_cycle_time.isoformat(),
+            'date': valid_datetime.date().isoformat(),
+            'hour': valid_datetime.hour,
+            'utc_cycle_time': valid_datetime.isoformat(),
             'location': Point(lon, lat).wkt
         })
         current_id += 1
@@ -80,12 +70,11 @@ def process_grib_message(grib, utc_cycle_time, forecast_hour, date_str, chunk_si
 
     return forecast_data, current_id
 
-
 def parse_and_import_gfs_data(file_path, chunk_size=10000):
     logger.info("Starting to parse GFS data from %s.", file_path)
 
-    utc_cycle_time, forecast_hour, date_str = extract_forecast_details_from_filename(os.path.basename(file_path))
-    if utc_cycle_time is None or forecast_hour is None or date_str is None:
+    valid_datetime, utc_cycle_time = extract_forecast_details_from_filename(os.path.basename(file_path))
+    if valid_datetime is None or utc_cycle_time is None:
         logger.error("Could not extract datetime details from filename: %s", file_path)
         return
 
@@ -104,11 +93,9 @@ def parse_and_import_gfs_data(file_path, chunk_size=10000):
                     "Processing message %d of %d. Parameter: %s, Level: %d, Type of Level: %s",
                     i, total_messages, grib.parameterName, grib.level, grib.typeOfLevel
                 )
-                logger.info("UTC cycle time is %s (UTC)", utc_cycle_time.isoformat())
+                logger.info("Valid datetime is %s (UTC)", valid_datetime.isoformat())
 
-                futures.append(
-                    executor.submit(process_grib_message, grib, utc_cycle_time, forecast_hour, date_str, chunk_size,
-                                    current_id))
+                futures.append(executor.submit(process_grib_message, grib, valid_datetime, chunk_size, current_id))
 
             for future in futures:
                 result, new_id = future.result()
@@ -128,33 +115,26 @@ def parse_and_import_gfs_data(file_path, chunk_size=10000):
         os.remove(file_path)
         logger.info("Deleted GRIB file: %s", file_path)
 
-
 class Command(BaseCommand):
     help = 'Import GFS data into the database'
 
     def add_arguments(self, parser):
-        parser.add_argument('--dir', type=str, default='data', help='Path to the directory containing GRIB2 files')
+        parser.add_argument('--file', type=str, help='Path to the filtered GRIB2 file')
 
     def handle(self, *args, **options):
         logger.info("Starting the GFS data import process.")
 
-        data_dir = options['dir']
-        pattern = re.compile(r'^\d{8}_\d{2}$')  # Pattern to match directories like '20240608_06'
+        file_path = options['file'] or 'data/filtered_data/filtered_combined_20240608_06.grib2'  # Default path
 
-        for root, dirs, files in os.walk(data_dir):
-            for dir_name in dirs:
-                if pattern.match(dir_name):
-                    dir_path = os.path.join(root, dir_name)
-                    logger.info(f"Processing directory: {dir_path}")
-                    for file_name in os.listdir(dir_path):
-                        if file_name.endswith('.grib2'):
-                            file_path = os.path.join(dir_path, file_name)
-                            if os.path.exists(file_path):
-                                try:
-                                    logger.info(f"Processing file: {file_path}")
-                                    parse_and_import_gfs_data(file_path)
-                                except Exception as e:
-                                    logger.error("Error processing file %s: %s", file_path, e)
+        if not os.path.exists(file_path):
+            logger.error(f"File not found: {file_path}")
+            return
 
-        logger.info("GFS data import process completed.")
+        try:
+            logger.info("Processing file: %s", file_path)
+            parse_and_import_gfs_data(file_path)
+            logger.info("GFS data import process completed.")
+        except Exception as e:
+            logger.error("Error processing file %s: %s", file_path, e)
+
         logger.info("All files processed.")

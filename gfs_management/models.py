@@ -1,3 +1,5 @@
+# models.py
+
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
@@ -11,6 +13,7 @@ class GFSParameter(models.Model):
     parameter = models.CharField(max_length=255)
     forecast_valid = models.CharField(max_length=255, default="N/A")
     description = models.CharField(max_length=255)
+    enabled = models.BooleanField(default=True)  # New field to enable/disable parameter processing
     last_updated = models.DateTimeField(default=timezone.now)
 
     class Meta:
