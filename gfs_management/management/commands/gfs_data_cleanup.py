@@ -37,13 +37,13 @@ def cleanup_old_gfs_data():
             shutil.rmtree(folder_path)
             logger.info("Deleted old folder: %s", folder_path)
 
-    # Clean up old combined data folders
+    # Clean up old combined data files
     if os.path.exists(combined_directory):
         for file_name in os.listdir(combined_directory):
-            file_path = os.path.join(combined_directory, file_name)
             if file_name.startswith("combined_"):
-                combined_cycle = file_name.split("_")[1].split(".")[0]
+                combined_cycle = file_name.split("_")[1] + "_" + file_name.split("_")[2].split(".")[0]
                 if combined_cycle not in latest_cycle_folders:
+                    file_path = os.path.join(combined_directory, file_name)
                     os.remove(file_path)
                     logger.info("Deleted old combined file: %s", file_path)
 

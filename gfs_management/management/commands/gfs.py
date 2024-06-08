@@ -6,12 +6,13 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
-    help = 'Execute GFS data download, combine, cleanup temporary files, and cleanup old data in sequence'
+    help = 'Execute GFS data download, combine, parse, cleanup temporary files, and cleanup old data in sequence'
 
     def handle(self, *args, **options):
         commands = [
             'gfs_data_download',
             'gfs_data_combine',
+            'gfs_data_parse',  # Add the new parsing step
             'gfs_data_cleanup_tmp',
             'gfs_data_cleanup'
         ]
