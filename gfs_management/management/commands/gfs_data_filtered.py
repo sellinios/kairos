@@ -1,7 +1,7 @@
 import os
 import logging
 import pygrib
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from django.core.management.base import BaseCommand
 from gfs_management.models import GFSParameter
 
@@ -9,16 +9,17 @@ from gfs_management.models import GFSParameter
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def extract_forecast_details_from_combined_filename(filename):
+def extract_forecast_details_from_combined_filename(filename, cycle_hour):
     try:
         base_name = os.path.basename(filename)
         parts = base_name.split('_')
         date_str = parts[1]
-        hour_str = parts[2].split('.')[0]
+        forecast_hour_str = parts[2].split('.')[0]
 
-        valid_datetime = datetime.strptime(f"{date_str}{hour_str}", "%Y%m%d%H").replace(tzinfo=timezone.utc)
+        valid_datetime = datetime.strptime(f"{date_str}{cycle_hour}", "%Y%m%d%H").replace(tzinfo=timezone.utc)
         utc_cycle_time = valid_datetime
-        forecast_hour = int(hour_str)
+        forecast_hour = int(forecast_hour_str)
+        valid_datetime = valid_datetime + timedelta(hours=forecast_hour)
 
         return valid_datetime, utc_cycle_time, forecast_hour
     except Exception as e:
@@ -67,12 +68,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         logger.info("Starting the GRIB data filtering process.")
 
-        combined_directory = "data/combined_data"
-        filtered_directory = "data/filtered_data"
+        base_directory = "data"
+        filtered_directory = os.path.join(base_directory, "filtered_data")
         os.makedirs(filtered_directory, exist_ok=True)
 
-        if not os.path.exists(combined_directory):
-            logger.error("Combined directory does not exist.")
+        subdirectories = [d for d in os.listdir(base_directory) if os.path.isdir(os.path.join(base_directory, d)) and d.startswith("2024")]
+        if not subdirectories:
+            logger.error("No valid data directories found in the base directory.")
             return
 
         try:
@@ -87,38 +89,45 @@ class Command(BaseCommand):
 
             logger.info(f"Enabled parameters: {list(relevant_parameters.keys())}")
 
-            for filename in os.listdir(combined_directory):
-                if filename.endswith('.grib2'):
-                    file_path = os.path.join(combined_directory, filename)
-                    new_file_path = os.path.join(filtered_directory, f"filtered_{filename}")
+            for subdirectory in subdirectories:
+                subdirectory_path = os.path.join(base_directory, subdirectory)
+                cycle_hour = subdirectory.split('_')[1]
 
-                    # Check available parameters in the GRIB file
-                    available_parameters = list_available_parameters(file_path)
-                    logger.info(f"Available parameters in {file_path}: {available_parameters}")
+                filtered_subdirectory = os.path.join(filtered_directory, subdirectory)
+                os.makedirs(filtered_subdirectory, exist_ok=True)
 
-                    # Standardize available parameters
-                    standardized_available_parameters = {standardize_param_key(param) for param in available_parameters}
+                for filename in os.listdir(subdirectory_path):
+                    if filename.endswith('.grib2'):
+                        file_path = os.path.join(subdirectory_path, filename)
+                        new_file_path = os.path.join(filtered_subdirectory, f"filtered_{filename}")
 
-                    # Log details of matching attempts
-                    relevant_and_available_parameters = set()
-                    for param in relevant_parameters:
-                        if param in standardized_available_parameters:
-                            relevant_and_available_parameters.add(param)
-                        else:
-                            logger.debug(f"Parameter {param} not found in available parameters.")
+                        # Check available parameters in the GRIB file
+                        available_parameters = list_available_parameters(file_path)
+                        logger.info(f"Available parameters in {file_path}: {available_parameters}")
 
-                    if relevant_and_available_parameters:
-                        logger.info(f"Filtering data from {file_path} to {new_file_path}")
-                        filter_grib_messages(file_path, relevant_and_available_parameters, new_file_path)
-                    else:
-                        # Additional check for '2 metre temperature'
-                        specific_param = standardize_param_key((0, 2, '2t', '2 metre temperature'))
-                        if specific_param in standardized_available_parameters:
-                            logger.info(f"Specifically found '2 metre temperature' in {file_path}. Adding to filter.")
-                            relevant_and_available_parameters.add(specific_param)
+                        # Standardize available parameters
+                        standardized_available_parameters = {standardize_param_key(param) for param in available_parameters}
+
+                        # Log details of matching attempts
+                        relevant_and_available_parameters = set()
+                        for param in relevant_parameters:
+                            if param in standardized_available_parameters:
+                                relevant_and_available_parameters.add(param)
+                            else:
+                                logger.debug(f"Parameter {param} not found in available parameters.")
+
+                        if relevant_and_available_parameters:
+                            logger.info(f"Filtering data from {file_path} to {new_file_path}")
                             filter_grib_messages(file_path, relevant_and_available_parameters, new_file_path)
                         else:
-                            logger.warning(f"No relevant parameters found in {file_path}. Skipping file.")
+                            # Additional check for '2 metre temperature'
+                            specific_param = standardize_param_key((0, 2, '2t', '2 metre temperature'))
+                            if specific_param in standardized_available_parameters:
+                                logger.info(f"Specifically found '2 metre temperature' in {file_path}. Adding to filter.")
+                                relevant_and_available_parameters.add(specific_param)
+                                filter_grib_messages(file_path, relevant_and_available_parameters, new_file_path)
+                            else:
+                                logger.warning(f"No relevant parameters found in {file_path}. Skipping file.")
 
             logger.info("GRIB data filtering process completed.")
 

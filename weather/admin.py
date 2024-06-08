@@ -11,6 +11,12 @@ class GFSForecastAdmin(admin.ModelAdmin):
     Admin view for the GFSForecast model.
     """
     form = GFSForecastForm
+    list_display = ('latitude', 'longitude', 'date', 'hour', 'utc_cycle_time', 'location')
+    list_filter = ('date', 'hour', 'utc_cycle_time')
+    search_fields = ('latitude', 'longitude', 'date')
+    ordering = ('date', 'hour')
+    fields = ('latitude', 'longitude', 'forecast_data', 'date', 'hour', 'utc_cycle_time', 'location')
+    readonly_fields = ('location',)
 
 admin.site.register(GFSForecast, GFSForecastAdmin)
 
