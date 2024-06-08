@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da80d901-fd43-41cb-99dc-a50af004a5c2" name="Changes" comment="GFS">
+      <change afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_combine.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/celerybeat-schedule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cron.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/check.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/management/commands/check.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_cleanup.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_cleanup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_download.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_download.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +90,7 @@
       <window_info id="Settings Sync History" />
       <window_info id="Learn" show_stripe_button="false" />
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6529412" visible="true" weight="0.33613282" />
-      <window_info id="Commit" order="1" weight="0.33378905" />
+      <window_info id="Commit" order="1" weight="0.33613282" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Django.Structure" order="3" sideWeight="0.34705883" side_tool="true" weight="0.32734376" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
@@ -138,11 +139,11 @@
       <recent name="$PROJECT_DIR$/frontend/build/locales/gr" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/gfs_management/management/commands" />
       <recent name="$PROJECT_DIR$/gfs_management" />
       <recent name="$PROJECT_DIR$/gfs_management/management/commands/OLD" />
       <recent name="$PROJECT_DIR$/frontend/src" />
       <recent name="$PROJECT_DIR$/frontend/src/components/Weather" />
-      <recent name="$PROJECT_DIR$/frontend/src/components/Footer" />
     </key>
   </component>
   <component name="RunManager">
@@ -205,7 +206,7 @@
       <workItem from="1717678864009" duration="4539000" />
       <workItem from="1717688155479" duration="19579000" />
       <workItem from="1717735573570" duration="2992000" />
-      <workItem from="1717774409836" duration="11034000" />
+      <workItem from="1717774409836" duration="14729000" />
     </task>
     <task id="LOCAL-00001" summary="celery">
       <option name="closed" value="true" />
@@ -279,7 +280,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717735656719</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="GFS">
+      <option name="closed" value="true" />
+      <created>1717819398813</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1717819398813</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -45,6 +45,22 @@ def is_directory_complete(directory, expected_file_count):
         return False
     return len(os.listdir(directory)) >= expected_file_count
 
+def get_latest_cycles(count=2):
+    now = datetime.utcnow().replace(tzinfo=timezone.utc)
+    cycles = ['00', '06', '12', '18']
+    latest_cycles = []
+
+    for i in range(24):  # Check the last 24 hours
+        cycle_time = now - timedelta(hours=i)
+        date = cycle_time.strftime("%Y%m%d")
+        hour = cycle_time.strftime("%H")
+        if hour in cycles and (date, hour) not in latest_cycles:
+            latest_cycles.append((date, hour))
+        if len(latest_cycles) == count:
+            break
+
+    return latest_cycles
+
 class Command(BaseCommand):
     help = 'Download GFS data into the specified folders'
 
@@ -58,20 +74,7 @@ class Command(BaseCommand):
         base_url = options['base_url']
         dry_run = options['dry_run']
 
-        now = datetime.utcnow().replace(tzinfo=timezone.utc)
-        cycles = ['00', '06', '12', '18']
-        latest_cycles = []
-
-        for i in range(24):  # Check the last 24 hours
-            cycle_time = now - timedelta(hours=i)
-            date = cycle_time.strftime("%Y%m%d")
-            hour = cycle_time.strftime("%H")
-            if hour in cycles and (date, hour) not in latest_cycles:
-                latest_cycles.append((date, hour))
-            if len(latest_cycles) == 4:
-                break
-
-        latest_cycles = latest_cycles[:4]  # Ensure we have exactly the latest 4 cycles
+        latest_cycles = get_latest_cycles(count=2)  # Change from 4 to 2
         expected_file_count = len(set(range(121)) | set(range(13, 385)))
 
         forecast_hours_0_120 = list(range(0, 121, 1))
@@ -92,4 +95,4 @@ class Command(BaseCommand):
             else:
                 logger.warning("Failed to download data for date: %s, hour: %s", date, hour)
 
-        logger.info("GFS data download process completed for the latest 4 cycles.")
+        logger.info("GFS data download process completed for the latest 2 cycles.")

@@ -1,5 +1,5 @@
-import logging
 import os
+import logging
 import shutil
 from datetime import datetime, timedelta, timezone
 from django.core.management.base import BaseCommand
@@ -8,12 +8,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 data_directory = "data"
-forecast_hours_0_120 = list(range(0, 121, 1))
-forecast_hours_120_384 = list(range(123, 385, 3))
-forecast_hours = forecast_hours_0_120 + forecast_hours_120_384
-expected_file_count = len(forecast_hours)
+combined_directory = os.path.join(data_directory, "combined_data")
 
-def get_latest_4_cycles():
+def get_latest_cycles(count=2):
     now = datetime.utcnow().replace(tzinfo=timezone.utc)
     cycles = ['00', '06', '12', '18']
     latest_cycles = []
@@ -24,25 +21,36 @@ def get_latest_4_cycles():
         hour = cycle_time.strftime("%H")
         if hour in cycles and (date, hour) not in latest_cycles:
             latest_cycles.append((date, hour))
-        if len(latest_cycles) == 4:
+        if len(latest_cycles) == count:
             break
 
     return latest_cycles
 
 def cleanup_old_gfs_data():
-    latest_cycles = get_latest_4_cycles()
+    latest_cycles = get_latest_cycles(count=2)  # Keep only the latest 2 cycles
     latest_cycle_folders = {f"{date}_{hour}" for date, hour in latest_cycles}
 
+    # Clean up old GFS data folders
     for folder_name in os.listdir(data_directory):
         folder_path = os.path.join(data_directory, folder_name)
-        if os.path.isdir(folder_path) and folder_name not in latest_cycle_folders:
+        if os.path.isdir(folder_path) and folder_name not in latest_cycle_folders and folder_name != "combined_data":
             shutil.rmtree(folder_path)
             logger.info("Deleted old folder: %s", folder_path)
 
+    # Clean up old combined data folders
+    if os.path.exists(combined_directory):
+        for file_name in os.listdir(combined_directory):
+            file_path = os.path.join(combined_directory, file_name)
+            if file_name.startswith("combined_"):
+                combined_cycle = file_name.split("_")[1].split(".")[0]
+                if combined_cycle not in latest_cycle_folders:
+                    os.remove(file_path)
+                    logger.info("Deleted old combined file: %s", file_path)
+
 class Command(BaseCommand):
-    help = 'Clean up old GFS data folders'
+    help = 'Clean up old GFS data and combined data folders'
 
     def handle(self, *args, **kwargs):
-        logger.info("Starting cleanup of old GFS data.")
+        logger.info("Starting cleanup of old GFS data and combined data folders.")
         cleanup_old_gfs_data()
-        logger.info("Cleanup of old GFS data completed.")
+        logger.info("Cleanup of old GFS data and combined data folders completed.")
