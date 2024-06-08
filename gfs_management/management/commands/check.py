@@ -27,14 +27,31 @@ class Command(BaseCommand):
     def check_celery_beat(self):
         self.stdout.write(self.style.SUCCESS('Checking Celery beat...'))
         try:
-            result = subprocess.run(['pgrep', '-f', 'celery beat'], capture_output=True, text=True)
-            logger.debug(f'Celery beat pgrep output: {result.stdout}')
-            if result.stdout.strip():
+            result = subprocess.run(['systemctl', 'is-active', '--quiet', 'celery-beat'], capture_output=True, text=True)
+            if result.returncode == 0:
                 self.stdout.write(self.style.SUCCESS('Celery beat is running.'))
             else:
                 self.stdout.write(self.style.ERROR('Celery beat is not running.'))
+                self.diagnose_celery_beat_issue()
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'Error checking Celery beat: {e}'))
+
+    def diagnose_celery_beat_issue(self):
+        self.stdout.write(self.style.WARNING('Diagnosing Celery beat issue...'))
+        try:
+            result = subprocess.run(['systemctl', 'status', 'celery-beat'], capture_output=True, text=True)
+            logger.debug(f'Celery beat status output: {result.stdout}')
+            if result.returncode == 0:
+                self.stdout.write(self.style.NOTICE(result.stdout))
+            else:
+                self.stdout.write(self.style.ERROR(result.stderr))
+
+            journalctl_result = subprocess.run(['journalctl', '-u', 'celery-beat.service', '--no-pager'], capture_output=True, text=True)
+            logger.debug(f'Journalctl output: {journalctl_result.stdout}')
+            self.stdout.write(self.style.NOTICE('Celery Beat Service Logs:'))
+            self.stdout.write(self.style.NOTICE(journalctl_result.stdout))
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f'Error diagnosing Celery beat: {e}'))
 
     def inspect_celery_tasks(self):
         self.stdout.write(self.style.SUCCESS('Inspecting Celery tasks...'))

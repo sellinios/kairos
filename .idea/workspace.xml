@@ -5,37 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da80d901-fd43-41cb-99dc-a50af004a5c2" name="Changes" comment="GFS">
-      <change afterPath="$PROJECT_DIR$/frontend-global/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/public/logo192.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/public/logo512.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/public/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/public/robots.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/src/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/src/App.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/src/logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/src/reportWebVitals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend-global/src/setupTests.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gfs_management/management/commands/check.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_cleanup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_cleanup_tmp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/celery.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/celery.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/OLD/create_periodic_gfs_tasks.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_download.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/management/commands/gfs_data_download.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather/management/commands/create_new_forecasts.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather/management/commands/create_periodic_task.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather/management/commands/delete_old_forecasts.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/celerybeat-schedule" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cron.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gfs_management/management/commands/check.py" beforeDir="false" afterPath="$PROJECT_DIR$/gfs_management/management/commands/check.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +88,7 @@
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Settings Sync History" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6529412" visible="true" weight="0.33378905" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6529412" visible="true" weight="0.33613282" />
       <window_info id="Commit" order="1" weight="0.33378905" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Django.Structure" order="3" sideWeight="0.34705883" side_tool="true" weight="0.32734376" />
@@ -124,8 +97,8 @@
       <window_info anchor="bottom" id="TODO" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.3674569" />
       <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info anchor="bottom" id="Problems View" order="2" weight="0.49030173" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3997845" />
+      <window_info anchor="bottom" id="Problems View" order="2" weight="0.27693963" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.33225572" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.3301006" />
       <window_info anchor="bottom" id="Python Packages" order="5" weight="0.3301006" />
       <window_info anchor="bottom" id="Python Console" order="6" weight="0.3301006" />
@@ -142,7 +115,7 @@
       <window_info anchor="right" id="SciView" show_stripe_button="false" />
       <window_info anchor="right" id="Notifications" order="0" weight="0.21035156" />
       <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
-      <window_info active="true" anchor="right" id="Database" order="2" visible="true" weight="0.24433593" />
+      <window_info active="true" anchor="right" id="Database" order="2" visible="true" weight="0.24589844" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
       <window_info anchor="right" id="Maven" order="4" weight="0.25" />
       <window_info anchor="right" id="Plots" order="5" />
@@ -231,6 +204,8 @@
       <workItem from="1717672501164" duration="939000" />
       <workItem from="1717678864009" duration="4539000" />
       <workItem from="1717688155479" duration="19579000" />
+      <workItem from="1717735573570" duration="2992000" />
+      <workItem from="1717774409836" duration="11034000" />
     </task>
     <task id="LOCAL-00001" summary="celery">
       <option name="closed" value="true" />
@@ -296,7 +271,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717694555863</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="GFS">
+      <option name="closed" value="true" />
+      <created>1717735656719</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1717735656719</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
