@@ -1,6 +1,7 @@
 import os
 import logging
 import pygrib
+import json
 from datetime import datetime, timezone, timedelta
 from django.core.management.base import BaseCommand
 from gfs_management.models import GFSParameter
@@ -41,7 +42,7 @@ def standardize_param_key(param):
     """Standardize the parameter key for consistent comparison."""
     return (param[0], param[1], param[2].lower(), param[3].lower())
 
-def filter_grib_messages(file_path, relevant_parameters, new_file_path):
+def filter_grib_messages(file_path, relevant_parameters, new_file_path, valid_datetime, utc_cycle_time, forecast_hour):
     try:
         with pygrib.open(file_path) as gribs, open(new_file_path, 'wb') as new_grib_file:
             for grib in gribs:
@@ -51,6 +52,15 @@ def filter_grib_messages(file_path, relevant_parameters, new_file_path):
                     logger.info(f"Saved message: Parameter: {grib.shortName}, Level: {grib.level}, Type of Level: {grib.name}")
                 else:
                     logger.debug(f"Skipping message: Parameter: {grib.shortName}, Level: {grib.level}, Type of Level: {grib.name}")
+            # Save additional details in a metadata file
+            metadata = {
+                "valid_datetime": valid_datetime.isoformat(),
+                "utc_cycle_time": utc_cycle_time,
+                "forecast_hour": forecast_hour
+            }
+            metadata_file = new_file_path.replace('.grib2', '_metadata.json')
+            with open(metadata_file, 'w') as mf:
+                json.dump(metadata, mf)
     except pygrib.GribInternalError as e:
         logger.error(f"GRIB internal error while processing file {file_path}: {e}")
     except IOError as e:
@@ -101,6 +111,11 @@ class Command(BaseCommand):
                         file_path = os.path.join(subdirectory_path, filename)
                         new_file_path = os.path.join(filtered_subdirectory, f"filtered_{filename}")
 
+                        valid_datetime, utc_cycle_time, forecast_hour = extract_forecast_details_from_combined_filename(filename, cycle_hour)
+                        if valid_datetime is None:
+                            logger.error(f"Skipping file due to error in extracting details: {file_path}")
+                            continue
+
                         # Check available parameters in the GRIB file
                         available_parameters = list_available_parameters(file_path)
                         logger.info(f"Available parameters in {file_path}: {available_parameters}")
@@ -118,14 +133,14 @@ class Command(BaseCommand):
 
                         if relevant_and_available_parameters:
                             logger.info(f"Filtering data from {file_path} to {new_file_path}")
-                            filter_grib_messages(file_path, relevant_and_available_parameters, new_file_path)
+                            filter_grib_messages(file_path, relevant_and_available_parameters, new_file_path, valid_datetime, utc_cycle_time, forecast_hour)
                         else:
                             # Additional check for '2 metre temperature'
                             specific_param = standardize_param_key((0, 2, '2t', '2 metre temperature'))
                             if specific_param in standardized_available_parameters:
                                 logger.info(f"Specifically found '2 metre temperature' in {file_path}. Adding to filter.")
                                 relevant_and_available_parameters.add(specific_param)
-                                filter_grib_messages(file_path, relevant_and_available_parameters, new_file_path)
+                                filter_grib_messages(file_path, relevant_and_available_parameters, new_file_path, valid_datetime, utc_cycle_time, forecast_hour)
                             else:
                                 logger.warning(f"No relevant parameters found in {file_path}. Skipping file.")
 

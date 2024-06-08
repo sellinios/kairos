@@ -11,8 +11,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         commands = [
             'gfs_data_download',
-            'gfs_data_combine',
-            'gfs_data_parse',  # Add the new parsing step
+            'gfs_data_filtered',
+            'gfs_data_import',  # Add the new parsing step
             'gfs_data_cleanup_tmp',
             'gfs_data_cleanup'
         ]
