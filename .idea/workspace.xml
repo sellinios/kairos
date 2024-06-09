@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da80d901-fd43-41cb-99dc-a50af004a5c2" name="Changes" comment="GFS">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/39a1ae97-ff26-4bc0-a7a2-466549268ba1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/39a1ae97-ff26-4bc0-a7a2-466549268ba1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/39a1ae97-ff26-4bc0-a7a2-466549268ba1/storage_v2/_src_/database/aethradb.hWAIBw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/39a1ae97-ff26-4bc0-a7a2-466549268ba1/storage_v2/_src_/database/aethradb.hWAIBw/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/39a1ae97-ff26-4bc0-a7a2-466549268ba1/storage_v2/_src_/database/aethradb.hWAIBw/schema/public.abK9xQ.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/articles/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routers.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geography/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/migrations/0002_add_number_to_gfsparameter.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfs_management/migrations/0003_alter_gfsparameter_number.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/setup.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,17 +87,17 @@
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Settings Sync History" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.6529412" visible="true" weight="0.20253906" />
-      <window_info id="Commit" order="2" weight="0.20253906" />
-      <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
-      <window_info id="Django.Structure" order="4" sideWeight="0.34705883" side_tool="true" weight="0.32734376" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6530875" visible="true" weight="0.20253906" />
+      <window_info id="Commit" order="1" sideWeight="0.5005995" weight="0.20253906" />
+      <window_info id="Structure" order="2" sideWeight="0.4994005" side_tool="true" weight="0.20253906" />
+      <window_info active="true" id="Django.Structure" order="3" sideWeight="0.3469125" side_tool="true" visible="true" weight="0.20253906" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.3674569" />
       <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3926006" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.29992816" />
+      <window_info anchor="bottom" id="Problems View" order="2" weight="0.89547414" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.12248564" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.3301006" />
       <window_info anchor="bottom" id="Python Packages" order="5" weight="0.3301006" />
       <window_info anchor="bottom" id="Python Console" order="6" weight="0.3301006" />
@@ -160,6 +147,29 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="aethra" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="aethra" type="Python.DjangoServer" factoryName="Django server">
       <module name="aethra" />
       <option name="ENV_FILES" value="$PROJECT_DIR$" />
@@ -170,7 +180,6 @@
         <env name="DJANGO_SETTINGS_MODULE" value="backend.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Remote Python 3.12.3 (sftp://sellinios@65.109.117.111:22/home/sellinios/.virtualenvs/aethra/bin/python)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -222,7 +231,8 @@
       <workItem from="1717774409836" duration="27415000" />
       <workItem from="1717837069859" duration="23584000" />
       <workItem from="1717870821701" duration="2127000" />
-      <workItem from="1717873380103" duration="23854000" />
+      <workItem from="1717873380103" duration="24229000" />
+      <workItem from="1717921665360" duration="1146000" />
     </task>
     <task id="LOCAL-00001" summary="celery">
       <option name="closed" value="true" />
@@ -368,7 +378,23 @@
       <option name="project" value="LOCAL" />
       <updated>1717913825554</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="GFS">
+      <option name="closed" value="true" />
+      <created>1717921338885</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1717921338885</updated>
+    </task>
+    <task id="LOCAL-00020" summary="GFS">
+      <option name="closed" value="true" />
+      <created>1717921343997</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1717921343997</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
