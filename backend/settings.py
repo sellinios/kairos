@@ -68,22 +68,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DB_NAME_PRIMARY'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+        'USER': os.getenv('DB_USER_PRIMARY'),
+        'PASSWORD': os.getenv('DB_PASSWORD_PRIMARY'),
+        'HOST': os.getenv('DB_HOST_PRIMARY'),
+        'PORT': os.getenv('DB_PORT_PRIMARY'),
     },
-    'backup': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DB_NAME_BACKUP'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-    }
 }
-
-DATABASE_ROUTERS = ['backend.routers.BackupRouter']
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
