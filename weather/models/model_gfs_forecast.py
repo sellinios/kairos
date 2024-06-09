@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import Point
@@ -11,7 +10,7 @@ class GFSParameter(models.Model):
     parameter = models.CharField(max_length=255)
     forecast_valid = models.CharField(max_length=255, default="N/A")
     description = models.CharField(max_length=255)
-    enabled = models.BooleanField(default=True)  # New field to enable/disable parameter processing
+    enabled = models.BooleanField(default=True)
     last_updated = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -22,20 +21,18 @@ class GFSParameter(models.Model):
 
 class GFSForecast(models.Model):
     """Model to store forecast data with geographical coordinates."""
-    UTC_CYCLE_TIME_CHOICES = [
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    date = models.CharField(max_length=10)
+    hour = models.CharField(max_length=2)
+    utc_cycle_time = models.CharField(max_length=2, choices=[
         ('00', '00'),
         ('06', '06'),
         ('12', '12'),
         ('18', '18'),
-    ]
-
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    forecast_data = models.JSONField()  # Can store more than one weather variable
-    date = models.DateField()  # No default, should be set explicitly
-    hour = models.IntegerField()  # No default, should be set explicitly
-    utc_cycle_time = models.CharField(max_length=5, choices=UTC_CYCLE_TIME_CHOICES)  # Changed to CharField with choices
-    location = gis_models.PointField(geography=True, null=True, blank=True)
+    ])
+    forecast_data = models.JSONField()
+    location = gis_models.PointField(geography=True, srid=4326)
 
     def clean(self):
         """Custom validation to ensure utc_cycle_time is correct."""

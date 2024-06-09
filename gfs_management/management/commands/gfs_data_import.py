@@ -1,10 +1,9 @@
 import os
 import logging
 import pygrib
-import json
 import numpy as np
 from datetime import datetime, timezone
-from shapely.geometry import Point
+from django.contrib.gis.geos import Point as GEOSPoint
 from django.core.management.base import BaseCommand
 from weather.models import GFSForecast
 from concurrent.futures import ThreadPoolExecutor
@@ -12,39 +11,58 @@ from concurrent.futures import ThreadPoolExecutor
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def extract_forecast_details_from_metadata(file_path):
+def extract_forecast_details_from_filename(filename):
     try:
-        metadata_file = file_path.replace('.grib2', '_metadata.json')
-        with open(metadata_file, 'r') as mf:
-            metadata = json.load(mf)
-            valid_datetime = datetime.fromisoformat(metadata["valid_datetime"])
-            utc_cycle_time = metadata["utc_cycle_time"]
-            forecast_hour = metadata["forecast_hour"]
-            return valid_datetime, utc_cycle_time, forecast_hour
+        base_name = os.path.basename(filename)
+        parts = base_name.split('_')
+
+        if parts[0] == 'filtered':
+            # Format: filtered_YYYYMMDD_HH_XXX.grib2
+            date_str = parts[1]
+            hour_str = parts[2]
+            forecast_hour_str = parts[3].split('.')[0]
+
+            # Construct datetime objects
+            valid_datetime = datetime.strptime(f"{date_str}{hour_str}", "%Y%m%d%H").replace(tzinfo=timezone.utc)
+            utc_cycle_time = hour_str  # Cycle time as string
+
+        else:
+            # Format: gfs_YYYYMMDD_CC_FFF_YYYYMMDDHH.grib2
+            date_str = parts[2]
+            cycle_str = parts[3]
+            forecast_hour_str = parts[4]
+            valid_datetime_str = parts[5].split('.')[0]
+
+            if cycle_str not in {'00', '06', '12', '18'}:
+                raise ValueError(f"Invalid cycle time: {cycle_str}")
+
+            valid_datetime = datetime.strptime(valid_datetime_str, "%Y%m%d%H").replace(tzinfo=timezone.utc)
+            utc_cycle_time = cycle_str
+
+        return valid_datetime, utc_cycle_time
     except Exception as e:
-        logger.error("Error extracting details from metadata file %s: %s", file_path, e)
-        return None, None, None
+        logger.error(f"Error extracting details from filename {filename}: {e}")
+        return None, None
 
 def bulk_import_forecast_data(forecast_data):
-    for data in forecast_data:
-        if data['forecast_data']:
-            forecast, created = GFSForecast.objects.get_or_create(
+    try:
+        GFSForecast.objects.bulk_create(
+            [GFSForecast(
                 latitude=data['latitude'],
                 longitude=data['longitude'],
-                date=data['date'],  # Ensure this is a string
-                hour=data['hour'],  # Ensure this is a string
+                date=data['date'],
+                hour=data['hour'],
                 utc_cycle_time=data['utc_cycle_time'],
-                defaults={'forecast_data': {}}
-            )
+                forecast_data=data['forecast_data'],
+                location=GEOSPoint(data['longitude'], data['latitude'])  # Use GEOSPoint instead of shapely Point
+            ) for data in forecast_data],
+            batch_size=1000  # Adjust batch size as needed
+        )
+        logger.info("Bulk inserted %d records", len(forecast_data))
+    except Exception as e:
+        logger.error(f"Error during bulk insert: {e}")
 
-            forecast.forecast_data.update(data['forecast_data'])
-            forecast.save()
-            logger.info(
-                "Saved GFS forecast for coordinates (%.4f, %.4f) at cycle %02d (UTC)",
-                data['latitude'], data['longitude'], data['utc_cycle_time']
-            )
-
-def process_grib_message(grib, valid_datetime, utc_cycle_time, chunk_size, current_id):
+def process_grib_message(grib, valid_datetime, utc_cycle_time, chunk_size):
     forecast_data = []
     data = grib.values
     lats, lons = grib.latlons()
@@ -56,58 +74,48 @@ def process_grib_message(grib, valid_datetime, utc_cycle_time, chunk_size, curre
             value = None
 
         forecast_data.append({
-            'id': current_id,
             'latitude': lat,
             'longitude': lon,
             'forecast_data': {param_name: value},
             'date': str(valid_datetime.date()),  # Ensure it's a string
             'hour': str(valid_datetime.hour),  # Ensure it's a string
-            'utc_cycle_time': utc_cycle_time,
-            'location': Point(lon, lat).wkt
+            'utc_cycle_time': utc_cycle_time,  # Ensure this is a string
         })
-        current_id += 1
 
         if len(forecast_data) >= chunk_size:
             bulk_import_forecast_data(forecast_data)
             forecast_data = []
 
-    return forecast_data, current_id
+    if forecast_data:
+        bulk_import_forecast_data(forecast_data)
 
 def parse_and_import_gfs_data(file_path, chunk_size=10000):
     logger.info("Starting to parse GFS data from %s.", file_path)
 
-    valid_datetime, utc_cycle_time, forecast_hour = extract_forecast_details_from_metadata(file_path)
-    if valid_datetime is None or utc_cycle_time is None or forecast_hour is None:
-        logger.error("Could not extract datetime details from metadata file: %s", file_path)
+    valid_datetime, utc_cycle_time = extract_forecast_details_from_filename(file_path)
+    if valid_datetime is None or utc_cycle_time is None:
+        logger.error("Could not extract datetime details from filename: %s", file_path)
         return
 
     try:
-        gribs = pygrib.open(file_path)
-        total_messages = gribs.messages
-        logger.info("Total number of messages in the GRIB file: %d", total_messages)
+        with pygrib.open(file_path) as gribs:
+            total_messages = gribs.messages
+            logger.info("Total number of messages in the GRIB file: %d", total_messages)
 
-        forecast_data = []
-        current_id = 1  # Reset ID for each file import
+            with ThreadPoolExecutor() as executor:
+                futures = []
+                for i, grib in enumerate(gribs, start=1):
+                    logger.info(
+                        "Processing message %d of %d. Parameter: %s, Level: %d, Type of Level: %s",
+                        i, total_messages, grib.parameterName, grib.level, grib.typeOfLevel
+                    )
+                    logger.info("Valid datetime is %s (UTC)", valid_datetime.isoformat())
 
-        with ThreadPoolExecutor() as executor:
-            futures = []
-            for i, grib in enumerate(gribs, start=1):
-                logger.info(
-                    "Processing message %d of %d. Parameter: %s, Level: %d, Type of Level: %s",
-                    i, total_messages, grib.parameterName, grib.level, grib.typeOfLevel
-                )
-                logger.info("Valid datetime is %s (UTC)", valid_datetime.isoformat())
+                    futures.append(
+                        executor.submit(process_grib_message, grib, valid_datetime, utc_cycle_time, chunk_size))
 
-                futures.append(
-                    executor.submit(process_grib_message, grib, valid_datetime, utc_cycle_time, chunk_size, current_id))
-
-            for future in futures:
-                result, new_id = future.result()
-                forecast_data.extend(result)
-                current_id = new_id
-
-        if forecast_data:
-            bulk_import_forecast_data(forecast_data)
+                for future in futures:
+                    future.result()
 
     except Exception as e:
         logger.error("Error processing GRIB file %s: %s", file_path, e)
